@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- TODO: Find a better icon for user -->
+    <item
+        android:id="@+id/leaderboard_user"
+        android:icon="@android:drawable/ic_menu_my_calendar"
+        android:title="@string/leaderboard_profile"
+        app:showAsAction="always" />
+
+</menu>
