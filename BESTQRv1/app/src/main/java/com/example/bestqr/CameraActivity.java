@@ -1,6 +1,7 @@
 package com.example.bestqr;
 
 import android.os.Bundle;
+import android.provider.Settings;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -33,6 +34,13 @@ public class CameraActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
+        // This should be in th login activity
+        // get unique device id
+        String androidId = Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);
+        // test identification of user ideally info will be taken in the signup activity and stored in firebase
+        QR_CODE userIdentification = new QR_CODE(androidId);
+        Profile userProfile = new Profile("UserName",userIdentification,1231231231,"emailaddress");
+        //ToDo Store profiles in firebase
 
     }
 
