@@ -13,6 +13,8 @@ public class LeaderboardViewModel extends ViewModel {
         mText.setValue("This is leaderboard fragment");
     }
 
+
+
     public LiveData<String> getText() {
         return mText;
     }

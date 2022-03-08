@@ -1,24 +1,29 @@
 package com.example.bestqr;
 
+import android.graphics.Bitmap;
+
 import java.util.ArrayList;
 
 public class Profile {
     private String user_name;
-    private int deviceID;
     private int phoneNumber;
     private String emailAddress;
-    private QR_CODE deviceQRCode;
+    private QR_CODE deviceQrCode;
     private int score;
     private ArrayList<QR_CODE> scannedCodes;
 
 
-    public Profile(String user_name, Integer deviceID,int phoneNumber,String emailAddress) {
+    public Profile(String user_name, QR_CODE deviceQrCode,int phoneNumber,String emailAddress) {
         this.user_name = user_name;
-        this.deviceID = deviceID;
+        this.deviceQrCode = deviceQrCode;
     }
 
-    public int getDeviceID(){
-        return deviceID;
+    public String getDeviceID(){
+        return deviceQrCode.getHash();
+    }
+
+    public Bitmap getProfileCode(){
+        return deviceQrCode.getCode();
     }
 
     public int getScore() {
