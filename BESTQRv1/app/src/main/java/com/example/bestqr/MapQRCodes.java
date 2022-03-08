@@ -2,8 +2,6 @@ package com.example.bestqr;
 
 import android.location.Location;
 
-import com.google.android.gms.maps.model.LatLng;
-
 import java.util.ArrayList;
 
 public class MapQRCodes {
