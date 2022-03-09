@@ -12,14 +12,26 @@
         tools:layout="@layout/fragment_camera" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.bestqr.ui.leaderboard.LeaderboardFragment"
-        android:label=""
-        tools:layout="@layout/fragment_leaderboard"/>
-
-    <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.example.bestqr.ui.map.MapFragment"
         android:label="Map"
         tools:layout="@layout/fragment_map" />
+    <navigation android:id="@+id/navigation_leaderboard"
+        app:startDestination="@id/navigation_leaderboard_main">
+        <fragment
+            android:id="@+id/navigation_leaderboard_main"
+            android:name="com.example.bestqr.ui.leaderboard.LeaderboardFragmentMain"
+            android:label=""
+            tools:layout="@layout/fragment_leaderboard_main" />
+        <fragment
+            android:id="@+id/navigation_leaderboard_user"
+            android:name="com.example.bestqr.ui.leaderboard.LeaderboardFragmentUser"
+            android:label=""
+            tools:layout="@layout/fragment_leaderboard_user"/>
+        <fragment
+            android:id="@+id/navigation_leaderboard_qr"
+            android:name="com.example.bestqr.ui.leaderboard.LeaderboardFragmentQR"
+            android:label=""
+            tools:layout="@layout/fragment_leaderboard_qr"/>
+    </navigation>
 </navigation>
