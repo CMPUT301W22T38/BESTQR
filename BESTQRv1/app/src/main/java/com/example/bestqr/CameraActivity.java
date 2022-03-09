@@ -22,7 +22,6 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.bestqr.databinding.ActivityMainBinding;
 import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 
 public class CameraActivity extends AppCompatActivity {
 
