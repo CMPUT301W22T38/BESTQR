@@ -13,10 +13,11 @@ public class Profile {
     private ArrayList<QR_CODE> scannedCodes;
 
 
-    public Profile(String user_name, QR_CODE deviceQrCode,int phoneNumber,String emailAddress) {
+    public Profile(String user_name, QR_CODE deviceQrCode2,int phoneNumber,String emailAddress) {
         this.user_name = user_name;
-        this.deviceQrCode = deviceQrCode;
+        this.deviceQrCode = deviceQrCode2;
     }
+
 
     public String getDeviceID(){
         return deviceQrCode.getHash();

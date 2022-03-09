@@ -51,8 +51,6 @@ public class CameraActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-
-
         // This should be in th login activity
         // get unique device id
         String androidId = Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);
@@ -60,7 +58,6 @@ public class CameraActivity extends AppCompatActivity {
         QR_CODE userIdentification = new QR_CODE(androidId);
         Profile userProfile = new Profile("UserName",userIdentification,1231231231,"emailaddress");
         //ToDo Store profiles in firebase
-
 
         //This is open camera
         scanButton= findViewById(R.id.scanButton);

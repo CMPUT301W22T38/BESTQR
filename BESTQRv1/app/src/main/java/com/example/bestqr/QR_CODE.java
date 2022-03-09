@@ -9,11 +9,11 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
-
 public class QR_CODE {
     private Location codeLocation;
     private Bitmap bitmap;
     private String hash;
+
 
 
     public QR_CODE(Location codeLocation,String hash) {
