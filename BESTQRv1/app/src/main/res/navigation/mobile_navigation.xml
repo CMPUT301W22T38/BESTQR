@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.bestqr.ui.home.HomeFragment"
+        android:name="com.example.bestqr.ui.camera.CameraFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_camera" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.bestqr.ui.dashboard.DashboardFragment"
+        android:name="com.example.bestqr.ui.leaderboard.LeaderboardFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_map" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.bestqr.ui.notifications.NotificationsFragment"
+        android:name="com.example.bestqr.ui.map.MapFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_leaderboard" />
 </navigation>
