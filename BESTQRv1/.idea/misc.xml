@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.337037037037037" />
         <entry key="..\:/Users/Evan/Desktop/CMPUT301/BESTQR/BESTQRv1/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.32916666666666666" />
         <entry key="..\:/Users/Evan/Desktop/CMPUT301/BESTQR/BESTQRv1/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.32916666666666666" />
         <entry key="..\:/Users/Evan/Desktop/CMPUT301/BESTQR/BESTQRv1/app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.32916666666666666" />
@@ -12,6 +13,9 @@
         <entry key="..\:/Users/Evan/Desktop/CMPUT301/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_camera.xml" value="0.25" />
         <entry key="..\:/Users/Evan/Desktop/CMPUT301/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_map.xml" value="0.1" />
         <entry key="..\:/Users/Evan/Desktop/CMPUT301/BESTQR/BESTQRv1/app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1752786220871327" />
+        <entry key="app/src/main/res/layout/fragment_camera.xml" value="0.1752786220871327" />
+        <entry key="app/src/main/res/layout/fragment_leaderboard.xml" value="0.1752786220871327" />
       </map>
     </option>
   </component>
