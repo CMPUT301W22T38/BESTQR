@@ -4,6 +4,17 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.337037037037037" />
+        <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/activity_main.xml" value="0.22592592592592592" />
+        <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_camera.xml" value="0.5" />
+        <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_leaderboard.xml" value="0.25" />
+        <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_leaderboard_main.xml" value="0.25" />
+        <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_leaderboard_user.xml" value="0.33" />
+        <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_map.xml" value="0.2" />
+        <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/test.xml" value="0.25" />
+        <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/menu/bottom_nav_menu.xml" value="0.25" />
+        <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/menu/leaderboard_main_menu.xml" value="0.33" />
+        <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/menu/leaderboard_menu.xml" value="0.22" />
+        <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/menu/leaderboard_topmenu_default.xml" value="0.33" />
         <entry key="..\:/Users/Evan/Desktop/CMPUT301/BESTQR/BESTQRv1/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.32916666666666666" />
         <entry key="..\:/Users/Evan/Desktop/CMPUT301/BESTQR/BESTQRv1/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.32916666666666666" />
         <entry key="..\:/Users/Evan/Desktop/CMPUT301/BESTQR/BESTQRv1/app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.32916666666666666" />
