@@ -43,7 +43,9 @@ public class MapFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        // Setup navigation for fragment-owned toolbar
+        // Setup navigation for Fragment Top-Level destination toolbar
+        // Top-Level Fragments need to pass an AppBarConfiguration to the toolbar
+        // to function correctly.
         Set<Integer> topLevelDestinations = new HashSet<>(Arrays.asList(
                 R.id.navigation_home, R.id.navigation_leaderboard, R.id.navigation_notifications));
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(topLevelDestinations).build();

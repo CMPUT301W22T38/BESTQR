@@ -18,12 +18,10 @@
     <action
         android:id="@+id/action_navigation_to_leaderboard_user"
         app:destination="@+id/navigation_leaderboard_user"
-        app:popUpTo="@id/navigation_leaderboard_user"
         app:popUpToInclusive="true" />
     <action
         android:id="@+id/action_navigation_to_leaderboard_qr"
         app:destination="@id/navigation_leaderboard_qr"
-        app:popUpTo="@id/navigation_leaderboard_qr"
         app:popUpToInclusive="true" />
     <navigation android:id="@+id/navigation_leaderboard"
         app:startDestination="@id/navigation_leaderboard_main">

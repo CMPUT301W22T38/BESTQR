@@ -33,6 +33,8 @@ public class LeaderboardFragmentUser extends Fragment {
         binding = FragmentLeaderboardUserBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        // onClick Listener for the QR button on the toolbar
+        // This button navigates to LeaderboardFragmentQR, which displays a list of the user's QR codes
         ImageButton qr_button = binding.toolbarLeaderboardUserQr;
         qr_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,6 +45,8 @@ public class LeaderboardFragmentUser extends Fragment {
 
         });
 
+        // onClick Listener for the Sort button on the toolbar
+        // when pressed, this button displays a PopupMenu containing 3 different sorting methods
         ImageButton sort_button = binding.toolbarLeaderboardUserSort;
         sort_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,7 +55,6 @@ public class LeaderboardFragmentUser extends Fragment {
                 popup.getMenuInflater().inflate(R.menu.leaderboard_user_sort, popup.getMenu());
                 popup.show();
             }
-
         });
 
         return root;
@@ -60,6 +63,9 @@ public class LeaderboardFragmentUser extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        // Setup navigation for Fragment-owned Toolbar
+        // As this destination is not top-level, we don't need to pass an AppBarConfiguration
+        // which allows the back button to appear.
         NavController navController = NavHostFragment.findNavController(this);
         NavigationUI.setupWithNavController(binding.toolbarLeaderboardUser, navController);
     }

@@ -3,23 +3,15 @@ package com.example.bestqr.ui.leaderboard;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -30,34 +22,14 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.bestqr.R;
 import com.example.bestqr.databinding.FragmentLeaderboardMainBinding;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class LeaderboardFragmentMain extends Fragment {
 
     private LeaderboardViewModelMain leaderboardViewModelMain;
     private FragmentLeaderboardMainBinding binding;
-
-    /**
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // Make it so the back button takes us back to the leaderboard main, not the camera screen
-        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                callback.setEnabled(false);
-                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
-                navController.navigate(R.id.navigation_leaderboard_main);
-            }
-        };
-        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
-    }
-    */
-
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -69,6 +41,8 @@ public class LeaderboardFragmentMain extends Fragment {
 
         TextView profile_icon = binding.toolbarLeaderboardMainProfile;
 
+        // OnClick Listener for User Profile Icon
+        // This button navigates you from the Main Leaderboard to the User tab
         profile_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,7 +51,10 @@ public class LeaderboardFragmentMain extends Fragment {
             }
         });
 
-
+        // OnClick Listener for the Sort button
+        // Displays a PopupMenu with three sorting options:
+        // Highest Total, Highest Code, # Of Codes
+        // This sorts the stats of the local & global leaderboard
         ImageButton sort_button = binding.toolbarLeaderboardMainSort;
         sort_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,7 +72,9 @@ public class LeaderboardFragmentMain extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        // Setup navigation for fragment-owned toolbar
+        // Setup navigation for Fragment Top-Level destination toolbar
+        // Top-Level Fragments need to pass an AppBarConfiguration to the toolbar
+        // to function correctly.
         Set<Integer> topLevelDestinations = new HashSet<>(Arrays.asList(
                 R.id.navigation_home, R.id.navigation_leaderboard, R.id.navigation_notifications));
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(topLevelDestinations).build();
