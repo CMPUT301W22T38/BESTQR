@@ -1,4 +1,4 @@
-package com.example.bestqr.ui.leaderboard;
+package com.example.bestqr.ui.qr;
 
 
 import android.os.Bundle;
@@ -12,21 +12,23 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.bestqr.databinding.FragmentLeaderboardQrBinding;
+import com.example.bestqr.R;
+import com.example.bestqr.databinding.FragmentQrBinding;
 
-public class LeaderboardFragmentQR extends Fragment {
+public class QrFragment extends Fragment {
 
-    private LeaderboardViewModelQR leaderboardViewModelMain;
-    private FragmentLeaderboardQrBinding binding;
+    private QrViewModel qrViewModel;
+    private FragmentQrBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        leaderboardViewModelMain =
-                new ViewModelProvider(this).get(LeaderboardViewModelQR.class);
+        qrViewModel =
+                new ViewModelProvider(this).get(QrViewModel.class);
 
-        binding = FragmentLeaderboardQrBinding.inflate(inflater, container, false);
+        binding = FragmentQrBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         return root;
@@ -39,7 +41,12 @@ public class LeaderboardFragmentQR extends Fragment {
         // As this destination is not top-level, we don't need to pass an AppBarConfiguration
         // which allows the back button to appear.
         NavController navController = NavHostFragment.findNavController(this);
-        NavigationUI.setupWithNavController(binding.toolbarLeaderboardQr, navController);
+        NavigationUI.setupWithNavController(binding.toolbarQr, navController);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override

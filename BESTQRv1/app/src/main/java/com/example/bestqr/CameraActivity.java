@@ -18,6 +18,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -38,6 +39,9 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class CameraActivity extends AppCompatActivity {
 
@@ -51,6 +55,11 @@ public class CameraActivity extends AppCompatActivity {
     // Button to scan qr Code from gallery
     ImageButton openGallery;
 
+    // Top Level Navigation Destinations
+    // (Fragments that are navigable to from the bottom bar)
+    private static Set<Integer> topLevelDestinations = new HashSet<>(Arrays.asList(
+            R.id.navigation_notifications, R.id.navigation_home, R.id.navigation_leaderboard, R.id.navigation_user));
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,9 +70,6 @@ public class CameraActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_leaderboard, R.id.navigation_notifications)
-                .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
@@ -195,5 +201,9 @@ public class CameraActivity extends AppCompatActivity {
             hexString.append(hex);
         }
         return hexString.toString();
+    }
+
+    public static Set<Integer> getTopLevelDestinations(){
+        return topLevelDestinations;
     }
 }

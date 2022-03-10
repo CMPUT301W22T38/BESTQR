@@ -19,49 +19,48 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.bestqr.CameraActivity;
 import com.example.bestqr.R;
-import com.example.bestqr.databinding.FragmentLeaderboardMainBinding;
+import com.example.bestqr.databinding.FragmentLeaderboardBinding;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+public class LeaderboardFragment extends Fragment {
 
-public class LeaderboardFragmentMain extends Fragment {
-
-    private LeaderboardViewModelMain leaderboardViewModelMain;
-    private FragmentLeaderboardMainBinding binding;
+    private LeaderboardViewModel leaderboardViewModel;
+    private FragmentLeaderboardBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        leaderboardViewModelMain =
-                new ViewModelProvider(this).get(LeaderboardViewModelMain.class);
+        leaderboardViewModel =
+                new ViewModelProvider(this).get(LeaderboardViewModel.class);
 
-        binding = FragmentLeaderboardMainBinding.inflate(inflater, container, false);
+        binding = FragmentLeaderboardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        TextView profile_icon = binding.toolbarLeaderboardMainProfile;
-
-        // OnClick Listener for User Profile Icon
-        // This button navigates you from the Main Leaderboard to the User tab
-        profile_icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
-                navController.navigate(R.id.action_navigation_to_leaderboard_user);
-            }
-        });
+        TextView profile_icon = binding.toolbarLeaderboardProfile;
 
         // OnClick Listener for the Sort button
         // Displays a PopupMenu with three sorting options:
         // Highest Total, Highest Code, # Of Codes
         // This sorts the stats of the local & global leaderboard
-        ImageButton sort_button = binding.toolbarLeaderboardMainSort;
+        ImageButton sort_button = binding.toolbarLeaderboardSort;
         sort_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 PopupMenu popup = new PopupMenu(getActivity(), sort_button);
-                popup.getMenuInflater().inflate(R.menu.leaderboard_main_sort, popup.getMenu());
+                popup.getMenuInflater().inflate(R.menu.leaderboard_sort_menu, popup.getMenu());
                 popup.show();
+            }
+
+        });
+
+        // onClick Listener for the profile button on the toolbar
+        // This button navigates to the UserFragment, which displays a list of the User's QR codes
+        TextView user_profile = binding.toolbarLeaderboardProfile;
+        user_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
+                navController.navigate(R.id.action_navigation_to_user);
             }
 
         });
@@ -75,11 +74,9 @@ public class LeaderboardFragmentMain extends Fragment {
         // Setup navigation for Fragment Top-Level destination toolbar
         // Top-Level Fragments need to pass an AppBarConfiguration to the toolbar
         // to function correctly.
-        Set<Integer> topLevelDestinations = new HashSet<>(Arrays.asList(
-                R.id.navigation_home, R.id.navigation_leaderboard, R.id.navigation_notifications));
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(topLevelDestinations).build();
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(CameraActivity.getTopLevelDestinations()).build();
         NavController navController = NavHostFragment.findNavController(this);
-        NavigationUI.setupWithNavController(binding.toolbarLeaderboardMain, navController, appBarConfiguration);
+        NavigationUI.setupWithNavController(binding.toolbarLeaderboard, navController, appBarConfiguration);
 
     }
 
