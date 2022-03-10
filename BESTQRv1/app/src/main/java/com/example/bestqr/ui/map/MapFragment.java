@@ -9,10 +9,20 @@ import android.view.ViewGroup;
 import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
+import com.example.bestqr.R;
 import com.example.bestqr.databinding.FragmentMapBinding;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class MapFragment extends Fragment {
 
@@ -31,17 +41,14 @@ public class MapFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-        // Report that this fragment would like to participate in populating the options menu
-        // by receiving a call to onCreateOptionsMenu(Menu, MenuInflater) and related methods.
-        setHasOptionsMenu(true);
-    }
-
-    // Can modify this function to customize top toolbar
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        // Setup navigation for fragment-owned toolbar
+        Set<Integer> topLevelDestinations = new HashSet<>(Arrays.asList(
+                R.id.navigation_home, R.id.navigation_leaderboard, R.id.navigation_notifications));
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(topLevelDestinations).build();
+        NavController navController = NavHostFragment.findNavController(this);
+        NavigationUI.setupWithNavController(binding.toolbarMap, navController, appBarConfiguration);
     }
 
     @Override

@@ -7,54 +7,36 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 
-import com.example.bestqr.databinding.FragmentLeaderboardMainBinding;
+import com.example.bestqr.databinding.FragmentLeaderboardUserBinding;
 
 public class LeaderboardFragmentUser extends Fragment {
 
-    private LeaderboardViewModelMain leaderboardViewModelMain;
-    private FragmentLeaderboardMainBinding binding;
+    private LeaderboardViewModelUser leaderboardViewModelUser;
+    private FragmentLeaderboardUserBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        leaderboardViewModelMain =
-                new ViewModelProvider(this).get(LeaderboardViewModelMain.class);
+        leaderboardViewModelUser =
+                new ViewModelProvider(this).get(LeaderboardViewModelUser.class);
 
-        binding = FragmentLeaderboardMainBinding.inflate(inflater, container, false);
+        binding = FragmentLeaderboardUserBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
-        // Hide toolbar
-        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
 
         return root;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-
-    }
-
-    // Handle hiding the toolbar for situations below, as we use a custom top bar for the leaderboard:
-    @Override
-    public void onResume() {
-        super.onResume();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
-    }
-
-    @Override
-    public void onDestroyView() {
-        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
-        super.onDestroyView();
-        binding = null;
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        NavController navController = NavHostFragment.findNavController(this);
+        NavigationUI.setupWithNavController(binding.toolbarLeaderboardUser, navController);
     }
 }

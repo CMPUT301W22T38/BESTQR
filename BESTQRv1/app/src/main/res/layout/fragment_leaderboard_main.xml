@@ -6,86 +6,89 @@
     android:layout_height="match_parent"
     tools:context=".ui.leaderboard.LeaderboardFragmentMain">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_leaderboard_main"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:theme="?attr/actionBarTheme"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:theme="?attr/actionBarTheme"
+        android:background="?attr/colorPrimary">
 
-        <TextView
-            android:id="@+id/toolbar_leaderboard_main_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
-            android:text="PROFILE NAME"
-            app:drawableTopCompat="@android:drawable/ic_menu_my_calendar"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/toolbar_leaderboard_main_stats"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:text="USER STATS HERE"
-            app:layout_constraintStart_toEndOf="@+id/toolbar_leaderboard_main_profile"
-            app:layout_constraintEnd_toStartOf="@+id/toolbar_leaderboard_main_search"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            <TextView
+                android:id="@+id/toolbar_leaderboard_main_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:text="PROFILE NAME"
+                app:drawableTopCompat="@android:drawable/ic_menu_my_calendar"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:id="@+id/toolbar_leaderboard_main_search"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:paddingTop="0dp"
-            android:paddingBottom="0dp"
-            android:paddingLeft="0dp"
-            android:paddingRight="0dp"
-            android:src="@drawable/ic_search_black_24dp"
-            android:background="@null"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@+id/toolbar_leaderboard_main_global"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            <TextView
+                android:id="@+id/toolbar_leaderboard_main_stats"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="USER STATS HERE"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/toolbar_leaderboard_main_search"
+                app:layout_constraintStart_toEndOf="@+id/toolbar_leaderboard_main_profile"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/toolbar_leaderboard_main_search"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@null"
+                android:paddingLeft="0dp"
+                android:paddingTop="0dp"
+                android:paddingRight="0dp"
+                android:paddingBottom="0dp"
+                android:src="@android:drawable/ic_menu_search"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toStartOf="@+id/toolbar_leaderboard_main_global"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
-        <ToggleButton
-            android:id="@+id/toolbar_leaderboard_main_global"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:background="@null"
-            android:drawableTop="@android:drawable/ic_menu_mapmode"
-            android:gravity="center|top"
-            android:includeFontPadding="false"
-            android:textAlignment="center"
-            android:paddingTop="6dp"
-            android:textOff="Global"
-            android:textOn="Local"
-            android:textSize="10sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintDimensionRatio="w,1:1"
-            app:layout_constraintEnd_toStartOf="@+id/toolbar_leaderboard_main_sort"
-            app:layout_constraintTop_toTopOf="parent" />
+            <ToggleButton
+                android:id="@+id/toolbar_leaderboard_main_global"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:drawableTop="@android:drawable/ic_menu_mapmode"
+                android:gravity="center|top"
+                android:includeFontPadding="false"
+                android:paddingTop="6dp"
+                android:textAlignment="center"
+                android:textColor="?android:attr/textColorSecondary"
+                android:textOff="Global"
+                android:textOn="Local"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="w,1:1"
+                app:layout_constraintEnd_toStartOf="@+id/toolbar_leaderboard_main_sort"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:id="@+id/toolbar_leaderboard_main_sort"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:src="@android:drawable/ic_menu_sort_by_size"
-            android:background="@null"
-            android:onClick="showPopup"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            <ImageButton
+                android:id="@+id/toolbar_leaderboard_main_sort"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:src="@android:drawable/ic_menu_sort_by_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.appcompat.widget.Toolbar>
 
     <TextView
         android:id="@+id/text_notifications"

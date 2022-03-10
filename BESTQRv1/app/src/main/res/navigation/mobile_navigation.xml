@@ -22,7 +22,14 @@
             android:id="@+id/navigation_leaderboard_main"
             android:name="com.example.bestqr.ui.leaderboard.LeaderboardFragmentMain"
             android:label=""
-            tools:layout="@layout/fragment_leaderboard_main" />
+            tools:layout="@layout/fragment_leaderboard_main">
+            <action
+                android:id="@+id/action_navigation_leaderboard_main_to_navigation_leaderboard_user"
+                app:destination="@+id/navigation_leaderboard_user"/>
+            <action
+                android:id="@+id/action_navigation_leaderboard_main_to_navigation_leaderboard_qr"
+                app:destination="@id/navigation_leaderboard_qr" />
+        </fragment>
         <fragment
             android:id="@+id/navigation_leaderboard_user"
             android:name="com.example.bestqr.ui.leaderboard.LeaderboardFragmentUser"
