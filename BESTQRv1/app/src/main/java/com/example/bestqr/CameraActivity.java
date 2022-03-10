@@ -43,10 +43,6 @@ public class CameraActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Manually set the action bar to the toolbar specified in the layout
-        // So we can use a custom toolbar view instead of the default ActionBar
-        // setSupportActionBar(binding.toolbar);
-
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.

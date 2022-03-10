@@ -13,6 +13,7 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
@@ -31,6 +32,16 @@ public class LeaderboardFragmentUser extends Fragment {
 
         binding = FragmentLeaderboardUserBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        ImageButton qr_button = binding.toolbarLeaderboardUserQr;
+        qr_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
+                navController.navigate(R.id.action_navigation_to_leaderboard_qr);
+            }
+
+        });
 
         ImageButton sort_button = binding.toolbarLeaderboardUserSort;
         sort_button.setOnClickListener(new View.OnClickListener() {

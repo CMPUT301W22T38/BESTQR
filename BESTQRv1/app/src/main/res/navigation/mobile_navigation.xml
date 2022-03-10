@@ -16,12 +16,12 @@
         android:label="Map"
         tools:layout="@layout/fragment_map" />
     <action
-        android:id="@+id/action_navigation_leaderboard_main_to_navigation_leaderboard_user"
+        android:id="@+id/action_navigation_to_leaderboard_user"
         app:destination="@+id/navigation_leaderboard_user"
         app:popUpTo="@id/navigation_leaderboard_user"
         app:popUpToInclusive="true" />
     <action
-        android:id="@+id/action_navigation_leaderboard_main_to_navigation_leaderboard_qr"
+        android:id="@+id/action_navigation_to_leaderboard_qr"
         app:destination="@id/navigation_leaderboard_qr"
         app:popUpTo="@id/navigation_leaderboard_qr"
         app:popUpToInclusive="true" />

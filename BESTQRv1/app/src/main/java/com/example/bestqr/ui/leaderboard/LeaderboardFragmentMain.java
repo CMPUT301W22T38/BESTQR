@@ -73,7 +73,7 @@ public class LeaderboardFragmentMain extends Fragment {
             @Override
             public void onClick(View view) {
                 NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
-                navController.navigate(R.id.action_navigation_leaderboard_main_to_navigation_leaderboard_user);
+                navController.navigate(R.id.action_navigation_to_leaderboard_user);
             }
         });
 
