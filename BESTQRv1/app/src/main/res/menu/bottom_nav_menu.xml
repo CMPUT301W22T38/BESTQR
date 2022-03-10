@@ -14,7 +14,7 @@
         android:title="@string/title_home" />
 
     <item
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_leaderboard"
         android:icon="@android:drawable/ic_menu_sort_by_size"
         android:tint="@android:color/black"
         android:title="@string/title_dashboard" />
