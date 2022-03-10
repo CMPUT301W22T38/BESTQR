@@ -22,17 +22,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="button1">
+            android:text="idk">
         </Button>
 
-        <Button
-            android:id="@+id/btn2"
-            android:layout_width="300sp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="button2">
-        </Button>
+
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

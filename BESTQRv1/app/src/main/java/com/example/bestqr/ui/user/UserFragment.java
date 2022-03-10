@@ -20,7 +20,6 @@ public class UserFragment extends Fragment {
     private FragmentUserBinding binding;
 
     private Button btn1;
-    private Button btn2;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
