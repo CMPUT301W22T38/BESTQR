@@ -13,7 +13,69 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:theme="?attr/actionBarTheme"
-        android:background="?attr/colorPrimary">
+        android:background="?attr/colorPrimary"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        app:contentInsetStartWithNavigation="0dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/toolbar_leaderboard_user_profile"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="PROFILE NAME"
+                    app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar"
+                    app:layout_constraintEnd_toStartOf="@+id/toolbar_leaderboard_user_qr"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <ImageButton
+                    android:id="@+id/toolbar_leaderboard_user_qr"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:src="@drawable/ic_dashboard_black_24dp"
+                    app:layout_constraintDimensionRatio="4:5"
+                    app:layout_constraintEnd_toStartOf="@+id/toolbar_leaderboard_user_sort"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/toolbar_leaderboard_user_sort"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:src="@android:drawable/ic_menu_sort_by_size"
+                    app:layout_constraintDimensionRatio="4:5"
+                    app:layout_constraintEnd_toStartOf="@+id/toolbar_leaderboard_user_info"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/toolbar_leaderboard_user_info"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:src="@android:drawable/ic_menu_info_details"
+                    app:layout_constraintDimensionRatio="4:5"
+                    app:layout_constraintEnd_toStartOf="@+id/toolbar_leaderboard_user_delete"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/toolbar_leaderboard_user_delete"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="8dp"
+                    android:background="@null"
+                    android:src="@android:drawable/ic_menu_delete"
+                    app:layout_constraintDimensionRatio="4:5"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.appcompat.widget.Toolbar>
 

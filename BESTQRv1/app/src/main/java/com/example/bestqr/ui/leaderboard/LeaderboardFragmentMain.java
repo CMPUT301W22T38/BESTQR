@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -21,6 +22,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -39,6 +41,24 @@ public class LeaderboardFragmentMain extends Fragment {
     private LeaderboardViewModelMain leaderboardViewModelMain;
     private FragmentLeaderboardMainBinding binding;
 
+    /**
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // Make it so the back button takes us back to the leaderboard main, not the camera screen
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                callback.setEnabled(false);
+                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
+                navController.navigate(R.id.navigation_leaderboard_main);
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
+    }
+    */
+
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         leaderboardViewModelMain =
@@ -48,18 +68,12 @@ public class LeaderboardFragmentMain extends Fragment {
         View root = binding.getRoot();
 
         TextView profile_icon = binding.toolbarLeaderboardMainProfile;
+
         profile_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fragment user_fragment = new LeaderboardFragmentUser();
-                FragmentTransaction fragment_transaction = getParentFragmentManager().beginTransaction();
-                fragment_transaction.setReorderingAllowed(true);
-                fragment_transaction.replace(R.id.nav_host_fragment_activity_main, user_fragment);
-                fragment_transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                fragment_transaction.addToBackStack(null);
-                fragment_transaction.commit();
-
-                // navController.navigate(R.id.action_navigation_leaderboard_main_to_navigation_leaderboard_user);
+                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
+                navController.navigate(R.id.action_navigation_leaderboard_main_to_navigation_leaderboard_user);
             }
         });
 
@@ -69,7 +83,7 @@ public class LeaderboardFragmentMain extends Fragment {
             @Override
             public void onClick(View view) {
                 PopupMenu popup = new PopupMenu(getActivity(), sort_button);
-                popup.getMenuInflater().inflate(R.menu.leaderboard_main_menu, popup.getMenu());
+                popup.getMenuInflater().inflate(R.menu.leaderboard_main_sort, popup.getMenu());
                 popup.show();
             }
 
@@ -87,5 +101,12 @@ public class LeaderboardFragmentMain extends Fragment {
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(topLevelDestinations).build();
         NavController navController = NavHostFragment.findNavController(this);
         NavigationUI.setupWithNavController(binding.toolbarLeaderboardMain, navController, appBarConfiguration);
+
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

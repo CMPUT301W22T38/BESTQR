@@ -26,9 +26,6 @@ public class LeaderboardFragmentQR extends Fragment {
         binding = FragmentLeaderboardMainBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        // Hide toolbar
-        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
-
         return root;
     }
 
@@ -37,22 +34,8 @@ public class LeaderboardFragmentQR extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    // Handle hiding the toolbar for situations below, as we use a custom top bar for the leaderboard:
-    @Override
-    public void onResume() {
-        super.onResume();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
-    }
-
     @Override
     public void onDestroyView() {
-        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
         super.onDestroyView();
         binding = null;
     }

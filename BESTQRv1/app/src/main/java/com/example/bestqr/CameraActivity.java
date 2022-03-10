@@ -56,7 +56,6 @@ public class CameraActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-
         // This should be in th login activity
         // get unique device id
         String androidId = Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);

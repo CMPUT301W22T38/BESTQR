@@ -13,7 +13,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:theme="?attr/actionBarTheme"
-        android:background="?attr/colorPrimary">
+        android:background="?attr/colorPrimary"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -51,7 +53,7 @@
                 android:paddingBottom="0dp"
                 android:src="@android:drawable/ic_menu_search"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintDimensionRatio="4:5"
                 app:layout_constraintEnd_toStartOf="@+id/toolbar_leaderboard_main_global"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -72,7 +74,7 @@
                 android:textSize="10sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="w,1:1"
+                app:layout_constraintDimensionRatio="w,4:5"
                 app:layout_constraintEnd_toStartOf="@+id/toolbar_leaderboard_main_sort"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -80,10 +82,11 @@
                 android:id="@+id/toolbar_leaderboard_main_sort"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_marginEnd="8dp"
                 android:background="@null"
                 android:src="@android:drawable/ic_menu_sort_by_size"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintDimensionRatio="4:5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
