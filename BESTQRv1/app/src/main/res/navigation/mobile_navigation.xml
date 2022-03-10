@@ -34,4 +34,9 @@
             android:label=""
             tools:layout="@layout/fragment_leaderboard_qr"/>
     </navigation>
+    <fragment
+        android:id="@+id/navigation_user"
+        android:name="com.example.bestqr.ui.user.UserFragment"
+        android:label="User"
+        tools:layout="@layout/fragment_user" />
 </navigation>
