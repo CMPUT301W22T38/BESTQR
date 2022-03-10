@@ -27,6 +27,9 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1752786220871327" />
         <entry key="app/src/main/res/layout/fragment_camera.xml" value="0.1752786220871327" />
         <entry key="app/src/main/res/layout/fragment_leaderboard.xml" value="0.1752786220871327" />
+        <entry key="app/src/main/res/layout/fragment_leaderboard_qr.xml" value="0.14994934143870314" />
+        <entry key="app/src/main/res/layout/fragment_leaderboard_user.xml" value="0.14994934143870314" />
+        <entry key="app/src/main/res/layout/fragment_user.xml" value="0.14994934143870314" />
       </map>
     </option>
   </component>
