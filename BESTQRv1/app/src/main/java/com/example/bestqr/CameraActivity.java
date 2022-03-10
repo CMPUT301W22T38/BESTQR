@@ -21,7 +21,9 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.bestqr.databinding.ActivityMainBinding;
+
 import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 public class CameraActivity extends AppCompatActivity {
 
@@ -64,9 +66,7 @@ public class CameraActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //initialize intent integrator
-                IntentIntegrator intentIntegrator = new IntentIntegrator(
-                        CameraActivity.this
-                );
+                IntentIntegrator intentIntegrator = new IntentIntegrator(CameraActivity.this);
                 //locked orientation
                 intentIntegrator.setOrientationLocked(true);
                 //Set capture activity
