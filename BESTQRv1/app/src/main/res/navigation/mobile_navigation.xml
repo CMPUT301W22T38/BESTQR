@@ -10,19 +10,27 @@
         android:name="com.example.bestqr.ui.camera.CameraFragment"
         android:label="Camera"
         tools:layout="@layout/fragment_camera" />
-
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.example.bestqr.ui.map.MapFragment"
         android:label="Map"
         tools:layout="@layout/fragment_map" />
+    <action
+        android:id="@+id/action_navigation_to_leaderboard_user"
+        app:destination="@+id/navigation_leaderboard_user"
+        app:popUpToInclusive="true" />
+    <action
+        android:id="@+id/action_navigation_to_leaderboard_qr"
+        app:destination="@id/navigation_leaderboard_qr"
+        app:popUpToInclusive="true" />
     <navigation android:id="@+id/navigation_leaderboard"
         app:startDestination="@id/navigation_leaderboard_main">
         <fragment
             android:id="@+id/navigation_leaderboard_main"
             android:name="com.example.bestqr.ui.leaderboard.LeaderboardFragmentMain"
             android:label=""
-            tools:layout="@layout/fragment_leaderboard_main" />
+            tools:layout="@layout/fragment_leaderboard_main">
+        </fragment>
         <fragment
             android:id="@+id/navigation_leaderboard_user"
             android:name="com.example.bestqr.ui.leaderboard.LeaderboardFragmentUser"

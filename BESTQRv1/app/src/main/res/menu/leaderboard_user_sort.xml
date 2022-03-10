@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:title="Ascending"
+        android:id="@+id/leaderboard_user_sort_ascending"/>
+    <item
+        android:title="Descending"
+        android:id="@+id/leaderboard_user_sort_descending"/>
+    <item
+        android:title="Chronological"
+        android:id="@+id/leaderboard_user_sort_chronological"/>
+</menu>

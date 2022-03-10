@@ -7,6 +7,17 @@
     android:orientation="vertical"
     tools:context=".ui.camera.CameraFragment">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_camera"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:theme="?attr/actionBarTheme"
+        android:background="?attr/colorPrimary">
+
+    </androidx.appcompat.widget.Toolbar>
+
     <TextView
         android:id="@+id/text_home"
         android:layout_width="match_parent"
