@@ -151,6 +151,7 @@ public class CameraActivity extends AppCompatActivity {
         // If user chooses an image from the gallery
         if (requestCode == PICK_IMAGE) {
 
+            // Convert QR from gallery to contents
             try {
                 final Uri imageUri = data.getData();
                 final InputStream imageStream = getContentResolver().openInputStream(imageUri);
@@ -165,11 +166,12 @@ public class CameraActivity extends AppCompatActivity {
                     MultiFormatReader reader = new MultiFormatReader();
                     Result result = reader.decode(bitmap);
                     contents = result.getText();
-                    digest = MessageDigest.getInstance("SHA-256");
-                    byte[] encodedHash = digest.digest(
-                            contents.getBytes(StandardCharsets.UTF_8));
-                    qrHash = bytesToHex(encodedHash);
-                    Toast.makeText(getApplicationContext(),qrHash,Toast.LENGTH_LONG).show();
+
+                    // Create new QR object using contents as argument
+                    QR_CODE newQR = new QR_CODE(contents);
+
+                    // Display toast showing QR hash
+                    Toast.makeText(getApplicationContext(),newQR.getScore(),Toast.LENGTH_LONG).show();
                 } catch (Exception e){
                     e.printStackTrace();
                 }
