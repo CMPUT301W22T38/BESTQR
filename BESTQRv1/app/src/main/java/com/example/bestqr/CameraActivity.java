@@ -59,7 +59,7 @@ public class CameraActivity extends AppCompatActivity {
     // (Fragments that are navigable to from the bottom bar)
     private static Set<Integer> topLevelDestinations = new HashSet<>(Arrays.asList(
             R.id.navigation_notifications, R.id.navigation_home, R.id.navigation_leaderboard, R.id.navigation_user));
-
+    private Database db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,9 +78,9 @@ public class CameraActivity extends AppCompatActivity {
         @SuppressLint("HardwareIds") String androidId = Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);
         // test identification of user ideally info will be taken in the signup activity and stored in firebase
         QR_CODE userIdentification = new QR_CODE(androidId);
-        Profile userProfile = new Profile("UserName",userIdentification,1231231231,"emailaddress");
+//        Profile userProfile = new Profile("UserName",userIdentification,1231231231,"emailaddress");
         //ToDo Store profiles in firebase
-
+        db = new Database();
         //This is open camera
         scanButton= findViewById(R.id.scanButton);
         scanButton.setOnClickListener(new View.OnClickListener(){

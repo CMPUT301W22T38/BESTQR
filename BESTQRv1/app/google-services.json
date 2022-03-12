@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "186725866990",
+    "project_id": "bestqrdb",
+    "storage_bucket": "bestqrdb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:186725866990:android:0f19654dc9d28f1c6042ff",
+        "android_client_info": {
+          "package_name": "com.example.bestqr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "186725866990-7kdta60ln993cibhpdsqio38llfhndid.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6oy-3lz9bAniF4xsWk1AKPttjI5u7usQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "186725866990-7kdta60ln993cibhpdsqio38llfhndid.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
