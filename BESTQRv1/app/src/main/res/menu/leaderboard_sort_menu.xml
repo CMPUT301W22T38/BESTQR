@@ -5,12 +5,12 @@
 
     <item
         android:title="Highest Total"
-        android:id="@+id/leaderboard_main_menu_total"/>
+        android:id="@+id/leaderboard_menu_total"/>
     <item
         android:title="Highest Code"
-        android:id="@+id/leaderboard_main_menu_code"/>
+        android:id="@+id/leaderboard_menu_code"/>
     <item
         android:title="# of Codes"
-        android:id="@+id/leaderboard_main_menu_numcodes"/>
+        android:id="@+id/leaderboard_menu_numcodes"/>
 
 </menu>
