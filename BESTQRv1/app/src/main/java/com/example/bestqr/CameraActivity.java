@@ -59,7 +59,10 @@ public class CameraActivity extends AppCompatActivity {
     // (Fragments that are navigable to from the bottom bar)
     private static Set<Integer> topLevelDestinations = new HashSet<>(Arrays.asList(
             R.id.navigation_notifications, R.id.navigation_home, R.id.navigation_leaderboard, R.id.navigation_user));
+
     private Database db;
+    Profile profile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,11 +80,11 @@ public class CameraActivity extends AppCompatActivity {
         // get unique device id
         @SuppressLint("HardwareIds") String androidId = Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);
         // test identification of user ideally info will be taken in the signup activity and stored in firebase
-        QR_CODE userIdentification = new QR_CODE(androidId);
-//        Profile userProfile = new Profile("UserName",userIdentification,1231231231,"emailaddress");
-        //ToDo Store profiles in firebase
+
         db = new Database();
-        //This is open camera
+
+        profile = db.readProfile(androidId);
+
         scanButton= findViewById(R.id.scanButton);
         scanButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -109,6 +112,7 @@ public class CameraActivity extends AppCompatActivity {
                 startActivityForResult(Intent.createChooser(photoPickerIntent, "Select Image"), PICK_IMAGE);
             }
         });
+
     }
 
     @Override
@@ -162,6 +166,7 @@ public class CameraActivity extends AppCompatActivity {
                 final Uri imageUri = data.getData();
                 final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                 final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+
                 try {
                     Bitmap bMap = selectedImage;
                     String contents = null;
@@ -173,8 +178,18 @@ public class CameraActivity extends AppCompatActivity {
                     Result result = reader.decode(bitmap);
                     contents = result.getText();
 
+
                     // Create new QR object using contents as argument
                     QR_CODE newQR = new QR_CODE(contents);
+                    db.writeImage(newQR, profile.getandroidId());
+//                    db.QRCodeReceivedFromCameraActivity(newQR, profile.getandroidId());
+
+
+
+
+
+
+
 
                     // Display toast showing QR hash
                     Toast.makeText(getApplicationContext(),newQR.getScore(),Toast.LENGTH_LONG).show();
@@ -191,6 +206,10 @@ public class CameraActivity extends AppCompatActivity {
 
             }
         }
+        //
+
+
+        //
     }
 
     private static String bytesToHex(byte[] hash) {

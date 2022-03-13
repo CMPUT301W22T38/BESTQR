@@ -12,6 +12,7 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -21,7 +22,6 @@ public class QR_CODE {
     private String hash;
     private int score;
     MessageDigest digest;
-
 
 
     public QR_CODE(Location codeLocation,String contents) {
@@ -37,7 +37,12 @@ public class QR_CODE {
         this.score = calculateScore(hash);
     }
 
+    public HashMap<String,Object> toMap() {
+        HashMap<String, Object> asMap = new HashMap<String, Object>();
 
+        return asMap;
+
+    }
 
 
     public Bitmap getCode(){
