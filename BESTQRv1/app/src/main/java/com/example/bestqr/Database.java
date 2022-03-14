@@ -77,7 +77,7 @@ public class Database {
         return profile;
     }
     
-    public void writeQRCode(QR_CODE qrcode, String androidid) {
+    public void writeQRCode(QRCODE qrcode, String androidid) {
         // upload qrcode to realtime db
         String key = qrcode.getHash();
 
@@ -110,6 +110,7 @@ public class Database {
         });
     }
 
+    private Pair<byte[], String> createQRImage(QRCODE qrcode, String androidId) {
         Bitmap bitmap = qrcode.getCode();
         String hash = qrcode.getHash();
 

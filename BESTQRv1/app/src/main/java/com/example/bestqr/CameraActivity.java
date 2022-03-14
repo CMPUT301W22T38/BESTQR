@@ -95,7 +95,9 @@ public class CameraActivity extends AppCompatActivity {
         db = new Database();
 
         Profile p = db.getProfile(androidId);
-
+        
+        QRCODE q1 = new QRCODE("random1")
+        QRCODE q2 = new QRCODE("random2")
 
         db.writeQRCode(q1, androidId);
         db.writeQRCode(q2, androidId);
