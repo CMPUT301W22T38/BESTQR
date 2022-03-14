@@ -52,7 +52,7 @@ public class CameraActivityTest {
         solo.assertCurrentActivity("Wrong activity", CameraActivity.class);
         solo.waitForFragmentByTag("Map", 2000);
     }
-
+    
     @After
     public void tearDown()throws Exception{
         solo.finishOpenedActivities();
