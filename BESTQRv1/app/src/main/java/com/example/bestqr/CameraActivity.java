@@ -14,11 +14,13 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.bestqr.ui.user.UserViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -59,6 +61,8 @@ public class CameraActivity extends AppCompatActivity {
     private static Set<Integer> topLevelDestinations = new HashSet<>(Arrays.asList(
             R.id.navigation_notifications, R.id.navigation_home, R.id.navigation_leaderboard, R.id.navigation_user));
 
+    // UserViewModel
+    private UserViewModel userViewModel;
     private Database db;
     Profile profile;
 
@@ -81,15 +85,21 @@ public class CameraActivity extends AppCompatActivity {
         // test identification of user ideally info will be taken in the signup activity and stored in firebase
         QRCODE userIdentification = new QRCODE(androidId);
         //ToDo Store profiles in firebase
+        
+        // TEMP: Test user profile, to showcase functionality of fragments showing user info.
+        Profile userProfile = new Profile("Test User",userIdentification,"1231231231","email@address.com");
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        userViewModel.setUserProfile(userProfile);
 
+        //This is open camera
 
         ////////////////////////////
         db = new Database();
 
         Profile p = db.getProfile(androidId);
         
-        QRCODE q1 = new QRCODE("random1")
-        QRCODE q2 = new QRCODE("random2")
+        QRCODE q1 = new QRCODE("random1");
+        QRCODE q2 = new QRCODE("random2");
 
         db.writeQRCode(q1, androidId);
         db.writeQRCode(q2, androidId);
