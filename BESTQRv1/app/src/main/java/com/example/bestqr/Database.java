@@ -76,7 +76,8 @@ public class Database {
                 });
         return profile;
     }
-
+    
+    public void writeQRCode(QR_CODE qrcode, String androidid) {
         // upload qrcode to realtime db
         String key = qrcode.getHash();
 
