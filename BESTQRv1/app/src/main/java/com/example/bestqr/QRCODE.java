@@ -21,7 +21,7 @@ public class QRCODE {
     private Bitmap bitmap;
     private String hash;
     private int score;
-    MessageDigest digest;
+    static MessageDigest digest;
 
 
     /**
@@ -108,7 +108,7 @@ public class QRCODE {
      * @param contents : The content of the QRCODE
      * @return: The String hexadecimal representation of the content of the QRCODE
      */
-    public String calculateHash(String contents) {
+    public static String calculateHash(String contents) {
         try{digest = MessageDigest.getInstance("SHA-256");}
         catch (NoSuchAlgorithmException e)
         {
@@ -134,7 +134,7 @@ public class QRCODE {
      * @param hash: he hexadecimal representation of the content og the QRCODE
      * @return:  The score of the QRCODE
      */
-    public int calculateScore(String hash){
+    public static int calculateScore(String hash){
 
         // Converts hash to QR score
         char current_char;
