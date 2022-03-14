@@ -49,8 +49,8 @@ public class UserFragment extends Fragment {
         tex.setValue("B");
         //userViewModel.setText(tex);
         Profile userProfile = userViewModel.getUserProfile();
+        binding.toolbarUserProfile.setText(userProfile.getUserName());
 
-        // binding.toolbarUserProfile.setText(userProfile.)
 
         // onClick Listener for the QR button on the toolbar
         // This button navigates to QrFragment, which displays a list of the user's QR codes

@@ -14,6 +14,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.bestqr.databinding.FragmentUserInfoBinding;
+import com.example.bestqr.Profile;
 
 public class UserInfoFragment extends DialogFragment {
 
@@ -42,8 +43,10 @@ public class UserInfoFragment extends DialogFragment {
 
         // TEMP: Add User's info to the textboxes
         // TODO: Integrate firebase
-        binding.userInfoUsername.setText(userViewModel.getText().getValue());
-
+        Profile userProfile = userViewModel.getUserProfile();
+        binding.userInfoUsername.setText(userProfile.getUserName());
+        binding.userInfoEmail.setText(userProfile.getEmailAddress());
+        binding.userInfoPhoneNumber.setText(userProfile.getPhoneNumber());
     }
 
 
