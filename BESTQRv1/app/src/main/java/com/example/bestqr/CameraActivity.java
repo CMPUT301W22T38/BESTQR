@@ -14,11 +14,13 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.bestqr.ui.user.UserViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -60,6 +62,9 @@ public class CameraActivity extends AppCompatActivity {
     private static Set<Integer> topLevelDestinations = new HashSet<>(Arrays.asList(
             R.id.navigation_notifications, R.id.navigation_home, R.id.navigation_leaderboard, R.id.navigation_user));
 
+    // UserViewModel
+    private UserViewModel userViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +85,9 @@ public class CameraActivity extends AppCompatActivity {
         QR_CODE userIdentification = new QR_CODE(androidId);
         Profile userProfile = new Profile("UserName",userIdentification,1231231231,"emailaddress");
         //ToDo Store profiles in firebase
+
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        userViewModel.setUserProfile(userProfile);
 
         //This is open camera
         scanButton= findViewById(R.id.scanButton);

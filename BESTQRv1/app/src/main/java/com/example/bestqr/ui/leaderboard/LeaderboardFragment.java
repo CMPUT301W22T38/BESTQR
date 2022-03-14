@@ -53,6 +53,10 @@ public class LeaderboardFragment extends Fragment {
 
         });
 
+        /**
+         * Disabled, as it introduces minor unintuitive navigation when opening non top-level tabs from user tab.
+         * Consider re-enabling if this is fixed
+         * however, this is non-essential for app functionality.
         // onClick Listener for the profile button on the toolbar
         // This button navigates to the UserFragment, which displays a list of the User's QR codes
         TextView user_profile = binding.toolbarLeaderboardProfile;
@@ -64,6 +68,7 @@ public class LeaderboardFragment extends Fragment {
             }
 
         });
+        */
 
         return root;
     }

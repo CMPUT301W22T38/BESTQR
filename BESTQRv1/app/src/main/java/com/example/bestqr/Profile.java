@@ -18,7 +18,6 @@ public class Profile {
         this.deviceQrCode = deviceQrCode2;
     }
 
-
     public String getDeviceID(){
         return deviceQrCode.getHash();
     }

@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -21,6 +22,8 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.bestqr.CameraActivity;
 import com.example.bestqr.R;
 import com.example.bestqr.databinding.FragmentUserBinding;
+
+import com.example.bestqr.Profile;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -37,11 +40,17 @@ public class UserFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
 
         binding = FragmentUserBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        MutableLiveData<String> tex = new MutableLiveData<String>();
+        tex.setValue("B");
+        //userViewModel.setText(tex);
+        Profile userProfile = userViewModel.getUserProfile();
+
+        // binding.toolbarUserProfile.setText(userProfile.)
 
         // onClick Listener for the QR button on the toolbar
         // This button navigates to QrFragment, which displays a list of the user's QR codes
@@ -52,7 +61,6 @@ public class UserFragment extends Fragment {
                 NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
                 navController.navigate(R.id.action_navigation_from_user_to_qr);
             }
-
         });
 
         // onClick Listener for the Sort button on the toolbar
@@ -66,12 +74,26 @@ public class UserFragment extends Fragment {
                 popup.show();
             }
         });
+
+        // onClick Listener for the Info Button on the toolbar
+        // When pressed, a dialogfragment showing the user's info will be shown
+        // The user will be able to edit their info, and have it updated in the db.
+        ImageButton info_button = binding.toolbarUserInfo;
+        info_button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
+                navController.navigate(R.id.action_navigation_user_to_navigation_user_info);
+            }
+        });
+
         return root;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         // Setup navigation for Fragment Top-Level destination toolbar
         // Top-Level Fragments need to pass an AppBarConfiguration to the toolbar
         // to function correctly.

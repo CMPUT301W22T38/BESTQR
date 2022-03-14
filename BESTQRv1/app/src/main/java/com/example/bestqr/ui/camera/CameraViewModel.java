@@ -13,6 +13,7 @@ public class CameraViewModel extends ViewModel {
         mText.setValue("This is camera fragment");
     }
 
+
     public LiveData<String> getText() {
         return mText;
     }
