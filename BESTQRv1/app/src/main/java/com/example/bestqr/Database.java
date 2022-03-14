@@ -77,7 +77,6 @@ public class Database {
         return profile;
     }
 
-    public void writeQRCode(QR_CODE qrcode, String androidid) {
         // upload qrcode to realtime db
         String key = qrcode.getHash();
 
@@ -98,7 +97,6 @@ public class Database {
                     // upload it to db
                     qr_ref.setValue(meta);
 
-                    // create a qrcode image using QR_CODE object
                     Pair<byte[], String> QR_image = createQRImage(qrcode, androidid);
                     // store it in the firebase storage
                     uploadQRImageToStorage(QR_image, androidid);
@@ -111,8 +109,6 @@ public class Database {
         });
     }
 
-    private Pair<byte[], String> createQRImage(QR_CODE qrcode, String androidId) {
-        // convert QR_CODE.bitmap to bytearray
         Bitmap bitmap = qrcode.getCode();
         String hash = qrcode.getHash();
 

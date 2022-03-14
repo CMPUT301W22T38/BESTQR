@@ -61,6 +61,7 @@ public class Profile {
      * @return : the phone number of the user
      */
     public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
@@ -122,4 +123,15 @@ public class Profile {
         score -= qrCode.getScore();
     }
 
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
 }

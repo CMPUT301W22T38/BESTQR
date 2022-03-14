@@ -80,7 +80,6 @@ public class CameraActivity extends AppCompatActivity {
         @SuppressLint("HardwareIds") String androidId = Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);
         // test identification of user ideally info will be taken in the signup activity and stored in firebase
         QRCODE userIdentification = new QRCODE(androidId);
-        Profile userProfile = new Profile("UserName",userIdentification,1231231231,"emailaddress");
         //ToDo Store profiles in firebase
 
 
@@ -89,8 +88,6 @@ public class CameraActivity extends AppCompatActivity {
 
         Profile p = db.getProfile(androidId);
 
-        QR_CODE q1 = new QR_CODE("content1");
-        QR_CODE q2 = new QR_CODE("content2");
 
         db.writeQRCode(q1, androidId);
         db.writeQRCode(q1, androidId);
