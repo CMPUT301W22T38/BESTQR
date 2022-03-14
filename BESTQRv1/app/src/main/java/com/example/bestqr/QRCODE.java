@@ -12,6 +12,7 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -45,6 +46,20 @@ public class QRCODE {
         this.score = calculateScore(hash);
     }
 
+    //    public HashMap<String,Object> toMap() {
+//        HashMap<String, Object> asMap = new HashMap<String, Object>();
+//
+//        return asMap;
+//
+//    }
+    public HashMap<String, Object> getLocation() {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        if (this.codeLocation != null) {
+            map.put("Latitude", codeLocation.getLatitude());
+            map.put("Longitude", codeLocation.getLongitude());
+        }
+        return map;
+    }
 
     /**
      * This method generates a QRCODE for the content passed in
@@ -53,7 +68,7 @@ public class QRCODE {
     public Bitmap getCode(){
         MultiFormatWriter writer = new MultiFormatWriter();
         try {
-            BitMatrix matrix = writer.encode(hash, BarcodeFormat.QR_CODE,350,350);
+            BitMatrix matrix = writer.encode(hash, BarcodeFormat.QR_CODE, 350, 350);
             BarcodeEncoder encoder = new BarcodeEncoder();
             bitmap = encoder.createBitmap(matrix);
         } catch (WriterException e) {
@@ -157,5 +172,4 @@ public class QRCODE {
 
         return total_score;
     }
-
 }

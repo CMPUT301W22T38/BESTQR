@@ -3,14 +3,20 @@ package com.example.bestqr;
 import android.graphics.Bitmap;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Profile {
+    private String androidId;
     private String userName;
-    private int phoneNumber;
+    private String phoneNumber;
     private String emailAddress;
     private QRCODE deviceQrCode;
     private int score;
     private ArrayList<QRCODE> scannedCodes;
+
+    public Profile(String android_id) {
+        this.androidId = android_id;
+    }
 
     /**
      * This constructor initializes the information of the user's profile
@@ -20,7 +26,7 @@ public class Profile {
      * @param phoneNumber : The phone number of user
      * @param emailAddress: The email address of the user
      */
-    public Profile(String user_name, QRCODE deviceQrCode, int phoneNumber, String emailAddress) {
+    public Profile(String user_name, QRCODE deviceQrCode, String phoneNumber, String emailAddress) {
         this.userName = user_name;
         this.deviceQrCode = deviceQrCode;
     }
