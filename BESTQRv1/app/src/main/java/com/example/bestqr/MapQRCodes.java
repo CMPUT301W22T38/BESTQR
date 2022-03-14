@@ -1,13 +1,11 @@
 package com.example.bestqr;
 
-import android.location.Location;
-
 import java.util.ArrayList;
 
 public class MapQRCodes {
-    private ArrayList<QR_CODE> nearbyCodes;
+    private ArrayList<QRCODE> nearbyCodes;
 
-    public void addNearbyCode(QR_CODE qrCode){
+    public void addNearbyCode(QRCODE qrCode){
         nearbyCodes.add(qrCode);
     }
 

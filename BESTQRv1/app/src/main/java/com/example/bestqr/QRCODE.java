@@ -15,7 +15,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 
-public class QR_CODE {
+public class QRCODE {
     private Location codeLocation;
     private Bitmap bitmap;
     private String hash;
@@ -23,14 +23,22 @@ public class QR_CODE {
     MessageDigest digest;
 
 
-
-    public QR_CODE(Location codeLocation,String contents) {
+    /**
+     * This constructor is for the QRCODE where location is stored
+     * @param codeLocation: This is the Location that is recorded for the QRCODE
+     * @param contents: this is the content of the QRCODE
+     */
+    public QRCODE(Location codeLocation, String contents) {
         this.codeLocation = codeLocation;
         this.hash = calculateHash(contents);
         this.score = calculateScore(hash);
     }
 
-    public QR_CODE(String contents) {
+    /**
+     * This constructor is for the QRCODE where location is stored
+     * @param contents: this is the content of the QRCODE
+     */
+    public QRCODE(String contents) {
         // this enforces the privacy rule for user location
         this.codeLocation = null;
         this.hash = calculateHash(contents);
@@ -38,8 +46,10 @@ public class QR_CODE {
     }
 
 
-
-
+    /**
+     * This method generates a QRCODE for the content passed in
+     * @return: A Bitmap object that contains the image of the QRCODE
+     */
     public Bitmap getCode(){
         MultiFormatWriter writer = new MultiFormatWriter();
         try {
@@ -54,13 +64,36 @@ public class QR_CODE {
 
     }
 
-    public String getHash(){ return hash; }
+    /**
+     * This method gets the hash of the QRCODE
+     * @return: A string object that contains the hash in Hexadecimal of the QRCODE
+     */
+    public String getHash(){
+        return hash;
+    }
 
-    public int getScore(){ return score; }
+    /**
+     * This method returns the score of the QRCODE
+     * @return :
+     */
+    public int getScore(){
+        return score;
+    }
 
+    /**
+     * This method returns the location of the QRCODE
+     * @return the location of the QRCODE
+     */
+    public Location getCodeLocation(){
+        return codeLocation;
+    }
+
+    /**
+     * This method converts QR contents to encoded hash (bytes)
+     * @param contents : The content of the QRCODE
+     * @return: The String hexadecimal representation of the content of the QRCODE
+     */
     public String calculateHash(String contents) {
-
-        // Converts QR contents to encoded hash (bytes)
         try{digest = MessageDigest.getInstance("SHA-256");}
         catch (NoSuchAlgorithmException e)
         {
@@ -81,6 +114,11 @@ public class QR_CODE {
         return hexString.toString();
     }
 
+    /**
+     * This method calculates the score of the QRCODE from the hash
+     * @param hash: he hexadecimal representation of the content og the QRCODE
+     * @return:  The score of the QRCODE
+     */
     public int calculateScore(String hash){
 
         // Converts hash to QR score

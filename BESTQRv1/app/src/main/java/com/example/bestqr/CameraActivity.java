@@ -36,7 +36,6 @@ import com.google.zxing.integration.android.IntentResult;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 
 public class CameraActivity extends AppCompatActivity {
@@ -71,7 +70,7 @@ public class CameraActivity extends AppCompatActivity {
         // get unique device id
         @SuppressLint("HardwareIds") String androidId = Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);
         // test identification of user ideally info will be taken in the signup activity and stored in firebase
-        QR_CODE userIdentification = new QR_CODE(androidId);
+        QRCODE userIdentification = new QRCODE(androidId);
         Profile userProfile = new Profile("UserName",userIdentification,1231231231,"emailaddress");
         //ToDo Store profiles in firebase
 
@@ -168,7 +167,7 @@ public class CameraActivity extends AppCompatActivity {
                     contents = result.getText();
 
                     // Create new QR object using contents as argument
-                    QR_CODE newQR = new QR_CODE(contents);
+                    QRCODE newQR = new QRCODE(contents);
 
                     // Display toast showing QR hash
                     Toast.makeText(getApplicationContext(),newQR.getScore(),Toast.LENGTH_LONG).show();
@@ -187,6 +186,11 @@ public class CameraActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method converts the a bytes representation to a hexadecimal string
+     * @param hash The bytes that are to be converted
+     * @return the String hexadecimal representation of the bytes provided
+     */
     private static String bytesToHex(byte[] hash) {
         StringBuilder hexString = new StringBuilder(2 * hash.length);
         for (byte b : hash) {
