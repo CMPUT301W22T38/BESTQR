@@ -24,12 +24,10 @@ public class CameraActivityTest {
         solo = new Solo(InstrumentationRegistry.getInstrumentation(), rule.getActivity());
 
     }
-
     @Test
     public void start()throws Exception{
         Activity activity = rule.getActivity();
     }
-
     /**
      * this tests the ScanButton
      */
@@ -38,30 +36,23 @@ public class CameraActivityTest {
         solo.assertCurrentActivity("Wrong activity", CameraActivity.class);
         solo.clickOnButton("Scan");
         solo.clickOnImageButton(0);
-
     }
-
-//    @Test
-//    public void LeaderBordTest(){
-//        solo.assertCurrentActivity("Wrong activity", CameraActivity.class);
-//        solo.waitForFragmentById(R.id.navigation_leaderboard_main, 2000);
-//
-//    }
-
+    @Test
+    public void LeaderBordTest(){
+        solo.assertCurrentActivity("Wrong activity", CameraActivity.class);
+        solo.waitForFragmentByTag("Leaderboard", 2000);
+    }
     @Test
     public void UserTest(){
         solo.assertCurrentActivity("Wrong activity", CameraActivity.class);
         solo.waitForFragmentByTag("User", 2000);
     }
-
     @Test
     public void MapTest(){
         solo.assertCurrentActivity("Wrong activity", CameraActivity.class);
         solo.waitForFragmentByTag("Map", 2000);
     }
-
-
-
+    
     @After
     public void tearDown()throws Exception{
         solo.finishOpenedActivities();
