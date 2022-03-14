@@ -15,20 +15,20 @@ public class UserViewModel extends ViewModel {
         mText.setValue("Test");
     }
 
+    /** Sets the main user profile
+     * @param profile
+     *      a profile object, containing info on a user
+     */
     public void setUserProfile(Profile profile){
         user_profile = profile;
     }
 
+    /** Gets the main user profile
+     * @return profile
+     *      a profile object, containing info on a user
+     */
     public Profile getUserProfile(){
         return user_profile;
-    }
-
-    public MutableLiveData<String> getText(){
-        return mText;
-    }
-
-    public void setText(MutableLiveData<String> str){
-        mText = str;
     }
 
 }
