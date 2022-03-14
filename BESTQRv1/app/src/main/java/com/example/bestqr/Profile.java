@@ -60,7 +60,6 @@ public class Profile {
      * This method returns the phone number of the user
      * @return : the phone number of the user
      */
-    public int getPhoneNumber() {
     public String getPhoneNumber() {
         return phoneNumber;
     }
