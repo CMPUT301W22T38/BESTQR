@@ -43,11 +43,12 @@ public class QR_CODE {
 //        return asMap;
 //
 //    }
-    public HashMap<String, Double> getLocation() {
-        // if we have location
-        HashMap<String, Double> map = new HashMap<String, Double>();
-        map.put("Latitude", codeLocation.getLatitude());
-        map.put("Longitude", codeLocation.getLongitude());
+    public HashMap<String, Object> getLocation() {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        if (this.codeLocation != null) {
+            map.put("Latitude", codeLocation.getLatitude());
+            map.put("Longitude", codeLocation.getLongitude());
+        }
         return map;
     }
 
@@ -96,7 +97,7 @@ public class QR_CODE {
         return hexString.toString();
     }
 
-    public int calculateScore(String hash) {
+    public int calculateScore(String hash){
 
         // Converts hash to QR score
         char current_char;
@@ -106,7 +107,6 @@ public class QR_CODE {
 
         for (int i = 1; i < hash.length(); i++) {
 
-            current_char = hash.charAt(1);
             current_char = hash.charAt(i);
 
             if (current_char == prev_char) {
@@ -117,27 +117,22 @@ public class QR_CODE {
 
                 if (char_multiplier > 0) {
 
-                    if (prev_char == 0) {
-                        total_score += Math.pow(20, char_multiplier);
-                        if (prev_char == '0') {
-                            total_score += (int) Math.pow(20, char_multiplier);
+                    if (prev_char == '0') {
+                        total_score += (int) Math.pow(20, char_multiplier);
 
-                        } else {
-                            total_score += Math.pow(Integer.parseInt(Character.toString(prev_char), 16), char_multiplier);
-                            total_score += (int) Math.pow(Character.digit(prev_char, 16), char_multiplier);
+                    } else {
+                        total_score += (int) Math.pow(Character.digit(prev_char, 16), char_multiplier);
 
-                        }
-
-                        char_multiplier = 0;
                     }
 
-                    prev_char = current_char;
-                    char_multiplier = 0;
                 }
 
-                prev_char = current_char;
+                char_multiplier = 0;
             }
+
+            prev_char = current_char;
         }
+
         return total_score;
     }
 }

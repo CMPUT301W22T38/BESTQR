@@ -81,7 +81,9 @@ public class CameraActivity extends AppCompatActivity {
         @SuppressLint("HardwareIds") String androidId = Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);
         // test identification of user ideally info will be taken in the signup activity and stored in firebase
 
-//        db = new Database();
+        db = new Database();
+        QR_CODE q = new QR_CODE("keey");
+        db.writeQRCode(q, androidId);
 //
 //        profile = db.readProfile(androidId);
 
