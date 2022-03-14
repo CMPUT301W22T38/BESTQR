@@ -29,6 +29,8 @@ public class Profile {
     public Profile(String user_name, QRCODE deviceQrCode, String phoneNumber, String emailAddress) {
         this.userName = user_name;
         this.deviceQrCode = deviceQrCode;
+        this.phoneNumber = phoneNumber;
+        this.emailAddress = emailAddress;
     }
 
     /**
