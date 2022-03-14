@@ -110,6 +110,7 @@ public class Database {
         });
     }
 
+    private Pair<byte[], String> createQRImage(QR_CODE qrcode, String androidId) {
         Bitmap bitmap = qrcode.getCode();
         String hash = qrcode.getHash();
 
