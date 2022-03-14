@@ -91,26 +91,30 @@ public class QR_CODE {
 
         for (int i = 1; i < hash.length(); i++) {
 
-            current_char = hash.charAt(1);
+            current_char = hash.charAt(i);
 
             if (current_char == prev_char) {
 
                 char_multiplier++;
+
             } else {
 
                 if (char_multiplier > 0) {
 
-                    if (prev_char == 0) {
-                        total_score += Math.pow(20, char_multiplier);
+                    if (prev_char == '0') {
+                        total_score += (int) Math.pow(20, char_multiplier);
+
                     } else {
-                        total_score += Math.pow(Integer.parseInt(Character.toString(prev_char), 16), char_multiplier);
+                        total_score += (int) Math.pow(Character.digit(prev_char, 16), char_multiplier);
+
                     }
 
-                    char_multiplier = 0;
                 }
 
-                prev_char = current_char;
+                char_multiplier = 0;
             }
+
+            prev_char = current_char;
         }
 
         return total_score;
