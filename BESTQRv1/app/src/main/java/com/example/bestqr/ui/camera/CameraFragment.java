@@ -14,6 +14,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.bestqr.CameraActivity;
 import com.example.bestqr.R;
 import com.example.bestqr.databinding.FragmentCameraBinding;
 
@@ -43,9 +44,7 @@ public class CameraFragment extends Fragment {
         // Setup navigation for Fragment Top-Level destination toolbar
         // Top-Level Fragments need to pass an AppBarConfiguration to the toolbar
         // to function correctly.
-        Set<Integer> topLevelDestinations = new HashSet<>(Arrays.asList(
-                R.id.navigation_home, R.id.navigation_leaderboard, R.id.navigation_notifications));
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(topLevelDestinations).build();
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(CameraActivity.getTopLevelDestinations()).build();
         NavController navController = NavHostFragment.findNavController(this);
         NavigationUI.setupWithNavController(binding.toolbarCamera, navController, appBarConfiguration);
     }

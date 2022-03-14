@@ -29,7 +29,35 @@ public class CameraActivityTest {
     public void start()throws Exception{
         Activity activity = rule.getActivity();
     }
-    
+
+    @Test
+    public void CameraTest(){
+        solo.assertCurrentActivity("Wrong activity", CameraActivity.class);
+        solo.clickOnButton("Scan");
+        solo.clickOnImageButton(0);
+
+    }
+
+//    @Test
+//    public void LeaderBordTest(){
+//        solo.assertCurrentActivity("Wrong activity", CameraActivity.class);
+//        solo.waitForFragmentById(R.id.navigation_leaderboard_main, 2000);
+//
+//    }
+//
+//    @Test
+//    public void UserTest(){
+//        solo.assertCurrentActivity("Wrong activity", CameraActivity.class);
+//        solo.waitForFragmentByTag("User", 2000);
+//    }
+//
+//    @Test
+//    public void MapTest(){
+//        solo.assertCurrentActivity("Wrong activity", CameraActivity.class);
+//        solo.waitForFragmentByTag("Map", 2000);
+//    }
+
+
 
     @After
     public void tearDown()throws Exception{
