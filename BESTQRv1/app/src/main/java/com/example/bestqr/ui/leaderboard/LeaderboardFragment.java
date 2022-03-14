@@ -28,6 +28,17 @@ public class LeaderboardFragment extends Fragment {
     private LeaderboardViewModel leaderboardViewModel;
     private FragmentLeaderboardBinding binding;
 
+    /**
+     * Creates and returns the root view of the fragment
+     * @param inflater
+     *      Instantiates a layout file into the view
+     * @param container
+     *      Defines structure from the view
+     * @param savedInstanceState
+     *      Contains data of fragment's previous activity
+     * @return root
+     *
+     */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         leaderboardViewModel =
@@ -38,10 +49,13 @@ public class LeaderboardFragment extends Fragment {
 
         TextView profile_icon = binding.toolbarLeaderboardProfile;
 
-        // OnClick Listener for the Sort button
-        // Displays a PopupMenu with three sorting options:
-        // Highest Total, Highest Code, # Of Codes
-        // This sorts the stats of the local & global leaderboard
+        /**
+         * OnClick Listener for the Sort button
+         * Displays a PopupMenu with three sorting options:
+         * Highest Total, Highest Code, # Of Codes
+         * This sorts the stats of the local & global leaderboard
+         */
+
         ImageButton sort_button = binding.toolbarLeaderboardSort;
         sort_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +87,14 @@ public class LeaderboardFragment extends Fragment {
         return root;
     }
 
+    /**
+     *
+     * Continues initialization of the fragment, called after onCreateView
+     * @param view
+     *      The view of the fragment
+     * @param savedInstanceState
+     *      Contains data of fragment's previous activity
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -85,6 +107,9 @@ public class LeaderboardFragment extends Fragment {
 
     }
 
+    /**
+     * Upon destroying the view, unbinds it allowing for binding of other views
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();

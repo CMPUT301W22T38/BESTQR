@@ -39,7 +39,6 @@ import com.google.zxing.integration.android.IntentResult;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -64,6 +63,8 @@ public class CameraActivity extends AppCompatActivity {
 
     // UserViewModel
     private UserViewModel userViewModel;
+    private Database db;
+    Profile profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,14 +83,27 @@ public class CameraActivity extends AppCompatActivity {
         // get unique device id
         @SuppressLint("HardwareIds") String androidId = Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);
         // test identification of user ideally info will be taken in the signup activity and stored in firebase
-        QR_CODE userIdentification = new QR_CODE(androidId);
-        Profile userProfile = new Profile("UserName",userIdentification,1231231231,"emailaddress");
+        QRCODE userIdentification = new QRCODE(androidId);
         //ToDo Store profiles in firebase
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         userViewModel.setUserProfile(userProfile);
 
         //This is open camera
+
+        ////////////////////////////
+        db = new Database();
+
+        Profile p = db.getProfile(androidId);
+
+
+        db.writeQRCode(q1, androidId);
+        db.writeQRCode(q2, androidId);
+        // https://console.firebase.google.com/project/bestqrdb/database/bestqrdb-default-rtdb/data
+        // https://console.firebase.google.com/project/bestqrdb/storage/bestqrdb.appspot.com/files
+        ///////////////////////////////
+
+
         scanButton= findViewById(R.id.scanButton);
         scanButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -117,6 +131,7 @@ public class CameraActivity extends AppCompatActivity {
                 startActivityForResult(Intent.createChooser(photoPickerIntent, "Select Image"), PICK_IMAGE);
             }
         });
+
     }
 
     @Override
@@ -170,6 +185,7 @@ public class CameraActivity extends AppCompatActivity {
                 final Uri imageUri = data.getData();
                 final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                 final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+
                 try {
                     Bitmap bMap = selectedImage;
                     String contents = null;
@@ -181,8 +197,19 @@ public class CameraActivity extends AppCompatActivity {
                     Result result = reader.decode(bitmap);
                     contents = result.getText();
 
+
                     // Create new QR object using contents as argument
-                    QR_CODE newQR = new QR_CODE(contents);
+                    QRCODE newQR = new QRCODE(contents);
+
+//                    db.writeImage(newQR, profile.getandroidId());
+//                    db.QRCodeReceivedFromCameraActivity(newQR, profile.getandroidId());
+
+
+
+
+
+
+
 
                     // Display toast showing QR hash
                     Toast.makeText(getApplicationContext(),newQR.getScore(),Toast.LENGTH_LONG).show();
@@ -199,8 +226,17 @@ public class CameraActivity extends AppCompatActivity {
 
             }
         }
+        //
+
+
+        //
     }
 
+    /**
+     * This method converts the a bytes representation to a hexadecimal string
+     * @param hash The bytes that are to be converted
+     * @return the String hexadecimal representation of the bytes provided
+     */
     private static String bytesToHex(byte[] hash) {
         StringBuilder hexString = new StringBuilder(2 * hash.length);
         for (byte b : hash) {
