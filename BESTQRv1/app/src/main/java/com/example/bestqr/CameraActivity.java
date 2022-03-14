@@ -81,19 +81,21 @@ public class CameraActivity extends AppCompatActivity {
         @SuppressLint("HardwareIds") String androidId = Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);
         // test identification of user ideally info will be taken in the signup activity and stored in firebase
 
+
+        ////////////////////////////
         db = new Database();
-        QR_CODE q = new QR_CODE("wfewyq");
-        QR_CODE q1 = new QR_CODE("rywe");
-        QR_CODE q2 = new QR_CODE("shdf");
 
-//        db.writeQRCode(q, androidId);
-//        db.writeQRCode(q1, androidId);
-//        db.writeQRCode(q2, androidId);
-//        db.writeQRCode(q, androidId);
+        Profile p = db.getProfile(androidId);
 
-        db.readQRCode(androidId);
+        QR_CODE q1 = new QR_CODE("content1");
+        QR_CODE q2 = new QR_CODE("content2");
 
-//        profile = db.readProfile(androidId);
+        db.writeQRCode(q, androidId);
+        db.writeQRCode(q1, androidId);
+        // https://console.firebase.google.com/project/bestqrdb/database/bestqrdb-default-rtdb/data
+        // https://console.firebase.google.com/project/bestqrdb/storage/bestqrdb.appspot.com/files
+        ///////////////////////////////
+
 
         scanButton= findViewById(R.id.scanButton);
         scanButton.setOnClickListener(new View.OnClickListener(){
