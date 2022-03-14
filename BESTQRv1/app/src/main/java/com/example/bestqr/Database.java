@@ -20,8 +20,11 @@ import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+// realtime db
 // https://console.firebase.google.com/project/bestqrdb/database/bestqrdb-default-rtdb/data
+// storage
 // https://console.firebase.google.com/project/bestqrdb/storage/bestqrdb.appspot.com/files
+
 public class Database {
 
     private FirebaseDatabase database;
@@ -31,6 +34,10 @@ public class Database {
     private FirebaseStorage storage;
     private StorageReference storage_ref;
 
+    /**
+     * This constructor initializes database object, consisting of
+     * firebase realtime db and firebase storage
+     */
     public Database() {
         // create reference objects to firebase realtime db and storage
         database = FirebaseDatabase.getInstance();
@@ -40,6 +47,11 @@ public class Database {
         storage_ref = storage.getReference();
     }
 
+    /**
+     * look up user table based on the device's android_id
+     * @param android_id: device's unique android id
+     * @return remapped Profile object
+     */
     public Profile getProfile(String android_id) {
         Profile profile = new Profile(android_id);
         user_ref.child(android_id)
@@ -76,7 +88,12 @@ public class Database {
                 });
         return profile;
     }
-    
+
+    /**
+     * This method takes care of storing QRCODE object both in db and storage
+     * @param qrcode: QRCODE object that the user scanned
+     * @param androidid: device's unique android id
+     */
     public void writeQRCode(QRCODE qrcode, String androidid) {
         // upload qrcode to realtime db
         String key = qrcode.getHash();
@@ -110,6 +127,12 @@ public class Database {
         });
     }
 
+    /**
+     * converts bitmap object to bytes in low level
+     * @param qrcode an object containing information about qr code such as bitmap, and its unique hash
+     * @param androidId device's unique android id
+     * @return a pair storing an image in byte format, and its encrypted hash
+     */
     private Pair<byte[], String> createQRImage(QRCODE qrcode, String androidId) {
         Bitmap bitmap = qrcode.getCode();
         String hash = qrcode.getHash();
@@ -121,6 +144,11 @@ public class Database {
         return new Pair<byte[], String>(data, hash);
     }
 
+    /**
+     * retrieves a list of QR codes scanned by a specific user
+     * @param android_id
+     * @return a list of qr codes remapped as encrypted hash, image in byte form
+     */
     public HashMap<String, Object> getQRCode(String android_id) {
         // return a list of <QR code hash, byte[]> that a certain user has
         HashMap<String, Object> map = new HashMap<String, Object>();
@@ -147,6 +175,12 @@ public class Database {
         return map;
     }
 
+    /**
+     * access firebase storage using user's android id and encrypted hash
+     * @param android_id used as a unique folder
+     * @param hash used as filename
+     * @return the actual jpg in byte form
+     */
     public byte[] getQRImageFromStorage(String android_id, String hash) {
         // return QR code image a user queried
         HashMap<String, byte[]> temp = new HashMap<String, byte[]>();
@@ -165,6 +199,11 @@ public class Database {
         return temp.get("bytes");
     }
 
+    /**
+     * upload image to firebase storage
+     * @param pair containing the image in byte form, and filename
+     * @param androidid
+     */
     private void uploadQRImageToStorage(Pair<byte[], String> pair, String androidid) {
         // upload a QR code image to firebase storage
         byte[] data = pair.first;
@@ -191,4 +230,5 @@ public class Database {
 //        file_ref.putBytes(data);
 //    }
 //}
+
 
