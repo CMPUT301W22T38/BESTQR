@@ -81,9 +81,9 @@ public class CameraActivity extends AppCompatActivity {
         @SuppressLint("HardwareIds") String androidId = Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);
         // test identification of user ideally info will be taken in the signup activity and stored in firebase
 
-        db = new Database();
-
-        profile = db.readProfile(androidId);
+//        db = new Database();
+//
+//        profile = db.readProfile(androidId);
 
         scanButton= findViewById(R.id.scanButton);
         scanButton.setOnClickListener(new View.OnClickListener(){
@@ -181,7 +181,8 @@ public class CameraActivity extends AppCompatActivity {
 
                     // Create new QR object using contents as argument
                     QR_CODE newQR = new QR_CODE(contents);
-                    db.writeImage(newQR, profile.getandroidId());
+
+//                    db.writeImage(newQR, profile.getandroidId());
 //                    db.QRCodeReceivedFromCameraActivity(newQR, profile.getandroidId());
 
 
