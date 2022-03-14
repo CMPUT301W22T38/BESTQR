@@ -58,7 +58,7 @@ public class QR_CODE {
 
     public int getScore(){ return score; }
 
-    public String calculateHash(String contents) {
+    public static String calculateHash(String contents) {
 
         // Converts QR contents to encoded hash (bytes)
         try{digest = MessageDigest.getInstance("SHA-256");}
@@ -81,7 +81,7 @@ public class QR_CODE {
         return hexString.toString();
     }
 
-    public int calculateScore(String hash){
+    public static int calculateScore(String hash){
 
         // Converts hash to QR score
         char current_char;
