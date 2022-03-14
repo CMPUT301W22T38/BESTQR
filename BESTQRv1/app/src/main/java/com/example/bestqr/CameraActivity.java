@@ -18,6 +18,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -36,8 +37,10 @@ import com.google.zxing.integration.android.IntentResult;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class CameraActivity extends AppCompatActivity {
 
@@ -51,6 +54,14 @@ public class CameraActivity extends AppCompatActivity {
     // Button to scan qr Code from gallery
     ImageButton openGallery;
 
+    // Top Level Navigation Destinations
+    // (Fragments that are navigable to from the bottom bar)
+    private static Set<Integer> topLevelDestinations = new HashSet<>(Arrays.asList(
+            R.id.navigation_notifications, R.id.navigation_home, R.id.navigation_leaderboard, R.id.navigation_user));
+
+    private Database db;
+    Profile profile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,9 +72,6 @@ public class CameraActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_leaderboard, R.id.navigation_notifications)
-                .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
@@ -71,11 +79,26 @@ public class CameraActivity extends AppCompatActivity {
         // get unique device id
         @SuppressLint("HardwareIds") String androidId = Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);
         // test identification of user ideally info will be taken in the signup activity and stored in firebase
-        QR_CODE userIdentification = new QR_CODE(androidId);
+        QRCODE userIdentification = new QRCODE(androidId);
         Profile userProfile = new Profile("UserName",userIdentification,1231231231,"emailaddress");
         //ToDo Store profiles in firebase
 
-        //This is open camera
+
+        ////////////////////////////
+        db = new Database();
+
+        Profile p = db.getProfile(androidId);
+
+        QR_CODE q1 = new QR_CODE("content1");
+        QR_CODE q2 = new QR_CODE("content2");
+
+        db.writeQRCode(q1, androidId);
+        db.writeQRCode(q1, androidId);
+        // https://console.firebase.google.com/project/bestqrdb/database/bestqrdb-default-rtdb/data
+        // https://console.firebase.google.com/project/bestqrdb/storage/bestqrdb.appspot.com/files
+        ///////////////////////////////
+
+
         scanButton= findViewById(R.id.scanButton);
         scanButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -103,6 +126,7 @@ public class CameraActivity extends AppCompatActivity {
                 startActivityForResult(Intent.createChooser(photoPickerIntent, "Select Image"), PICK_IMAGE);
             }
         });
+
     }
 
     @Override
@@ -156,6 +180,7 @@ public class CameraActivity extends AppCompatActivity {
                 final Uri imageUri = data.getData();
                 final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                 final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+
                 try {
                     Bitmap bMap = selectedImage;
                     String contents = null;
@@ -167,8 +192,19 @@ public class CameraActivity extends AppCompatActivity {
                     Result result = reader.decode(bitmap);
                     contents = result.getText();
 
+
                     // Create new QR object using contents as argument
-                    QR_CODE newQR = new QR_CODE(contents);
+                    QRCODE newQR = new QRCODE(contents);
+
+//                    db.writeImage(newQR, profile.getandroidId());
+//                    db.QRCodeReceivedFromCameraActivity(newQR, profile.getandroidId());
+
+
+
+
+
+
+
 
                     // Display toast showing QR hash
                     Toast.makeText(getApplicationContext(),newQR.getScore(),Toast.LENGTH_LONG).show();
@@ -185,8 +221,17 @@ public class CameraActivity extends AppCompatActivity {
 
             }
         }
+        //
+
+
+        //
     }
 
+    /**
+     * This method converts the a bytes representation to a hexadecimal string
+     * @param hash The bytes that are to be converted
+     * @return the String hexadecimal representation of the bytes provided
+     */
     private static String bytesToHex(byte[] hash) {
         StringBuilder hexString = new StringBuilder(2 * hash.length);
         for (byte b : hash) {
@@ -197,5 +242,9 @@ public class CameraActivity extends AppCompatActivity {
             hexString.append(hex);
         }
         return hexString.toString();
+    }
+
+    public static Set<Integer> getTopLevelDestinations(){
+        return topLevelDestinations;
     }
 }

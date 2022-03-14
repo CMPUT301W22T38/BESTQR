@@ -6,13 +6,18 @@
         <entry key="../../../../layout/custom_preview.xml" value="0.337037037037037" />
         <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/activity_main.xml" value="0.25076923076923074" />
         <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_camera.xml" value="0.33055555555555555" />
-        <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_leaderboard_main.xml" value="0.33" />
+        <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_leaderboard.xml" value="0.2515625" />
+        <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_leaderboard_main.xml" value="0.25" />
         <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_leaderboard_qr.xml" value="0.49377593360995853" />
-        <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_leaderboard_user.xml" value="0.33" />
+        <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_leaderboard_user.xml" value="0.22" />
         <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_map.xml" value="0.33055555555555555" />
+        <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_qr.xml" value="0.20208333333333334" />
+        <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_user.xml" value="0.33" />
         <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/non_member_profile.xml" value="0.2546875" />
+        <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/test.xml" value="0.20208333333333334" />
         <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/menu/bottom_nav_menu.xml" value="0.2546875" />
         <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/menu/leaderboard_main_sort.xml" value="0.36666666666666664" />
+        <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/menu/leaderboard_sort_menu.xml" value="0.20572916666666666" />
         <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/menu/leaderboard_user_sort.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Evan/Desktop/CMPUT301/BESTQR/BESTQRv1/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.32916666666666666" />
         <entry key="..\:/Users/Evan/Desktop/CMPUT301/BESTQR/BESTQRv1/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.32916666666666666" />
@@ -23,12 +28,14 @@
         <entry key="..\:/Users/Evan/Desktop/CMPUT301/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_camera.xml" value="0.25" />
         <entry key="..\:/Users/Evan/Desktop/CMPUT301/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_map.xml" value="0.1" />
         <entry key="..\:/Users/Evan/Desktop/CMPUT301/BESTQR/BESTQRv1/app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.155" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.155" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1752786220871327" />
         <entry key="app/src/main/res/layout/fragment_camera.xml" value="0.1752786220871327" />
         <entry key="app/src/main/res/layout/fragment_leaderboard.xml" value="0.1752786220871327" />
-        <entry key="app/src/main/res/layout/fragment_leaderboard_qr.xml" value="0.14994934143870314" />
-        <entry key="app/src/main/res/layout/fragment_leaderboard_user.xml" value="0.14994934143870314" />
-        <entry key="app/src/main/res/layout/fragment_user.xml" value="0.14994934143870314" />
+        <entry key="app/src/main/res/layout/fragment_qr.xml" value="0.25815217391304346" />
+        <entry key="app/src/main/res/layout/fragment_user.xml" value="0.25815217391304346" />
+        <entry key="app/src/main/res/layout/fragment_userqr.xml" value="0.25815217391304346" />
       </map>
     </option>
   </component>

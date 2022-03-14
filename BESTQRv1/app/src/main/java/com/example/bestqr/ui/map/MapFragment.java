@@ -14,7 +14,8 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.bestqr.QR_CODE;
+import com.example.bestqr.QRCODE;
+import com.example.bestqr.CameraActivity;
 import com.example.bestqr.R;
 import com.example.bestqr.databinding.FragmentMapBinding;
 
@@ -30,7 +31,7 @@ public class MapFragment extends Fragment {
 
     private CameraViewModel mapViewModel;
     private FragmentMapBinding binding;
-    private ArrayList<QR_CODE> nearbyCodes;
+    private ArrayList<QRCODE> nearbyCodes;
 
     /**
      * Creates and returns the root view of the fragment
@@ -68,9 +69,7 @@ public class MapFragment extends Fragment {
         // Setup navigation for Fragment Top-Level destination toolbar
         // Top-Level Fragments need to pass an AppBarConfiguration to the toolbar
         // to function correctly.
-        Set<Integer> topLevelDestinations = new HashSet<>(Arrays.asList(
-                R.id.navigation_home, R.id.navigation_leaderboard, R.id.navigation_notifications));
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(topLevelDestinations).build();
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(CameraActivity.getTopLevelDestinations()).build();
         NavController navController = NavHostFragment.findNavController(this);
         NavigationUI.setupWithNavController(binding.toolbarMap, navController, appBarConfiguration);
     }
@@ -79,6 +78,7 @@ public class MapFragment extends Fragment {
     /**
      * Upon destroying the view, unbinds it allowing for binding of other views
      */
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
@@ -89,13 +89,13 @@ public class MapFragment extends Fragment {
      * @param qrCode
      *      QR object to add
      */
-    public void addNearbyCode(QR_CODE qrCode){
+    public void addNearbyCode(QRCODE qrCode){
         nearbyCodes.add(qrCode);
     }
 
     /**
      * Plots the location of QR codes nearby the player to the map using pins
-     * @see ArrayList<QR_CODE> nearbyCodes
+     * @see ArrayList<QRCODE> nearbyCodes
      *      Uses the array of nearby QR codes to plot
      */
     public void plotLocations(){
