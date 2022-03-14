@@ -6,45 +6,40 @@
     app:startDestination="@+id/navigation_home">
 
     <fragment
+        android:id="@+id/navigation_notifications"
+        android:name="com.example.bestqr.ui.map.MapFragment"
+        android:label="Map"
+        tools:layout="@layout/fragment_map" />
+    <fragment
         android:id="@+id/navigation_home"
         android:name="com.example.bestqr.ui.camera.CameraFragment"
         android:label="Camera"
         tools:layout="@layout/fragment_camera" />
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.bestqr.ui.map.MapFragment"
-        android:label="Map"
-        tools:layout="@layout/fragment_map" />
-    <action
-        android:id="@+id/action_navigation_to_leaderboard_user"
-        app:destination="@+id/navigation_leaderboard_user"
-        app:popUpToInclusive="true" />
-    <action
-        android:id="@+id/action_navigation_to_leaderboard_qr"
-        app:destination="@id/navigation_leaderboard_qr"
-        app:popUpToInclusive="true" />
-    <navigation android:id="@+id/navigation_leaderboard"
-        app:startDestination="@id/navigation_leaderboard_main">
-        <fragment
-            android:id="@+id/navigation_leaderboard_main"
-            android:name="com.example.bestqr.ui.leaderboard.LeaderboardFragmentMain"
-            android:label=""
-            tools:layout="@layout/fragment_leaderboard_main">
-        </fragment>
-        <fragment
-            android:id="@+id/navigation_leaderboard_user"
-            android:name="com.example.bestqr.ui.leaderboard.LeaderboardFragmentUser"
-            android:label=""
-            tools:layout="@layout/fragment_leaderboard_user"/>
-        <fragment
-            android:id="@+id/navigation_leaderboard_qr"
-            android:name="com.example.bestqr.ui.leaderboard.LeaderboardFragmentQR"
-            android:label=""
-            tools:layout="@layout/fragment_leaderboard_qr"/>
-    </navigation>
+        android:id="@+id/navigation_leaderboard"
+        android:name="com.example.bestqr.ui.leaderboard.LeaderboardFragment"
+        android:label=""
+        tools:layout="@layout/fragment_leaderboard"/>
     <fragment
         android:id="@+id/navigation_user"
         android:name="com.example.bestqr.ui.user.UserFragment"
         android:label="User"
         tools:layout="@layout/fragment_user" />
+    <fragment
+        android:id="@+id/navigation_qr"
+        android:name="com.example.bestqr.ui.qr.QrFragment"
+        android:label=""
+        tools:layout="@layout/fragment_qr"/>
+    <action
+        android:id="@+id/action_navigation_to_user"
+        app:destination="@+id/navigation_user"
+        app:popUpTo="@+id/navigation_home"/>
+    <action
+        android:id="@+id/action_navigation_from_leaderboard_to_qr"
+        app:destination="@+id/navigation_qr"
+        app:popUpTo="@+id/navigation_leaderboard"/>
+    <action
+        android:id="@+id/action_navigation_from_user_to_qr"
+        app:destination="@+id/navigation_qr"
+        app:popUpTo="@+id/navigation_user"/>
 </navigation>

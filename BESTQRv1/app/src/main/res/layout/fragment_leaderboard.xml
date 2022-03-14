@@ -4,52 +4,87 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.leaderboard.LeaderboardFragmentMain">
+    tools:context=".ui.leaderboard.LeaderboardFragment">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_leaderboard_qr"
+        android:id="@+id/toolbar_leaderboard"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:theme="?attr/actionBarTheme"
-        app:contentInsetLeft="0dp"
-        app:contentInsetStart="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="QR Code">
+        android:theme="?attr/actionBarTheme"
+        android:background="?attr/colorPrimary"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/toolbar_leaderboard_main_profile"
+                android:id="@+id/toolbar_leaderboard_profile"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
-                android:text=""
+                android:text="PROFILE NAME"
+                app:drawableTopCompat="@android:drawable/ic_menu_my_calendar"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageButton
-                android:id="@+id/toolbar_leaderboard_qr_comments"
+            <TextView
+                android:id="@+id/toolbar_leaderboard_stats"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@null"
-                android:src="@android:drawable/sym_action_chat"
+                android:text="USER STATS HERE"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="w,4:5"
-                app:layout_constraintEnd_toStartOf="@+id/toolbar_leaderboard_qr_location"
+                app:layout_constraintEnd_toStartOf="@+id/toolbar_leaderboard_search"
+                app:layout_constraintStart_toEndOf="@+id/toolbar_leaderboard_profile"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
-                android:id="@+id/toolbar_leaderboard_qr_location"
+                android:id="@+id/toolbar_leaderboard_search"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@null"
+                android:paddingLeft="0dp"
+                android:paddingTop="0dp"
+                android:paddingRight="0dp"
+                android:paddingBottom="0dp"
+                android:src="@android:drawable/ic_menu_search"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="4:5"
+                app:layout_constraintEnd_toStartOf="@+id/toolbar_leaderboard_global"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <ToggleButton
+                android:id="@+id/toolbar_leaderboard_global"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:drawableTop="@android:drawable/ic_menu_mapmode"
+                android:gravity="center|top"
+                android:includeFontPadding="false"
+                android:paddingTop="6dp"
+                android:textAlignment="center"
+                android:textColor="?android:attr/textColorSecondary"
+                android:textOff="Global"
+                android:textOn="Local"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="w,4:5"
+                app:layout_constraintEnd_toStartOf="@+id/toolbar_leaderboard_sort"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/toolbar_leaderboard_sort"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="8dp"
                 android:background="@null"
-                android:src="@android:drawable/ic_menu_mylocation"
+                android:src="@android:drawable/ic_menu_sort_by_size"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="4:5"
                 app:layout_constraintEnd_toEndOf="parent"
