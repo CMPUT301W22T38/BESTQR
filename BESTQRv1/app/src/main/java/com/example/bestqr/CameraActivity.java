@@ -90,7 +90,7 @@ public class CameraActivity extends AppCompatActivity {
 
 
         db.writeQRCode(q1, androidId);
-        db.writeQRCode(q1, androidId);
+        db.writeQRCode(q2, androidId);
         // https://console.firebase.google.com/project/bestqrdb/database/bestqrdb-default-rtdb/data
         // https://console.firebase.google.com/project/bestqrdb/storage/bestqrdb.appspot.com/files
         ///////////////////////////////
