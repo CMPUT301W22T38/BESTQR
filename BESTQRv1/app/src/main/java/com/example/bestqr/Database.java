@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.common.io.ByteArrayDataInput;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,12 +23,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import io.grpc.Context;
 
 // https://console.firebase.google.com/project/bestqrdb/database/bestqrdb-default-rtdb/data
-
+// https://console.firebase.google.com/project/bestqrdb/storage/bestqrdb.appspot.com/files
 public class Database {
 
     private FirebaseDatabase database;
@@ -62,7 +64,6 @@ public class Database {
                         }
                         else {
 
-
                         }
                     }
                     @Override
@@ -73,8 +74,6 @@ public class Database {
 //        return p;
         return profile;
     }
-
-
 
     private Pair<byte[], String> createQRImage(QR_CODE qrcode, String androidId) {
         Bitmap bitmap = qrcode.getCode();
@@ -110,23 +109,7 @@ public class Database {
 //        file_ref.putBytes(data);
 //    }
 
-    // need appropriate return value
-    private void downloadFromStorage(String hash, String androidid) {
-        StorageReference folder_ref = storage_ref.child(androidid);
-        StorageReference file_ref = folder_ref.child(hash + ".jpg");
 
-//        InputStream is = new ByteArrayInputStream(new byte[]);
-        file_ref
-                .getBytes(Long.MAX_VALUE)
-                .addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                    @Override
-                    public void onSuccess(byte[] bytes) {
-//                        is.read(bytes);
-                    }
-                });
-
-//        return is;
-    }
 
     public void writeQRCode(QR_CODE qrcode, String androidid) {
         String key = qrcode.getHash();
@@ -145,45 +128,59 @@ public class Database {
                             meta.put("location", qrcode.getLocation());
 //                            meta.put("timestamp", qrcode.getTimeStamp());
 
-
-
                             qr_ref.setValue(meta);
 
                             Pair<byte[], String> args = createQRImage(qrcode, androidid);
                             uploadToStorage(args, androidid);
                         }
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-
                     }
                 });
     }
 
-    public void readQRCode(String androidid) {
-        user_ref.child(androidid)
-                .child("history")
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        HashMap<String, Object> map = (HashMap) snapshot.getValue();
-                    }
+    // not sure what to return
+    public void getImageFromStorage(String androidid, String hash) {
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
+        String filename = hash + ".jpg";
+        StorageReference file_ref = storage_ref.child(androidid).child(filename);
+        file_ref.getBytes(Long.MAX_VALUE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                // do something with bytes
+            }
+        });
     }
 
 
-    private void getAllProfilesForLeaderboard() {
+    public HashMap<String, Object> readQRCode(String androidid) {
+        HashMap<String, Object> map = new HashMap<String, Object>();
 
+        DatabaseReference qrlist_db_ref = user_ref.child(androidid).child("history");
+
+        qrlist_db_ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    HashMap<String, Object> map = (HashMap) snapshot.getValue();
+                    for (Map.Entry<String, Object> entry: map.entrySet()) {
+                        String qrcode_hash = entry.getKey();
+
+//
+                        getImageFromStorage(androidid, qrcode_hash);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        return map;
     }
-
-
-
 }
 
 

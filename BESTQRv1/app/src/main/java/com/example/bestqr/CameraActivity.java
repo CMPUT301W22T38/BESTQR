@@ -82,9 +82,17 @@ public class CameraActivity extends AppCompatActivity {
         // test identification of user ideally info will be taken in the signup activity and stored in firebase
 
         db = new Database();
-        QR_CODE q = new QR_CODE("keey");
-        db.writeQRCode(q, androidId);
-//
+        QR_CODE q = new QR_CODE("wfewyq");
+        QR_CODE q1 = new QR_CODE("rywe");
+        QR_CODE q2 = new QR_CODE("shdf");
+
+//        db.writeQRCode(q, androidId);
+//        db.writeQRCode(q1, androidId);
+//        db.writeQRCode(q2, androidId);
+//        db.writeQRCode(q, androidId);
+
+        db.readQRCode(androidId);
+
 //        profile = db.readProfile(androidId);
 
         scanButton= findViewById(R.id.scanButton);
