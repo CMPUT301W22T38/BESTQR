@@ -37,26 +37,32 @@ public class CameraActivityTest {
         solo.clickOnButton("Scan");
         solo.clickOnImageButton(0);
     }
+
     @Test
     public void LeaderBordTest(){
         solo.assertCurrentActivity("Wrong activity", CameraActivity.class);
+        solo.clickOnActionBarItem(R.id.navigation_leaderboard);
         solo.waitForFragmentByTag("Leaderboard", 2000);
     }
     @Test
     public void UserTest(){
         solo.assertCurrentActivity("Wrong activity", CameraActivity.class);
-        solo.waitForFragmentByTag("User", 2000);
+        solo.clickOnActionBarItem(R.id.navigation_user);
+        //add test below
+//        solo.clickOnMenuItem("User");
+//        solo.clickOnMenuItem("Descending");
+//        solo.clickOnMenuItem("Chronological");
+
     }
     @Test
     public void MapTest(){
         solo.assertCurrentActivity("Wrong activity", CameraActivity.class);
-        solo.waitForFragmentByTag("Map", 2000);
+        solo.clickOnActionBarItem(R.id.navigation_notifications);
+        //solo.waitForFragmentByTag("Map", 2000);
     }
 
     @After
     public void tearDown()throws Exception{
         solo.finishOpenedActivities();
     }
-
-
 }
