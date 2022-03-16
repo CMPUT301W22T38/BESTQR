@@ -36,6 +36,8 @@ public class Profile {
 
     /**
      * TODO: Temporary test method, generates some qr codes to display.
+     * This code should be removed once the profile's scannedCodes list is
+     * populated from the database, with the score updated accordingly!
      */
     public void generateTestCodes(){
         QRCODE qr1, qr2, qr3;
