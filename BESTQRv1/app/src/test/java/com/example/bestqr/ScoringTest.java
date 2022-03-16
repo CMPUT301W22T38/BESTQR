@@ -31,10 +31,11 @@ public class ScoringTest {
     public void calculateScoreTest(){
         long score = QRCODE.calculateScore("696ce4dbd7bb57cbfe58b64f530f428b74999cb37e2ee60980490cd9552de3a6");
         assertEquals(111, score);
-//        score = QRCODE.calculateScore("00000000000000000000000000000000000"); // test the big score
-//        assertEquals(2.0e35, score);
-//        score = QRCODE.calculateScore("0123456789abcdefghijklmnopqrstuvwxyz"); // test no repeated digit
-//        assertEquals(35, score);
+        score = QRCODE.calculateScore("0000000000000000000000000000000000000000000000000000000000000000"); // test the largest score
+        assertEquals(2.0e64, score);
+        score = QRCODE.calculateScore("0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqr"); // test no repeated digit
+        assertEquals(64, score);
         //add more test for scoring here
+
     }
 }
