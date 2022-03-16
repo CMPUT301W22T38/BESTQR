@@ -120,6 +120,8 @@ public class CameraActivity extends AppCompatActivity {
                 intentIntegrator.setCaptureActivity(Capture.class);
                 //Initiate scan
                 intentIntegrator.initiateScan();
+
+
             }
         });
 
@@ -141,45 +143,44 @@ public class CameraActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //Initialize intent result
+//        Initialize intent result
         IntentResult intentResult = IntentIntegrator.parseActivityResult(
                 requestCode,resultCode,data
         );
+        //Check condition
+            if (intentResult.getContents()!= null){
+            //When result content is not null
+            //Initialize alert dialog
+            AlertDialog.Builder builder = new AlertDialog.Builder(
+                    CameraActivity.this
+            );
+            QRCODE qr = new QRCODE(intentResult.getContents());
+            String hash = qr.calculateHash(intentResult.getContents());
+            int score = qr.calculateScore(hash);
 
-        MessageDigest digest;
-        String qrHash;
 
-        // If user takes photo with camera
-        if (requestCode == PIC_ID) {
-            //Check condition
-            if (intentResult.getContents() != null) {
-                //When result content is not null
-                //Initialize alert dialog
-                AlertDialog.Builder builder = new AlertDialog.Builder(
-                        CameraActivity.this
-                );
-                //Set title
-                builder.setTitle("Score = ");
-                //Set score(but currently is set message)
-                builder.setMessage(intentResult.getContents());
-                //Set positive button
-                builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        //Dismiss dialog
-                        dialogInterface.dismiss();
-                    }
-                });
-                //Show alert dialog
-                builder.show();
-            } else {
-                //When result content is null
-                //Display toast
-                Toast.makeText(getApplicationContext()
-                        , "sorry, nothing is scanned", Toast.LENGTH_SHORT)
-                        .show();
-            }
-        }
+            //Set title
+            builder.setTitle("Score = ");
+            //Set score(but currently is set message)
+            builder.setMessage(score+" ");
+            //Set positive button
+            builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    //Dismiss dialog
+                    dialogInterface.dismiss();
+                }
+            });
+            //Show alert dialog
+            builder.show();
+
+        }else{
+            //When result content is null
+            //Display toast
+            Toast.makeText(getApplicationContext()
+                    ,"sorry, nothing is scanned", Toast.LENGTH_SHORT)
+                    .show();
+    }
 
         // If user chooses an image from the gallery
         if (requestCode == PICK_IMAGE) {
@@ -207,13 +208,6 @@ public class CameraActivity extends AppCompatActivity {
 
 //                    db.writeImage(newQR, profile.getandroidId());
 //                    db.QRCodeReceivedFromCameraActivity(newQR, profile.getandroidId());
-
-
-
-
-
-
-
 
                     // Display toast showing QR hash
                     Toast.makeText(getApplicationContext(),newQR.getScore(),Toast.LENGTH_LONG).show();

@@ -112,7 +112,6 @@ public class UserFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         // Setup navigation for Fragment Top-Level destination toolbar
         // Top-Level Fragments need to pass an AppBarConfiguration to the toolbar
         // to function correctly.
