@@ -1,23 +1,32 @@
 package com.example.bestqr;
 
+import android.app.DownloadManager;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.util.Pair;
 
 import androidx.annotation.NonNull;
 
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.okhttp.internal.DiskLruCache;
 
 import java.io.ByteArrayOutputStream;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 // realtime db
@@ -49,6 +58,7 @@ public class Database {
 
     /**
      * look up user table based on the device's android_id
+     *
      * @param android_id: device's unique android id
      * @return remapped Profile object
      */
@@ -91,7 +101,8 @@ public class Database {
 
     /**
      * This method takes care of storing QRCODE object both in db and storage
-     * @param qrcode: QRCODE object that the user scanned
+     *
+     * @param qrcode:    QRCODE object that the user scanned
      * @param androidid: device's unique android id
      */
     public void writeQRCode(QRCODE qrcode, String androidid) {
@@ -129,7 +140,8 @@ public class Database {
 
     /**
      * converts bitmap object to bytes in low level
-     * @param qrcode an object containing information about qr code such as bitmap, and its unique hash
+     *
+     * @param qrcode    an object containing information about qr code such as bitmap, and its unique hash
      * @param androidId device's unique android id
      * @return a pair storing an image in byte format, and its encrypted hash
      */
@@ -146,6 +158,7 @@ public class Database {
 
     /**
      * retrieves a list of QR codes scanned by a specific user
+     *
      * @param android_id
      * @return a list of qr codes remapped as encrypted hash, image in byte form
      */
@@ -167,6 +180,7 @@ public class Database {
                     }
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -177,8 +191,9 @@ public class Database {
 
     /**
      * access firebase storage using user's android id and encrypted hash
+     *
      * @param android_id used as a unique folder
-     * @param hash used as filename
+     * @param hash       used as filename
      * @return the actual jpg in byte form
      */
     public byte[] getQRImageFromStorage(String android_id, String hash) {
@@ -201,7 +216,8 @@ public class Database {
 
     /**
      * upload image to firebase storage
-     * @param pair containing the image in byte form, and filename
+     *
+     * @param pair      containing the image in byte form, and filename
      * @param androidid
      */
     private void uploadQRImageToStorage(Pair<byte[], String> pair, String androidid) {
@@ -213,105 +229,158 @@ public class Database {
         StorageReference file_ref = folder_ref.child(hash + ".jpg");
         file_ref.putBytes(data);
     }
+
+    /////////////////////
+
+
+    public List<Object> get_user(String androidid) {
+
+        HashMap<String, Object> userinfomap = new HashMap<>();
+        List<Map> historymap = new ArrayList<>();
+        List<Object> list = new ArrayList<>();
+
+        DatabaseReference ref = user_ref.child(androidid);
+        Task<DataSnapshot> task = ref.get();
+
+        while (!task.isComplete()) {}
+
+        if (task.isSuccessful() && task.isComplete()) {
+            DataSnapshot data = task.getResult();
+
+            if (data.exists()) {
+                DataSnapshot userinfo_data = data.child("userinfo");
+                DataSnapshot history_data = data.child("history");
+
+                userinfomap = get_userinfo(userinfo_data);
+                historymap = get_history(history_data);
+                list.add(userinfomap);
+                list.add(historymap);
+            }
+        }
+        return list;
+    }
+
+    // called independently
+    public HashMap<String, Object> get_userinfo(String androidid) {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        for (String key : Arrays.asList("username", "emailaddress", "phonenumber")) {
+            map.put(key, null);
+        }
+
+        DatabaseReference ref = user_ref.child(androidid).child("userinfo");
+        Task<DataSnapshot> task = ref.get();
+
+        while (!task.isComplete()) {}
+
+        if (task.isSuccessful() && task.isComplete()) {
+            DataSnapshot data = task.getResult();
+            if (data.exists()) {
+                HashMap<String, Object> datamap = (HashMap) data.getValue();
+                map.putAll(datamap);
+            }
+        }
+        return map;
+    }
+
+    // called from get_user()
+    private HashMap<String, Object> get_userinfo(DataSnapshot data) {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        for (String key : Arrays.asList("username", "emailaddress", "phonenumber")) {
+            map.put(key, null);
+        }
+
+        if (data.exists()) {
+            HashMap<String, Object> datamap = (HashMap) data.getValue();
+            map.putAll(datamap);
+        }
+        return map;
+    }
+
+    public List<Map> get_history(String androidid) {
+        List<Map> list = new ArrayList();
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        for (String key: Arrays.asList("score", "location", "timestamp")) {
+            map.put(key, null);
+        }
+
+        DatabaseReference ref = user_ref.child(androidid).child("history");
+        Task<DataSnapshot> task = ref.get();
+
+        while (!task.isComplete()) {}
+
+        DataSnapshot data = task.getResult();
+
+        if (data.exists()) {
+            HashMap<String, Object> datamap = (HashMap) data.getValue();
+
+            for (HashMap.Entry<String, Object> entry : datamap.entrySet()) {
+                HashMap<String, Object> e = (HashMap) entry.getValue();
+                map.put("hash", entry.getKey());
+                map.putAll(e);
+                list.add(map);
+            }
+        }
+        System.out.println(list);
+        return list;
+    }
+
+    public List<Map> get_history(DataSnapshot data) {
+        List<Map> list = new ArrayList();
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        for (String key: Arrays.asList("hash", "score", "location", "timestamp")) {
+            map.put(key, null);
+        }
+
+        if (data.exists()) {
+            HashMap<String, Object> datamap = (HashMap) data.getValue();
+
+            for (HashMap.Entry<String, Object> entry : datamap.entrySet()) {
+                HashMap<String, Object> e = (HashMap) entry.getValue();
+                map.put("hash", entry.getKey());
+                map.putAll(e);
+                list.add(map);
+            }
+        }
+        return list;
+    }
+
+    public void update_userinfo(String androidid, String fieldkey, String oldvalue, String newvalue) {
+        DatabaseReference ref = user_ref.child(androidid).child("userinfo").child(fieldkey);
+        Task<DataSnapshot> task = ref.get();
+
+        while (!task.isComplete()) {}
+
+        DataSnapshot data = task.getResult();
+
+        if (data.exists()) {
+
+            String oldval = data.getValue().toString();
+            System.out.println(oldval);
+            System.out.println(oldvalue);
+            if (new String(oldval).equals(oldvalue)) {
+                ref.setValue(newvalue);
+            }
+        }
+    }
+
 }
-// to be used later
-//    public void test_get_user(String androidid) {
-//        DatabaseReference ref = user_ref.child("46adc3359ed34a4d");
-////        DatabaseReference ref = user_ref.child(androidid);
-//        Task<DataSnapshot> task = ref.get();
+
+
+
 //
-//        while (!task.isComplete()) {}
+//    private void uploadQRImageToStorage(QR_CODE qrcode, String androidid) {
+//        Bitmap bitmap = qrcode.getCode();
+//        String hash = qrcode.getHash();
 //
-//        if (task.isSuccessful() && task.isComplete()) {
-//            DataSnapshot data = task.getResult();
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+//        byte[] data = baos.toByteArray();
 //
-//            if (data.exists()) {
-//                DataSnapshot userinfo_data = data.child("userinfo");
-//                DataSnapshot history_data = data.child("history");
-//
-//                HashMap<String, Object> userinfo_map = test_get_userinfo(userinfo_data);
-//                test_get_history(history_data);
-//            }
-//        }
-//    }
-//
-//    private HashMap<String, Object> test_get_userinfo(String androidid) {
-//        DatabaseReference ref = user_ref.child(androidid).child("userinfo");
-//        Task<DataSnapshot> task = ref.get();
-//
-//        while (!task.isComplete()) {}
-//
-//        if (task.isSuccessful() && task.isComplete()) {
-//            DataSnapshot data = task.getResult();
-//
-//            if (data.exists()) {
-//                
-//
-//            }
-//        }
-//
-//
-//    }
-//
-//    private HashMap<String, Object> test_get_userinfo(DataSnapshot data) {
-//        HashMap<String, Object> map = new HashMap<String, Object>();
-//        for (String key: Arrays.asList("username", "emailaddress", "phonenumber")) {
-//            map.put(key, null);
-//        }
-//        if (data.exists()) {
-//            HashMap<String, Object> datamap = (HashMap) data.getValue();
-//            map.putAll(datamap);
-//        }
-//        return map;
-//    }
-//
-//    private HashMap<String, Object> test_get_history(DataSnapshot data) {
-////        HashMap<String, Object> map = new HashMap<String, Object>();
-////          add more child keys if required
-////        for (String key: Arrays.asList("score", "location")) {
-////            map.put(key, null);
-////        }
-////
-////        if (data.exists()) {
-////            HashMap<String, Object> datamap = (HashMap) data.getValue();
-////            map.putAll(datamap);
-////
-////
-////        }
-////        return map;
-//
-//        if (data.exists()) {
-//
-//            System.out.println(data.getValue());
-//        }
-//        return null;
-//    }
-//
-//    private void test_get_qrcode(DataSnapshot data) {
-//
-//    }
-//
-//    public void test_add_user() {
-//
-//    }
-//
-//    public void test_add_qr_code(String androidid, ) {
-//
-//    }
-//
-//    public void update_userinfo(String androidid, String oldvalue, String newvalue, String fieldkey) {
-//
-//        DatabaseReference ref = user_ref.child(androidid).child("uesrinfo");
-//        Task<DataSnapshot> task = ref.get();
-//
-//        while (!task.isComplete()) {}
-//
-//        DataSnapshot data = task.getResult();
-//
-//        if (data.exists()) {
-//
-//
-//            }
-//        }
+//        // store image in the storage, path = /{androidid}/{hash}.jpg
+//        StorageReference folder_ref = storage_ref.child(androidid);
+//        StorageReference file_ref = folder_ref.child(hash + ".jpg");
+//        file_ref.putBytes(data);
 //    }
 //}
+
+
