@@ -46,9 +46,11 @@ import java.util.Set;
 
 public class CameraActivity extends AppCompatActivity {
 
-    // Define the pic id
+    // Define the pic id and pic_image id
     private static final int PIC_ID = 123;
     private static final int PICK_IMAGE = 1;
+    public QRCODE qr;
+    String contents;
 
     // Define the button and imageview type variable
     Button scanButton;
@@ -119,6 +121,8 @@ public class CameraActivity extends AppCompatActivity {
                 intentIntegrator.setCaptureActivity(Capture.class);
                 //Initiate scan
                 intentIntegrator.initiateScan();
+
+
             }
         });
 
@@ -140,37 +144,17 @@ public class CameraActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //Initialize intent result
+//        Initialize intent result
         IntentResult intentResult = IntentIntegrator.parseActivityResult(
                 requestCode,resultCode,data
         );
-
-        MessageDigest digest;
-        String qrHash;
-
-        // If user takes photo with camera
         if (requestCode == PIC_ID) {
             //Check condition
             if (intentResult.getContents() != null) {
                 //When result content is not null
-                //Initialize alert dialog
-                AlertDialog.Builder builder = new AlertDialog.Builder(
-                        CameraActivity.this
-                );
-                //Set title
-                builder.setTitle("Score = ");
-                //Set score(but currently is set message)
-                builder.setMessage(intentResult.getContents());
-                //Set positive button
-                builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        //Dismiss dialog
-                        dialogInterface.dismiss();
-                    }
-                });
-                //Show alert dialog
-                builder.show();
+                // Create new QR object
+                contents = intentResult.getContents();
+
             } else {
                 //When result content is null
                 //Display toast
@@ -181,7 +165,7 @@ public class CameraActivity extends AppCompatActivity {
         }
 
         // If user chooses an image from the gallery
-        if (requestCode == PICK_IMAGE) {
+        else if (requestCode == PICK_IMAGE) {
 
             // Convert QR from gallery to contents
             try {
@@ -191,7 +175,6 @@ public class CameraActivity extends AppCompatActivity {
 
                 try {
                     Bitmap bMap = selectedImage;
-                    String contents = null;
                     int[] intArray = new int[bMap.getWidth()*bMap.getHeight()];
                     bMap.getPixels(intArray, 0, bMap.getWidth(), 0, 0, bMap.getWidth(), bMap.getHeight());
                     LuminanceSource source = new RGBLuminanceSource(bMap.getWidth(), bMap.getHeight(), intArray);
@@ -202,20 +185,15 @@ public class CameraActivity extends AppCompatActivity {
 
 
                     // Create new QR object using contents as argument
-                    QRCODE newQR = new QRCODE(contents);
+                    qr = new QRCODE(contents);
 
 //                    db.writeImage(newQR, profile.getandroidId());
 //                    db.QRCodeReceivedFromCameraActivity(newQR, profile.getandroidId());
 
-
-
-
-
-
-
-
                     // Display toast showing QR hash
-                    Toast.makeText(getApplicationContext(),newQR.getScore(),Toast.LENGTH_LONG).show();
+                    //When result content is not null
+                    //Initialize alert dialog
+
                 } catch (Exception e){
                     e.printStackTrace();
                 }
@@ -229,8 +207,27 @@ public class CameraActivity extends AppCompatActivity {
 
             }
         }
-        //
+        // Build dialog using score of QR
+        AlertDialog.Builder builder = new AlertDialog.Builder(
+                CameraActivity.this
+        );
+        int score = qr.getScore();
 
+
+        //Set title
+        builder.setTitle("Score = ");
+        //Set score(but currently is set message)
+        builder.setMessage(score + " ");
+        //Set positive button
+        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //Dismiss dialog
+                dialogInterface.dismiss();
+            }
+        });
+        //Show alert dialog
+        builder.show();
 
         //
     }
