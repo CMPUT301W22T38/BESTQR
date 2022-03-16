@@ -11,7 +11,12 @@ public class LeaderboardViewModel extends ViewModel {
     public LeaderboardViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is leaderboard fragment");
+
+
+
+
     }
+
 
     public LiveData<String> getText() {
         return mText;

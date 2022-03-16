@@ -37,6 +37,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:text="USER STATS HERE"
+                android:layout_marginStart="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/toolbar_leaderboard_search"
                 app:layout_constraintStart_toEndOf="@+id/toolbar_leaderboard_profile"

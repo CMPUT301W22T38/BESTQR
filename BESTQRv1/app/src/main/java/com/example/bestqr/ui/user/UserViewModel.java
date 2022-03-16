@@ -3,16 +3,22 @@ package com.example.bestqr.ui.user;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.bestqr.Database;
 import com.example.bestqr.Profile;
+import com.example.bestqr.QRCODE;
+
+import java.util.ArrayList;
 
 public class UserViewModel extends ViewModel {
 
     private Profile user_profile;
     private MutableLiveData<String> mText;
+    private Database db;
 
     public UserViewModel(){
         mText = new MutableLiveData<>();
         mText.setValue("Test");
+
     }
 
     /** Sets the main user profile
@@ -21,6 +27,9 @@ public class UserViewModel extends ViewModel {
      */
     public void setUserProfile(Profile profile){
         user_profile = profile;
+        //TODO: Temporary test code, generates a list of QR codes to implement scoring functionality.
+        profile.generateTestCodes();
+
     }
 
     /** Gets the main user profile

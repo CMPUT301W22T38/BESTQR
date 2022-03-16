@@ -20,13 +20,16 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.bestqr.CameraActivity;
+import com.example.bestqr.Profile;
 import com.example.bestqr.R;
 import com.example.bestqr.databinding.FragmentLeaderboardBinding;
+import com.example.bestqr.ui.user.UserViewModel;
 
 public class LeaderboardFragment extends Fragment {
 
     private LeaderboardViewModel leaderboardViewModel;
     private FragmentLeaderboardBinding binding;
+    private UserViewModel userViewModel;
 
     /**
      * Creates and returns the root view of the fragment
@@ -43,6 +46,10 @@ public class LeaderboardFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         leaderboardViewModel =
                 new ViewModelProvider(this).get(LeaderboardViewModel.class);
+
+        // Shared ViewModel, belongs to the activity.
+        userViewModel =
+                new ViewModelProvider(requireActivity()).get(UserViewModel.class);
 
         binding = FragmentLeaderboardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -105,6 +112,21 @@ public class LeaderboardFragment extends Fragment {
         NavController navController = NavHostFragment.findNavController(this);
         NavigationUI.setupWithNavController(binding.toolbarLeaderboard, navController, appBarConfiguration);
 
+        updateUserScores();
+    }
+
+    /**
+     * Updates the top bar with user's total points, Highest-Point code, and # of codes scanned.
+     */
+    public void updateUserScores(){
+        Profile profile = userViewModel.getUserProfile();
+        int num_scanned = profile.getNumberCodesScanned();
+        int total_score = profile.getScore();
+        int highest_score = profile.getHighestScore();
+        // Get the platform's line break character, as it isn't platform-independent
+        String lb = System.getProperty("line.separator");
+        String score_string = String.format("Total Points: %d%sHighest-Point Score: %d%s# Codes Scanned: %d", total_score, lb, highest_score, lb, num_scanned);
+        binding.toolbarLeaderboardStats.setText(score_string);
     }
 
     /**

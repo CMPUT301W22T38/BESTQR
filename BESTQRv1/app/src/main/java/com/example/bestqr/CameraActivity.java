@@ -85,7 +85,6 @@ public class CameraActivity extends AppCompatActivity {
         // test identification of user ideally info will be taken in the signup activity and stored in firebase
         QRCODE userIdentification = new QRCODE(androidId);
         //ToDo Store profiles in firebase
-        
         // TEMP: Test user profile, to showcase functionality of fragments showing user info.
         Profile userProfile = new Profile("Test User",userIdentification,"1231231231","email@address.com");
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);

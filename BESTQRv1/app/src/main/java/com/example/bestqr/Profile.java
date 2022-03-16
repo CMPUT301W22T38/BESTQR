@@ -31,7 +31,24 @@ public class Profile {
         this.deviceQrCode = deviceQrCode;
         this.phoneNumber = phoneNumber;
         this.emailAddress = emailAddress;
+        this.scannedCodes = new ArrayList<QRCODE>();
     }
+
+    /**
+     * TODO: Temporary test method, generates some qr codes to display.
+     */
+    public void generateTestCodes(){
+        QRCODE qr1, qr2, qr3;
+        qr1 = new QRCODE("BFG5DGW54");
+        qr2 = new QRCODE("BFG5DGX23");
+        qr3 = new QRCODE("UKR6LXA01");
+        this.score += qr1.getScore() + qr2.getScore() + qr3.getScore();
+
+        this.scannedCodes.add(qr1);
+        this.scannedCodes.add(qr2);
+        this.scannedCodes.add(qr3);
+    }
+
 
     /**
      * This class returns the unique device id for users  log in with
@@ -112,6 +129,21 @@ public class Profile {
      */
     public void displayQrCodes(){
         //displays all the qr codes the user has stored
+    }
+
+    /**
+     * this method will return the score value of the highest-scoring
+     * QR code.
+     * @return : integer score value
+     */
+    public int getHighestScore(){
+        int max = 0;
+        for (int i = 1; i < this.scannedCodes.size(); i++){
+            if(this.scannedCodes.get(i).getScore() > max){
+                max = this.scannedCodes.get(i).getScore();
+            }
+        }
+        return max;
     }
 
     /**
