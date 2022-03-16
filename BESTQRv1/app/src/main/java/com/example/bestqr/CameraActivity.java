@@ -241,7 +241,7 @@ public class CameraActivity extends AppCompatActivity {
      * @param hash The bytes that are to be converted
      * @return the String hexadecimal representation of the bytes provided
      */
-    private static String bytesToHex(byte[] hash) {
+    protected static String bytesToHex(byte[] hash) {
         StringBuilder hexString = new StringBuilder(2 * hash.length);
         for (byte b : hash) {
             String hex = Integer.toHexString(0xff & b);
