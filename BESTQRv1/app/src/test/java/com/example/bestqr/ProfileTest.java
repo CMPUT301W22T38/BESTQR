@@ -22,7 +22,7 @@ public class ProfileTest {
         profile.setEmailAddress("email@ualberta.ca");
         profile.setPhoneNumber("587000000");
 
-        assertEquals("userNmae", profile.getUserName());
+        assertEquals("userName", profile.getUserName());
         assertEquals("email@ualberta.ca", profile.getEmailAddress());
         assertEquals("587000000", profile.getPhoneNumber());
 
