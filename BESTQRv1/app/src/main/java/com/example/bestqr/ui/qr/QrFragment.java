@@ -1,27 +1,43 @@
 package com.example.bestqr.ui.qr;
 
 
+import android.graphics.Bitmap;
+
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.bestqr.Profile;
 import com.example.bestqr.R;
 import com.example.bestqr.databinding.FragmentQrBinding;
+import com.example.bestqr.databinding.FragmentUserBinding;
+import com.example.bestqr.ui.user.UserViewModel;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 public class QrFragment extends Fragment {
 
     private QrViewModel qrViewModel;
     private FragmentQrBinding binding;
+    private Profile userProfile;
+    private ImageView image;
+    private Bitmap bitmap;
 
     /**
      * Creates and returns the root view of the fragment
@@ -36,11 +52,26 @@ public class QrFragment extends Fragment {
      */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        qrViewModel =
-                new ViewModelProvider(this).get(QrViewModel.class);
+        qrViewModel = new ViewModelProvider(requireActivity()).get(QrViewModel.class);
 
         binding = FragmentQrBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        MutableLiveData<String> tex = new MutableLiveData<String>();
+        tex.setValue("B");
+        //userViewModel.setText(tex);
+        userProfile = QrViewModel.getUserProfile();
+
+        MultiFormatWriter writer = new MultiFormatWriter();
+        try {
+            BitMatrix matrix = writer.encode("hello", BarcodeFormat.QR_CODE, 350, 350);
+            BarcodeEncoder encoder = new BarcodeEncoder();
+            bitmap = encoder.createBitmap(matrix);
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
+        image = binding.imageView;
+        image.setImageBitmap(bitmap);
 
         return root;
     }

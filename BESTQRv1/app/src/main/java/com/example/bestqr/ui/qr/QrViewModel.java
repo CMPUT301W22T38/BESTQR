@@ -4,16 +4,39 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.bestqr.Database;
+import com.example.bestqr.Profile;
+
 public class QrViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public QrViewModel() {
+    private static Profile user_profile;
+    private Database db;
+
+    public QrViewModel(){
         mText = new MutableLiveData<>();
-        mText.setValue("This is QR Code fragment");
+        mText.setValue("Test");
+
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    /** Sets the main user profile
+     * @param profile
+     *      a profile object, containing info on a user
+     */
+    public void setUserProfile(Profile profile){
+        user_profile = profile;
+        //TODO: Temporary test code, generates a list of QR codes to implement scoring functionality.
+        profile.generateTestCodes();
+
     }
+
+    /** Gets the main user profile
+     * @return profile
+     *      a profile object, containing info on a user
+     */
+    public static Profile getUserProfile(){
+        return user_profile;
+    }
+
 }

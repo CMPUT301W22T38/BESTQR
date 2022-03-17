@@ -1,11 +1,16 @@
 package com.example.bestqr;
 
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toolbar;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Profile {
+public class Profile extends Activity {
     private String androidId;
     private String userName;
     private String phoneNumber;
@@ -13,7 +18,11 @@ public class Profile {
     private QRCODE deviceQrCode;
     private int score;
     private ArrayList<QRCODE> scannedCodes;
+    private ListView qrlist;
 
+    private Toolbar toolbar;
+    private ArrayList<Integer> qrScores;
+    private ArrayList<Bitmap> qrBitmaps;
     public Profile(String android_id) {
         this.androidId = android_id;
     }
@@ -32,6 +41,7 @@ public class Profile {
         this.phoneNumber = phoneNumber;
         this.emailAddress = emailAddress;
         this.scannedCodes = new ArrayList<QRCODE>();
+
     }
 
     /**
@@ -117,7 +127,6 @@ public class Profile {
         // the hash should be stored not the image itself
         // if geolocation is allowed the it should be shown on the map
         // also add it to the owner list of qrCodes if it does not exist there
- 
     }
 
     /**
@@ -132,7 +141,46 @@ public class Profile {
      */
     public void displayQrCodes(){
         //displays all the qr codes the user has stored
+//        qrBitmaps = new ArrayList<>();
+//        qrScores = new ArrayList<>();
+//
+//
+//        int count = 0;
+//        for(int i = 0;i<scannedCodes.size(); i++) {
+//            qrBitmaps.add(scannedCodes.get(i).getCode());
+//            qrScores.add(scannedCodes.get(i).getScore());
+//            count++;
+//        }
+//        setContentView(R.layout.fragment_user);
+//        toolbar = findViewById(R.id.toolbar_user);
+//        qrlist = (ListView) qrlist.findViewById(R.id.qrlist);
+//        Adapter myAdapter = new Adapter(Profile.this ,qrScores,qrBitmaps);
+//        qrlist.setAdapter(myAdapter);
+
     }
+
+
+    public ArrayList<Integer> getQrScores(){
+        qrScores = new ArrayList<>();
+        int count = 0;
+        for(int i = 0;i<scannedCodes.size(); i++) {
+            qrScores.add(scannedCodes.get(i).getScore());
+            count++;
+        }
+        return qrScores;
+    }
+
+    public ArrayList<Bitmap> getQrBitmaps(){
+        qrBitmaps = new ArrayList<>();
+        int count = 0;
+        for(int i = 0;i<scannedCodes.size(); i++) {
+            qrBitmaps.add(scannedCodes.get(i).getCode());
+            count++;
+        }
+        return qrBitmaps;
+    }
+
+
 
     /**
      * this method will return the score value of the highest-scoring

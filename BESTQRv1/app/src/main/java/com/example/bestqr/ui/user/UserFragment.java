@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +20,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.bestqr.Adapter;
 import com.example.bestqr.CameraActivity;
 import com.example.bestqr.R;
 import com.example.bestqr.databinding.FragmentUserBinding;
@@ -27,15 +29,16 @@ import com.example.bestqr.Profile;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class UserFragment extends Fragment {
 
-//    private Profile profile;
+    //    private Profile profile;
     private UserViewModel userViewModel;
     private FragmentUserBinding binding;
 
-    private Button btn1;
+    private ListView qrlists;
 
     /**
      * Creates and returns the root view of the fragment
@@ -53,6 +56,7 @@ public class UserFragment extends Fragment {
 
         userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
 
+
         binding = FragmentUserBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -62,6 +66,10 @@ public class UserFragment extends Fragment {
         Profile userProfile = userViewModel.getUserProfile();
         binding.toolbarUserProfile.setText(userProfile.getUserName());
 
+
+        ListView qrCodes = binding.qrlist;
+        Adapter myAdapter = new Adapter(getActivity() , userProfile.getQrScores(), userProfile.getQrBitmaps());
+        qrCodes.setAdapter(myAdapter);
 
         // onClick Listener for the QR button on the toolbar
         // This button navigates to QrFragment, which displays a list of the user's QR codes

@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.bestqr.ui.qr.QrViewModel;
 import com.example.bestqr.ui.user.UserViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -65,12 +66,14 @@ public class CameraActivity extends AppCompatActivity {
 
     // UserViewModel
     private UserViewModel userViewModel;
+    private QrViewModel QrViewModel;
     private Database db;
     Profile profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         com.example.bestqr.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -92,13 +95,16 @@ public class CameraActivity extends AppCompatActivity {
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         userViewModel.setUserProfile(userProfile);
 
+        QrViewModel = new ViewModelProvider(this).get(QrViewModel.class);
+        QrViewModel.setUserProfile(userProfile);
+
         //This is open camera
 
         ////////////////////////////
         db = new Database();
 
         Profile p = db.getProfile(androidId);
-        
+
         QRCODE q1 = new QRCODE("random1");
         QRCODE q2 = new QRCODE("random2");
 
