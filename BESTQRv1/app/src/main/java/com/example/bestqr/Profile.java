@@ -117,9 +117,7 @@ public class Profile {
         // the hash should be stored not the image itself
         // if geolocation is allowed the it should be shown on the map
         // also add it to the owner list of qrCodes if it does not exist there
-        
-        scannedCodes.add(qrCode);
-        addScore(qrCode.getScore());
+ 
     }
 
     /**
