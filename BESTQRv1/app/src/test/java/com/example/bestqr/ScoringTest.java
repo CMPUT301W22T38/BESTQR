@@ -23,16 +23,6 @@ public class ScoringTest {
         //add more test here
     }
 
-//    @Test
-//    public void byteToHexTest(){
-//        byte[] hash = {'8','2','2','7','a','d','0','3','6','b','5','0','4','e','3','9','f','e', '2',
-//                '9','3','9','3','c','e','1','7','0','9','0','8','b','e','2','b','1','e','a','6','3',
-//                '6','5','5','4','4','8','8','f','a','8','6','d','e','5','d','9','d','6','c','d','2','c','3','2'};
-//        String hexString = CameraActivity.bytesToHex(hash);
-//        assertEquals("696ce4dbd7bb57cbfe58b64f530f428b74999cb37e2ee60980490cd9552de3a6", hexString);
-//    }
-
-
     /**
      * Test hash -> score
      */
@@ -40,10 +30,10 @@ public class ScoringTest {
     public void calculateScoreTest(){
         long score = QRCODE.calculateScore("696ce4dbd7bb57cbfe58b64f530f428b74999cb37e2ee60980490cd9552de3a6");
         assertEquals(111, score);
+        score = QRCODE.calculateScore("0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqr"); // test no repeated digit
+        assertEquals(0, score);
 //        score = QRCODE.calculateScore("0000000000000000000000000000000000000000000000000000000000000000"); // test the largest score
 //        assertEquals(2.0e64, score);
-//        score = QRCODE.calculateScore("0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqr"); // test no repeated digit
-//        assertEquals(64, score);
         //add more test for scoring here
 
     }
