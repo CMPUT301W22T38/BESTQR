@@ -27,8 +27,6 @@ public class UserViewModel extends ViewModel {
      */
     public void setUserProfile(Profile profile){
         user_profile = profile;
-        //TODO: Temporary test code, generates a list of QR codes to implement scoring functionality.
-        profile.generateTestCodes();
 
     }
 

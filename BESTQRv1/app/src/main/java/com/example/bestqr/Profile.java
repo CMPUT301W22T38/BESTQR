@@ -49,17 +49,17 @@ public class Profile extends Activity {
      * This code should be removed once the profile's scannedCodes list is
      * populated from the database, with the score updated accordingly!
      */
-    public void generateTestCodes(){
-        QRCODE qr1, qr2, qr3;
-        qr1 = new QRCODE("BFG5DGW54");
-        qr2 = new QRCODE("BFG5DGX23");
-        qr3 = new QRCODE("UKR6LXA01");
-        this.score += qr1.getScore() + qr2.getScore() + qr3.getScore();
-
-        this.scannedCodes.add(qr1);
-        this.scannedCodes.add(qr2);
-        this.scannedCodes.add(qr3);
-    }
+//    public void generateTestCodes(){
+//        QRCODE qr1, qr2, qr3;
+//        qr1 = new QRCODE("BFG5DGW54");
+//        qr2 = new QRCODE("BFG5DGX23");
+//        qr3 = new QRCODE("UKR6LXA01");
+//        this.score += qr1.getScore() + qr2.getScore() + qr3.getScore();
+//
+//        this.scannedCodes.add(qr1);
+//        this.scannedCodes.add(qr2);
+//        this.scannedCodes.add(qr3);
+//    }
 
 
     /**
@@ -127,6 +127,9 @@ public class Profile extends Activity {
         // the hash should be stored not the image itself
         // if geolocation is allowed the it should be shown on the map
         // also add it to the owner list of qrCodes if it does not exist there
+
+        scannedCodes.add(qrCode);
+        score = score + qrCode.getScore();
     }
 
     /**
@@ -196,7 +199,7 @@ public class Profile extends Activity {
      */
     public int getHighestScore(){
         int max = 0;
-        for (int i = 1; i < this.scannedCodes.size(); i++){
+        for (int i = 0; i < this.scannedCodes.size(); i++){
             if(this.scannedCodes.get(i).getScore() > max){
                 max = this.scannedCodes.get(i).getScore();
             }

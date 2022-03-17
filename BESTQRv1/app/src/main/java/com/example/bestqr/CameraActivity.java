@@ -50,8 +50,9 @@ public class CameraActivity extends AppCompatActivity {
     // Define the pic id and pic_image id
     private static final int PIC_ID = 123;
     private static final int PICK_IMAGE = 1;
-    public QRCODE qr;
-    String contents;
+    private QRCODE qr;
+    private String contents;
+    private int score = 0;
 
     // Define the button and imageview type variable
     Button scanButton;
@@ -68,7 +69,7 @@ public class CameraActivity extends AppCompatActivity {
     private UserViewModel userViewModel;
     private QrViewModel QrViewModel;
     private Database db;
-    Profile profile;
+    private Profile userProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +92,7 @@ public class CameraActivity extends AppCompatActivity {
         QRCODE userIdentification = new QRCODE(androidId);
         //ToDo Store profiles in firebase
         // TEMP: Test user profile, to showcase functionality of fragments showing user info.
-        Profile userProfile = new Profile("Test User",userIdentification,"1231231231","email@address.com");
+        userProfile = new Profile("Test User",userIdentification,"1231231231","email@address.com");
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         userViewModel.setUserProfile(userProfile);
 
@@ -154,24 +155,9 @@ public class CameraActivity extends AppCompatActivity {
         IntentResult intentResult = IntentIntegrator.parseActivityResult(
                 requestCode,resultCode,data
         );
-        if (requestCode == PIC_ID) {
-            //Check condition
-            if (intentResult.getContents() != null) {
-                //When result content is not null
-                // Create new QR object
-                contents = intentResult.getContents();
-
-            } else {
-                //When result content is null
-                //Display toast
-                Toast.makeText(getApplicationContext()
-                        , "sorry, nothing is scanned", Toast.LENGTH_SHORT)
-                        .show();
-            }
-        }
 
         // If user chooses an image from the gallery
-        else if (requestCode == PICK_IMAGE) {
+        if (requestCode == PICK_IMAGE) {
 
             // Convert QR from gallery to contents
             try {
@@ -192,6 +178,7 @@ public class CameraActivity extends AppCompatActivity {
 
                     // Create new QR object using contents as argument
                     qr = new QRCODE(contents);
+                    score = qr.getScore();
 
 //                    db.writeImage(newQR, profile.getandroidId());
 //                    db.QRCodeReceivedFromCameraActivity(newQR, profile.getandroidId());
@@ -213,13 +200,32 @@ public class CameraActivity extends AppCompatActivity {
 
             }
         }
+
+        else {
+            //Check condition
+            if (intentResult.getContents() != null) {
+                //When result content is not null
+                // Create new QR object
+                contents = intentResult.getContents();
+                qr = new QRCODE(contents);
+                score = qr.getScore();
+
+            } else {
+                //When result content is null
+                //Display toast
+                Toast.makeText(getApplicationContext()
+                        , "sorry, nothing is scanned", Toast.LENGTH_SHORT)
+                        .show();
+            }
+        }
         // Build dialog using score of QR
         AlertDialog.Builder builder = new AlertDialog.Builder(
                 CameraActivity.this
         );
-        int score = qr.getScore();
 
 
+
+        userProfile.addNewQRCode(qr);
         //Set title
         builder.setTitle("Score = ");
         //Set score(but currently is set message)

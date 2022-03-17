@@ -20,6 +20,7 @@ public class UserInfoFragment extends DialogFragment {
 
     private FragmentUserInfoBinding binding;
     private UserViewModel userViewModel;
+    private Profile userProfile;
 
     /**
      * Creates and returns the root view of the fragment
@@ -62,7 +63,7 @@ public class UserInfoFragment extends DialogFragment {
 
         // TEMP: Add User's info to the textboxes
         // TODO: Integrate firebase
-        Profile userProfile = userViewModel.getUserProfile();
+        userProfile = userViewModel.getUserProfile();
         binding.userInfoUsername.setText(userProfile.getUserName());
         binding.userInfoEmail.setText(userProfile.getEmailAddress());
         binding.userInfoPhoneNumber.setText(userProfile.getPhoneNumber());
@@ -73,6 +74,16 @@ public class UserInfoFragment extends DialogFragment {
      */
     @Override
     public void onDestroyView() {
+        String name = binding.userInfoUsername.getText().toString();
+        String email = binding.userInfoEmail.getText().toString();
+        String phone = binding.userInfoPhoneNumber.getText().toString();
+
+
+        userProfile.setUserName(name);
+        userProfile.setEmailAddress(email);
+        userProfile.setPhoneNumber(phone);
+
+        userViewModel.setUserProfile(userProfile);
         super.onDestroyView();
         binding = null;
     }
