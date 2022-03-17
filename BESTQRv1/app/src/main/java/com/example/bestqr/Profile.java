@@ -159,7 +159,10 @@ public class Profile extends Activity {
 
     }
 
-
+    /**
+     * This method returns the scores of all qrcodes scanned
+     * @return: scores of all qrCodes scanned
+     */
     public ArrayList<Integer> getQrScores(){
         qrScores = new ArrayList<>();
         int count = 0;
@@ -170,6 +173,10 @@ public class Profile extends Activity {
         return qrScores;
     }
 
+    /**
+     * This method returns the Bitmaps of all qrcodes scanned
+     * @return: Bitmaps of all qrCodes scanned
+     */
     public ArrayList<Bitmap> getQrBitmaps(){
         qrBitmaps = new ArrayList<>();
         int count = 0;
