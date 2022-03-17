@@ -74,7 +74,16 @@ public class UserInfoFragment extends DialogFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding = null;
+        String name = binding.userInfoUsername.getText().toString();
+        String email = binding.userInfoEmail.getText().toString();
+        String phone = binding.userInfoPhoneNumber.getText().toString();
+
+
+        userProfile.setUserName(name);
+        userProfile.setEmailAddress(email);
+        userProfile.setPhoneNumber(phone);
+
+        userViewModel.setUserProfile(userProfile);
     }
 
 
