@@ -115,37 +115,25 @@ public class CameraActivity extends AppCompatActivity {
         // https://console.firebase.google.com/project/bestqrdb/storage/bestqrdb.appspot.com/files
         ///////////////////////////////
 
+    }
 
-        scanButton= findViewById(R.id.scanButton);
-        scanButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                //initialize intent integrator
-                IntentIntegrator intentIntegrator = new IntentIntegrator(CameraActivity.this);
-                //locked orientation
-                intentIntegrator.setOrientationLocked(true);
-                //Set capture activity
-                intentIntegrator.setCaptureActivity(Capture.class);
-                //Initiate scan
-                intentIntegrator.initiateScan();
+    public void scanButton(View v){
+        //initialize intent integrator
+        IntentIntegrator intentIntegrator = new IntentIntegrator(CameraActivity.this);
+        //locked orientation
+        intentIntegrator.setOrientationLocked(true);
+        //Set capture activity
+        intentIntegrator.setCaptureActivity(Capture.class);
+        //Initiate scan
+        intentIntegrator.initiateScan();
+    }
 
 
-            }
-        });
-
-        // Choose image from gallery
-        openGallery = (ImageButton) this.findViewById(R.id.openGallery);
-        openGallery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent photoPickerIntent = new Intent();
-                photoPickerIntent.setType("image/*");
-                photoPickerIntent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(photoPickerIntent, "Select Image"), PICK_IMAGE);
-            }
-        });
-
+    public void openGallery(View v){
+        Intent photoPickerIntent = new Intent();
+        photoPickerIntent.setType("image/*");
+        photoPickerIntent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(photoPickerIntent, "Select Image"), PICK_IMAGE);
     }
 
     @Override
