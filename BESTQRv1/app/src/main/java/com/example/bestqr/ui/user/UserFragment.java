@@ -49,6 +49,7 @@ public class UserFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
+        // Get Activity-Owned UserViewModel (global to all fragments)
         userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
 
 

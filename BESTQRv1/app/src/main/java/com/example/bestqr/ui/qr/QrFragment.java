@@ -3,6 +3,8 @@ package com.example.bestqr.ui.qr;
 
 import android.graphics.Bitmap;
 
+import com.example.bestqr.UserViewModel;
+import com.example.bestqr.ui.leaderboard.LeaderboardViewModel;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import android.os.Bundle;
@@ -29,6 +31,7 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 public class QrFragment extends Fragment {
 
     private QrViewModel qrViewModel;
+    private UserViewModel userViewModel;
     private FragmentQrBinding binding;
     private Profile userProfile;
     private ImageView image;
@@ -47,15 +50,16 @@ public class QrFragment extends Fragment {
      */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        qrViewModel = new ViewModelProvider(requireActivity()).get(QrViewModel.class);
+        // ViewModel owned by this fragment
+        qrViewModel = new ViewModelProvider(this).get(QrViewModel.class);
+        // Activity-owned ViewModel, (global to all fragments)
+        userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
 
         binding = FragmentQrBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        MutableLiveData<String> tex = new MutableLiveData<String>();
-        tex.setValue("B");
-        //userViewModel.setText(tex);
-        userProfile = QrViewModel.getUserProfile();
+        userProfile = userViewModel.getUserProfile();
+
 
         MultiFormatWriter writer = new MultiFormatWriter();
         try {

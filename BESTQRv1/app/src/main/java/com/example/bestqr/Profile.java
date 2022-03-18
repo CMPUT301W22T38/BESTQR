@@ -16,6 +16,7 @@ public class Profile{
 
     private ArrayList<Integer> qrScores;
     private ArrayList<Bitmap> qrBitmaps;
+
     public Profile(String android_id) {
         this.androidId = android_id;
     }
@@ -36,24 +37,6 @@ public class Profile{
         this.scannedCodes = new ArrayList<QRCODE>();
 
     }
-
-    /**
-     * TODO: Temporary test method, generates some qr codes to display.
-     * This code should be removed once the profile's scannedCodes list is
-     * populated from the database, with the score updated accordingly!
-     */
-//    public void generateTestCodes(){
-//        QRCODE qr1, qr2, qr3;
-//        qr1 = new QRCODE("BFG5DGW54");
-//        qr2 = new QRCODE("BFG5DGX23");
-//        qr3 = new QRCODE("UKR6LXA01");
-//        this.score += qr1.getScore() + qr2.getScore() + qr3.getScore();
-//
-//        this.scannedCodes.add(qr1);
-//        this.scannedCodes.add(qr2);
-//        this.scannedCodes.add(qr3);
-//    }
-
 
     /**
      * This class returns the unique device id for users  log in with

@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -50,6 +51,8 @@ public class CameraActivity extends AppCompatActivity {
     private String contents;
     private int score = 0;
 
+    private static final String TAG = "CameraActivity";
+
     // Define the button and imageview type variable
     Button scanButton;
 
@@ -71,7 +74,6 @@ public class CameraActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         com.example.bestqr.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -91,7 +93,7 @@ public class CameraActivity extends AppCompatActivity {
         // userProfile = new Profile("Test User",userIdentification,"1231231231","email@address.com");
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-        userViewModel.setUserProfile(userProfile);
+        // userViewModel.setUserProfile(userProfile);
 
         // QrViewModel = new ViewModelProvider(this).get(QrViewModel.class);
         // QrViewModel.setUserProfile(userProfile);
@@ -106,11 +108,15 @@ public class CameraActivity extends AppCompatActivity {
         QRCODE q1 = new QRCODE("random1");
         QRCODE q2 = new QRCODE("random2");
 
+        Log.d(TAG, "This device ID: " + androidId);
+
         db.writeQRCode(q1, androidId);
         db.writeQRCode(q2, androidId);
         // https://console.firebase.google.com/project/bestqrdb/database/bestqrdb-default-rtdb/data
         // https://console.firebase.google.com/project/bestqrdb/storage/bestqrdb.appspot.com/files
         ///////////////////////////////
+
+        userViewModel.setUserProfile(p);
 
     }
 

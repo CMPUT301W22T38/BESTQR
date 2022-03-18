@@ -46,7 +46,7 @@ public class LeaderboardFragment extends Fragment {
         leaderboardViewModel =
                 new ViewModelProvider(this).get(LeaderboardViewModel.class);
 
-        // Shared ViewModel, belongs to the activity.
+        // Get Activity-Owned UserViewModel (global to all fragments)
         userViewModel =
                 new ViewModelProvider(requireActivity()).get(UserViewModel.class);
 

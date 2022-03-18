@@ -68,7 +68,7 @@ public class Database {
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        // if the current user's android id is being found in firebase realtiem db,
+                        // if the current user's android id is being found in firebase realtime db,
                         // create a profile object accordingly and return it. Otherwise, just return
                         // an empty object
                         if (snapshot.exists()) {
