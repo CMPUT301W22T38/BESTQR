@@ -18,6 +18,7 @@ public class LeaderboardListAdapter extends ArrayAdapter<String> {
     ArrayList<String> usernames;
     ArrayList<Integer> scores;
     ArrayList<Integer> ranks;
+
     Context mContext;
     public LeaderboardListAdapter(@NonNull Context context, ArrayList<String> usernames, ArrayList<Integer> scores, ArrayList<Integer> ranks) {
         super(context, R.layout.qrlist_item);
@@ -44,6 +45,12 @@ public class LeaderboardListAdapter extends ArrayAdapter<String> {
         }else{
             mViewholder = (ViewHolder)convertView.getTag();
         }
+
+        //mViewholder.QRimage.setImageBitmap(Pictures.get(position));
+        //mViewholder.userTextView.setText(usernames.get(position));
+        //mViewholder.userTextView.setText();
+        //mViewholder.userTextView.setText();
+
         return convertView;
     }
 
@@ -52,4 +59,9 @@ public class LeaderboardListAdapter extends ArrayAdapter<String> {
         TextView scoreTextView;
         TextView rankTextView;
     }
+}
+
+public class LeaderboardListItem(){
+
+
 }

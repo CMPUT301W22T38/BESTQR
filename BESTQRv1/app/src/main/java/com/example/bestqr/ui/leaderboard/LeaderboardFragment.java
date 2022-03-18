@@ -33,7 +33,6 @@ public class LeaderboardFragment extends Fragment {
     private FragmentLeaderboardBinding binding;
     private UserViewModel userViewModel;
 
-
     /**
      * Creates and returns the root view of the fragment
      * @param inflater
@@ -59,9 +58,9 @@ public class LeaderboardFragment extends Fragment {
 
         TextView profile_icon = binding.toolbarLeaderboardProfile;
 
+        LeaderboardListAdapter myAdapter = new LeaderboardListAdapter(getActivity(), );
+        binding.leaderboardList.setAdapter(myAdapter);
 
-        // LeaderboardListAdapter myAdapter = new LeaderboardListAdapter(getActivity(), );
-        // binding.leaderboardList.setAdapter(myAdapter);
 
         /**
          * OnClick Listener for the Sort button
