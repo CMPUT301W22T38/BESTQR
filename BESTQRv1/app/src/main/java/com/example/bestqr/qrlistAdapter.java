@@ -14,11 +14,11 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-public class Adapter extends ArrayAdapter<String> {
+public class qrlistAdapter extends ArrayAdapter<String> {
     ArrayList<Integer> scores;
     ArrayList<Bitmap> Pictures;
     Context mContext;
-    public Adapter(@NonNull Context context, ArrayList<Integer> qrScores, ArrayList<Bitmap> qrPictures) {
+    public qrlistAdapter(@NonNull Context context, ArrayList<Integer> qrScores, ArrayList<Bitmap> qrPictures) {
         super(context, R.layout.qrlist_item);
         this.scores = qrScores;
         this.Pictures = qrPictures;

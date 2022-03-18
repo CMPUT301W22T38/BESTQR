@@ -20,7 +20,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.bestqr.Adapter;
+import com.example.bestqr.qrlistAdapter;
 import com.example.bestqr.CameraActivity;
 import com.example.bestqr.R;
 import com.example.bestqr.databinding.FragmentUserBinding;
@@ -68,7 +68,7 @@ public class UserFragment extends Fragment {
 
 
         ListView qrCodes = binding.qrlist;
-        Adapter myAdapter = new Adapter(getActivity() , userProfile.getQrScores(), userProfile.getQrBitmaps());
+        qrlistAdapter myAdapter = new qrlistAdapter(getActivity() , userProfile.getQrScores(), userProfile.getQrBitmaps());
         qrCodes.setAdapter(myAdapter);
 
         // onClick Listener for the QR button on the toolbar

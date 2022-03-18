@@ -1,16 +1,11 @@
 package com.example.bestqr;
 
-import android.app.Activity;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toolbar;
 
+import android.graphics.Bitmap;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Profile extends Activity {
+public class Profile{
     private String androidId;
     private String userName;
     private String phoneNumber;
@@ -18,9 +13,7 @@ public class Profile extends Activity {
     private QRCODE deviceQrCode;
     private int score;
     private ArrayList<QRCODE> scannedCodes;
-    private ListView qrlist;
 
-    private Toolbar toolbar;
     private ArrayList<Integer> qrScores;
     private ArrayList<Bitmap> qrBitmaps;
     public Profile(String android_id) {
@@ -139,33 +132,7 @@ public class Profile extends Activity {
         // this method adds to the user's points if he chooses to store the code
     }
 
-    /**
-     * this method displays all the QR CODES that the user has scanned and stored
-     */
-    public void displayQrCodes(){
-        //displays all the qr codes the user has stored
-//        qrBitmaps = new ArrayList<>();
-//        qrScores = new ArrayList<>();
-//
-//
-//        int count = 0;
-//        for(int i = 0;i<scannedCodes.size(); i++) {
-//            qrBitmaps.add(scannedCodes.get(i).getCode());
-//            qrScores.add(scannedCodes.get(i).getScore());
-//            count++;
-//        }
-//        setContentView(R.layout.fragment_user);
-//        toolbar = findViewById(R.id.toolbar_user);
-//        qrlist = (ListView) qrlist.findViewById(R.id.qrlist);
-//        Adapter myAdapter = new Adapter(Profile.this ,qrScores,qrBitmaps);
-//        qrlist.setAdapter(myAdapter);
 
-    }
-
-    /**
-     * This method returns the scores of all qrcodes scanned
-     * @return: scores of all qrCodes scanned
-     */
     public ArrayList<Integer> getQrScores(){
         qrScores = new ArrayList<>();
         for (QRCODE item:scannedCodes) {
