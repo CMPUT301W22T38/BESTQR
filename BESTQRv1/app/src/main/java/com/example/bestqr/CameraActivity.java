@@ -92,16 +92,34 @@ public class CameraActivity extends AppCompatActivity {
 
 
 
-        String androidid = "androidid2";
+        String androidid1 = "androidid1";
+        String androidid2 = "androidid2";
         db = new Database();
-        Profile p = db.get_user(androidid);
+        Profile p1 = db.get_user(androidid1);
+        Profile p2 = db.get_user(androidid2);
 
-        Storage storage = new Storage();
+        QRCODE qr1 = new QRCODE("1");
+        QRCODE qr2 = new QRCODE("2");
+        QRCODE qr3 = new QRCODE("3");
+        QRCODE qr4 = new QRCODE("1");
+        QRCODE qr5 = new QRCODE("5");
+        QRCODE qr6 = new QRCODE("6");
 
-        QRCODE q1 = new QRCODE("random data5513123532");
-        System.out.println(q1.getCode());
-        System.out.println(q1.getCode().toString());
-        System.out.println(q1.getCode().getRowBytes());
+        db.add_qrcode(androidid1,qr1);
+        db.add_qrcode(androidid1,qr2);
+        db.add_qrcode(androidid1,qr3);
+        db.add_qrcode(androidid2,qr4);
+        db.add_qrcode(androidid2,qr5);
+        db.add_qrcode(androidid2,qr6);
+
+
+
+//        Storage storage = new Storage();
+//
+//        QRCODE q1 = new QRCODE("random data5513123532");
+//        System.out.println(q1.getCode());
+//        System.out.println(q1.getCode().toString());
+//        System.out.println(q1.getCode().getRowBytes());
 
 
 

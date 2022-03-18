@@ -30,12 +30,15 @@ public class Database {
     private FirebaseDatabase database;
     private DatabaseReference user_ref;
     private DatabaseReference username_ref;
+    private DatabaseReference global_qrcount;
+
 //    private Profile currentclient;
 
     public Database() {
         database = FirebaseDatabase.getInstance();
         user_ref = database.getReference().child("user");
         username_ref = database.getReference().child("username");
+        global_qrcount = database.getReference().child("qrcode");
     }
 
     public Profile get_user(String androidid) {
@@ -67,10 +70,9 @@ public class Database {
             add_child(userinfo_ref, "phonenumber", "null");
             add_child(userinfo_ref, "emailaddress", "null");
             add_child(userinfo_ref, "loginqrcode", "null");
-
-
-
             history_ref.setValue("null");
+
+            add_child(username_ref, profile.getUserName(), profile.getAndroidID());
         }
         return profile;
     }
@@ -79,6 +81,9 @@ public class Database {
         DatabaseReference ref = user_ref.child(androidid).child("userinfo");
 
         if (user_exists(androidid) == true) {
+            if (key.equals("username")) {
+                
+            }
             if (key.equals("emailaddress") || key.equals("phonenumber") || key.equals("username")) {
                 ref.child(key).setValue(value);
                 return true;
@@ -157,6 +162,20 @@ public class Database {
                 }
 
                 add_child(qr_ref, "createdat", get_current_time());
+
+                DataSnapshot entry = get_children(global_qrcount, hash);
+                DataSnapshot users = get_children(entry, "users");
+                if (entry.getChildrenCount() == 0) {
+                    add_child(entry, "count", "1");
+                    add_child(users, androidid, "1");
+                }
+                else {
+                    add_child(users, androidid, "1");
+                    int count = Integer.valueOf(get_child_value(entry, "count"));
+
+                    add_child(entry, "count", String.valueOf(count + 1));
+                }
+
             }
 
         }
@@ -203,7 +222,6 @@ public class Database {
     private void add_child(DataSnapshot reference, String key, String value) {
         add_child(reference.getRef(), key, value);
     }
-
 
     // current time //
     static public String get_current_time() {
