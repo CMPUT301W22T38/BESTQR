@@ -92,25 +92,26 @@ public class CameraActivity extends AppCompatActivity {
 
 
 
-        String androidid1 = "androidid1";
-        String androidid2 = "androidid2";
+        String androidid1 = "52e697d704";
+        String androidid2 = "753098d871";
         db = new Database();
         Profile p1 = db.get_user(androidid1);
         Profile p2 = db.get_user(androidid2);
 
-        QRCODE qr1 = new QRCODE("1");
-        QRCODE qr2 = new QRCODE("2");
-        QRCODE qr3 = new QRCODE("3");
-        QRCODE qr4 = new QRCODE("1");
-        QRCODE qr5 = new QRCODE("5");
-        QRCODE qr6 = new QRCODE("6");
+        QRCODE qr1 = new QRCODE("qr1");
+        QRCODE qr2 = new QRCODE("qr2");
+        QRCODE qr3 = new QRCODE("qr3");
+        QRCODE qr5 = new QRCODE("qr5");
+        QRCODE qr6 = new QRCODE("qr6");
 
         db.add_qrcode(androidid1,qr1);
         db.add_qrcode(androidid1,qr2);
         db.add_qrcode(androidid1,qr3);
-        db.add_qrcode(androidid2,qr4);
+
+        db.add_qrcode(androidid2,qr3);
         db.add_qrcode(androidid2,qr5);
         db.add_qrcode(androidid2,qr6);
+
 
 
 

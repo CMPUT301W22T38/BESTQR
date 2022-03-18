@@ -43,7 +43,6 @@ public class Storage {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
-        System.out.println(data.length);
 
         return data;
     }
@@ -58,8 +57,8 @@ public class Storage {
 
         byte[] data = task.getResult();
 
-        System.out.println(data.length);
         Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+
         return bitmap;
     }
 

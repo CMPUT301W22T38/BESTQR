@@ -82,7 +82,7 @@ public class Database {
 
         if (user_exists(androidid) == true) {
             if (key.equals("username")) {
-                
+
             }
             if (key.equals("emailaddress") || key.equals("phonenumber") || key.equals("username")) {
                 ref.child(key).setValue(value);
@@ -102,8 +102,6 @@ public class Database {
         }
         return qrlist;
     }
-
-
 
 //    private QRCODE get_qrcode(String hash) {
 //        QRCODE qrcode = new QRCODE();

@@ -52,6 +52,9 @@ public class QRCODE {
         this.score = calculateScore(hash);
     }
 
+    //test
+    public void setBitmap(Bitmap bitmap) {this.bitmap = bitmap;}
+
     public void setHash(String hash) {
         this.hash = hash;
     }
