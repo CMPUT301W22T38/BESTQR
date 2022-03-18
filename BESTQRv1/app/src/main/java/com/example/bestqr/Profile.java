@@ -168,10 +168,8 @@ public class Profile extends Activity {
      */
     public ArrayList<Integer> getQrScores(){
         qrScores = new ArrayList<>();
-        int count = 0;
-        for(int i = 0;i<scannedCodes.size(); i++) {
-            qrScores.add(scannedCodes.get(i).getScore());
-            count++;
+        for (QRCODE item:scannedCodes) {
+            qrScores.add(item.getScore());
         }
         return qrScores;
     }
@@ -182,14 +180,11 @@ public class Profile extends Activity {
      */
     public ArrayList<Bitmap> getQrBitmaps(){
         qrBitmaps = new ArrayList<>();
-        int count = 0;
-        for(int i = 0;i<scannedCodes.size(); i++) {
-            qrBitmaps.add(scannedCodes.get(i).getCode());
-            count++;
+        for (QRCODE item:scannedCodes) {
+            qrBitmaps.add(item.getCode());
         }
         return qrBitmaps;
     }
-
 
 
     /**
