@@ -132,7 +132,10 @@ public class Profile{
         // this method adds to the user's points if he chooses to store the code
     }
 
-
+    /**
+     * This method returns the scores of all qrcodes scanned
+     * @return: scores of all qrCodes scanned
+     */
     public ArrayList<Integer> getQrScores(){
         qrScores = new ArrayList<>();
         for (QRCODE item:scannedCodes) {
