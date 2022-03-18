@@ -12,7 +12,7 @@ public class Profile{
     private String phoneNumber;
     private String emailAddress;
     private QRCODE deviceQrCode;
-    private int score;
+    private int score = 0;
     private ArrayList<QRCODE> scannedCodes;
 
     private ArrayList<Integer> qrScores;
@@ -37,7 +37,6 @@ public class Profile{
         this.phoneNumber = phoneNumber;
         this.emailAddress = emailAddress;
         this.scannedCodes = new ArrayList<QRCODE>();
-
     }
 
     public void setScannedCodes(ArrayList<QRCODE> qrcodes) {
@@ -57,7 +56,7 @@ public class Profile{
      * @return the unique device id of a profile
      */
     public String getDeviceID(){
-        return deviceQrCode.getHash();
+        return this.deviceQrCode.getHash();
     }
 
     /**
@@ -65,7 +64,7 @@ public class Profile{
      * @return the unique image QRCODE for the users profile that can be scanned by another device to log in
      */
     public Bitmap getProfileCode(){
-        return deviceQrCode.getCode();
+        return this.deviceQrCode.getCode();
     }
 
 
@@ -98,15 +97,23 @@ public class Profile{
      * @return the total score of the user so far
      */
     public int getScore() {
-        return score;
+        return this.score;
     }
 
     /**
      * This method returns the number of scanned QR CODES
      * @return the number of scanned QR CODES
      */
+
+    public void recountTotalScore(){
+        this.score = 0;
+        for(int i = 0; i < this.scannedCodes.size(); i++){
+            this.score += this.scannedCodes.get(i).getScore();
+        }
+    }
+
     public int getNumberCodesScanned(){
-        return scannedCodes.size();
+        return this.scannedCodes.size();
     }
 
     /**
@@ -119,7 +126,7 @@ public class Profile{
         // also add it to the owner list of qrCodes if it does not exist there
 
         scannedCodes.add(qrCode);
-        score = score + qrCode.getScore();
+        this.score += qrCode.getScore();
     }
 
     /**

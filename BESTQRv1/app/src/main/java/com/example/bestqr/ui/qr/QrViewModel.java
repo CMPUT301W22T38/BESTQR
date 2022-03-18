@@ -14,27 +14,9 @@ public class QrViewModel extends ViewModel {
     private static Profile user_profile;
     private Database db;
 
-    public QrViewModel(){
+    public QrViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("Test");
-
-    }
-
-    /** Sets the main user profile
-     * @param profile
-     *      a profile object, containing info on a user
-     */
-    public void setUserProfile(Profile profile){
-        user_profile = profile;
-
-    }
-
-    /** Gets the main user profile
-     * @return profile
-     *      a profile object, containing info on a user
-     */
-    public static Profile getUserProfile(){
-        return user_profile;
     }
 
 }

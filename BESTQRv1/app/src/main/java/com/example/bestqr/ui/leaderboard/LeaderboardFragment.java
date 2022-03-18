@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,16 +20,19 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.bestqr.CameraActivity;
+import com.example.bestqr.LeaderboardListAdapter;
 import com.example.bestqr.Profile;
 import com.example.bestqr.R;
 import com.example.bestqr.databinding.FragmentLeaderboardBinding;
 import com.example.bestqr.UserViewModel;
+import com.example.bestqr.qrlistAdapter;
 
 public class LeaderboardFragment extends Fragment {
 
     private LeaderboardViewModel leaderboardViewModel;
     private FragmentLeaderboardBinding binding;
     private UserViewModel userViewModel;
+
 
     /**
      * Creates and returns the root view of the fragment
@@ -54,6 +58,10 @@ public class LeaderboardFragment extends Fragment {
         View root = binding.getRoot();
 
         TextView profile_icon = binding.toolbarLeaderboardProfile;
+
+
+        // LeaderboardListAdapter myAdapter = new LeaderboardListAdapter(getActivity(), );
+        // binding.leaderboardList.setAdapter(myAdapter);
 
         /**
          * OnClick Listener for the Sort button

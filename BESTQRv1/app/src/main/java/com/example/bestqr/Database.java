@@ -9,11 +9,15 @@ package com.example.bestqr;
 import android.location.Location;
 import android.location.LocationManager;
 
+import androidx.annotation.NonNull;
+
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 
@@ -41,54 +45,10 @@ public class Database {
         global_qrcount = database.getReference().child("qrcode");
     }
 
-    /**
-     * look up user table based on the device's android_id
-     *
-     * @param android_id: device's unique android id
-     * @return remapped Profile object
-     */
-    public Profile getProfile(String android_id) {
-        Profile profile = new Profile(android_id);
-        user_ref.child(android_id)
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        // if the current user's android id is being found in firebase realtime db,
-                        // create a profile object accordingly and return it. Otherwise, just return
-                        // an empty object
-                        if (snapshot.exists()) {
-                            HashMap<String, Object> map = (HashMap) snapshot.getValue();
-
-                            HashMap<String, Object> userinfo = (HashMap) map.get("userinfo");
-                            if (userinfo != null) {
-                                profile.setUserName((String) userinfo.get("username"));
-                                profile.setEmailAddress((String) userinfo.get("emailaddress"));
-                                profile.setPhoneNumber((String) userinfo.get("phonenumber").toString());
-                            }
-
-                            HashMap<String, Object> history = (HashMap) map.get("history");
-                            if (history != null) {
-                                for (Map.Entry entry : history.entrySet()) {
-                                    // <QR code hash, bytes to create an image>
-                                    HashMap<String, Object> QR_list = getQRCode(android_id);
-                                }
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-//                        System.out.println(error.toException().toString());
-                    }
-                });
-        return profile;
-    }
-
     public Profile get_user(String androidid) {
         Profile profile = new Profile(androidid);
 
         DatabaseReference currentuser_ref = user_ref.child(androidid);
-
         DatabaseReference userinfo_ref = currentuser_ref.child("userinfo");
         DatabaseReference history_ref = currentuser_ref.child("history");
 
@@ -101,8 +61,8 @@ public class Database {
                 profile.setUserName(get_child_value(userinfo_ref, "username"));
                 profile.setEmailAddress(get_child_value(userinfo_ref, "emailaddress"));
                 profile.setPhoneNumber(get_child_value(userinfo_ref, "phonenumber"));
-
                 profile.setScannedCodes(get_qr_list(androidid, history_data));
+                profile.recountTotalScore();
             }
 
         }

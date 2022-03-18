@@ -33,8 +33,6 @@ public class UserFragment extends Fragment {
     private UserViewModel userViewModel;
     private FragmentUserBinding binding;
 
-    private ListView qrlists;
-
     /**
      * Creates and returns the root view of the fragment
      * @param inflater
@@ -52,7 +50,6 @@ public class UserFragment extends Fragment {
         // Get Activity-Owned UserViewModel (global to all fragments)
         userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
 
-
         binding = FragmentUserBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -61,7 +58,6 @@ public class UserFragment extends Fragment {
         //userViewModel.setText(tex);
         Profile userProfile = userViewModel.getUserProfile();
         binding.toolbarUserProfile.setText(userProfile.getUserName());
-
 
         ListView qrCodes = binding.qrlist;
         qrlistAdapter myAdapter = new qrlistAdapter(getActivity() , userProfile.getQrScores(), userProfile.getQrBitmaps());

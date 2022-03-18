@@ -60,7 +60,6 @@ public class QrFragment extends Fragment {
 
         userProfile = userViewModel.getUserProfile();
 
-
         MultiFormatWriter writer = new MultiFormatWriter();
         try {
             BitMatrix matrix = writer.encode("hello", BarcodeFormat.QR_CODE, 350, 350);

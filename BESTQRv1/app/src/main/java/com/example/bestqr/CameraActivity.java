@@ -73,7 +73,6 @@ public class CameraActivity extends AppCompatActivity {
     private UserViewModel userViewModel;
     private QrViewModel QrViewModel;
     private Database db;
-    private Profile userProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,21 +92,14 @@ public class CameraActivity extends AppCompatActivity {
         @SuppressLint("HardwareIds") String androidId = Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);
         // test identification of user ideally info will be taken in the signup activity and stored in firebase
         QRCODE userIdentification = new QRCODE(androidId);
-        //ToDo Store profiles in firebase
-        // TEMP: Test user profile, to showcase functionality of fragments showing user info.
-        // userProfile = new Profile("Test User",userIdentification,"1231231231","email@address.com");
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-        // userViewModel.setUserProfile(userProfile);
-
-        // QrViewModel = new ViewModelProvider(this).get(QrViewModel.class);
-        // QrViewModel.setUserProfile(userProfile);
 
         String androidid1 = "52e697d704";
         String androidid2 = "753098d871";
-        db = new Database();
-        Profile p1 = db.get_user(androidid1);
-        Profile p2 = db.get_user(androidid2);
+        this.db = new Database();
+        Profile p1 = this.db.get_user(androidid1);
+        Profile p2 = this.db.get_user(androidid2);
 
         QRCODE qr1 = new QRCODE("qr1");
         QRCODE qr2 = new QRCODE("qr2");
@@ -123,7 +115,7 @@ public class CameraActivity extends AppCompatActivity {
         db.add_qrcode(androidid2,qr5);
         db.add_qrcode(androidid2,qr6);
 
-
+        userViewModel.setUserProfile(p1);
 
 
 //        Storage storage = new Storage();
@@ -133,15 +125,8 @@ public class CameraActivity extends AppCompatActivity {
 //        System.out.println(q1.getCode().toString());
 //        System.out.println(q1.getCode().getRowBytes());
 
-
-        Log.d(TAG, "This device ID: " + androidId);
-
 //        bitmap
 //        QRCODE q1 = new QRCODE("random54321");
-
-
-
-
 
         // This should be in th login activity
         // get unique device id
@@ -184,8 +169,6 @@ public class CameraActivity extends AppCompatActivity {
 //        db.add_qrcode(androidid, qr);
 //
 //        db.get_qrcode(androidid, "3ad621f46a4bcc34d12490adc689d51ef0dbc12c913538427a667e1c52b97459");
-
-		UserViewModel.setUserProfile(p);
 
     }
 
@@ -284,8 +267,6 @@ public class CameraActivity extends AppCompatActivity {
         );
 
 
-
-        userProfile.addNewQRCode(qr);
         //Set title
         builder.setTitle("Score = ");
         //Set score(but currently is set message)
