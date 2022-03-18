@@ -1,4 +1,4 @@
-package com.example.bestqr.ui.user;
+package com.example.bestqr;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -27,7 +27,6 @@ public class UserViewModel extends ViewModel {
      */
     public void setUserProfile(Profile profile){
         user_profile = profile;
-
     }
 
     /** Gets the main user profile

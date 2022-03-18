@@ -14,7 +14,6 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -23,7 +22,7 @@ import com.example.bestqr.CameraActivity;
 import com.example.bestqr.Profile;
 import com.example.bestqr.R;
 import com.example.bestqr.databinding.FragmentLeaderboardBinding;
-import com.example.bestqr.ui.user.UserViewModel;
+import com.example.bestqr.UserViewModel;
 
 public class LeaderboardFragment extends Fragment {
 

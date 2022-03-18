@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -20,17 +19,13 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.bestqr.UserViewModel;
 import com.example.bestqr.qrlistAdapter;
 import com.example.bestqr.CameraActivity;
 import com.example.bestqr.R;
 import com.example.bestqr.databinding.FragmentUserBinding;
 
 import com.example.bestqr.Profile;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 public class UserFragment extends Fragment {
 

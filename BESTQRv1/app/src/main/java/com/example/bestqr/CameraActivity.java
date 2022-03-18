@@ -15,16 +15,13 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.bestqr.ui.qr.QrViewModel;
-import com.example.bestqr.ui.user.UserViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.bestqr.databinding.ActivityMainBinding;
@@ -40,7 +37,6 @@ import com.google.zxing.integration.android.IntentResult;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.security.MessageDigest;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -92,12 +88,13 @@ public class CameraActivity extends AppCompatActivity {
         QRCODE userIdentification = new QRCODE(androidId);
         //ToDo Store profiles in firebase
         // TEMP: Test user profile, to showcase functionality of fragments showing user info.
-        userProfile = new Profile("Test User",userIdentification,"1231231231","email@address.com");
+        // userProfile = new Profile("Test User",userIdentification,"1231231231","email@address.com");
+
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         userViewModel.setUserProfile(userProfile);
 
-        QrViewModel = new ViewModelProvider(this).get(QrViewModel.class);
-        QrViewModel.setUserProfile(userProfile);
+        // QrViewModel = new ViewModelProvider(this).get(QrViewModel.class);
+        // QrViewModel.setUserProfile(userProfile);
 
         //This is open camera
 

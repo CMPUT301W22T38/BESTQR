@@ -13,6 +13,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.bestqr.UserViewModel;
 import com.example.bestqr.databinding.FragmentUserInfoBinding;
 import com.example.bestqr.Profile;
 

@@ -18,16 +18,11 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.bestqr.Profile;
-import com.example.bestqr.R;
 import com.example.bestqr.databinding.FragmentQrBinding;
-import com.example.bestqr.databinding.FragmentUserBinding;
-import com.example.bestqr.ui.user.UserViewModel;
 import com.google.zxing.BarcodeFormat;
-import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
