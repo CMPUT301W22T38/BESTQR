@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -87,33 +89,50 @@ public class CameraActivity extends AppCompatActivity {
 
         // This should be in th login activity
         // get unique device id
-        @SuppressLint("HardwareIds") String androidId = Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);
+//        @SuppressLint("HardwareIds") String androidId = Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);
         // test identification of user ideally info will be taken in the signup activity and stored in firebase
-        QRCODE userIdentification = new QRCODE(androidId);
-        //ToDo Store profiles in firebase
-        // TEMP: Test user profile, to showcase functionality of fragments showing user info.
-        userProfile = new Profile("Test User",userIdentification,"1231231231","email@address.com");
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-        userViewModel.setUserProfile(userProfile);
+//        QRCODE userIdentification = new QRCODE(androidId);
+//        //ToDo Store profiles in firebase
+//        // TEMP: Test user profile, to showcase functionality of fragments showing user info.
+//        userProfile = new Profile("Test User",userIdentification,"1231231231","email@address.com");
+//        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+//        userViewModel.setUserProfile(userProfile);
+//
+//        QrViewModel = new ViewModelProvider(this).get(QrViewModel.class);
+//        QrViewModel.setUserProfile(userProfile);
+//
+//        //This is open camera
+//
+//        ////////////////////////////
+//        db = new Database();
+//
+//        Profile p = db.getProfile(androidId);
+//
+//        QRCODE q1 = new QRCODE("random1");
+//        QRCODE q2 = new QRCODE("random2");
+//
+//        db.writeQRCode(q1, androidId);
+//        db.writeQRCode(q2, androidId);
+//        // https://console.firebase.google.com/project/bestqrdb/database/bestqrdb-default-rtdb/data
+//        // https://console.firebase.google.com/project/bestqrdb/storage/bestqrdb.appspot.com/files
+//        ///////////////////////////////
 
-        QrViewModel = new ViewModelProvider(this).get(QrViewModel.class);
-        QrViewModel.setUserProfile(userProfile);
-
-        //This is open camera
-
-        ////////////////////////////
+        // jay
         db = new Database();
+        String androidid = "androidid1";
+        userProfile = db.get_user(androidid);
 
-        Profile p = db.getProfile(androidId);
+//        System.out.println(userProfile.)
+//
+//        Location location = new Location(LocationManager.GPS_PROVIDER);
+//        location.setAltitude(1.421);
+//        location.setLongitude(5.325);
+//        qr.setCodeLocation(location);
+//        db.add_qrcode(androidid, qr);
+//
+//        db.get_qrcode(androidid, "3ad621f46a4bcc34d12490adc689d51ef0dbc12c913538427a667e1c52b97459");
 
-        QRCODE q1 = new QRCODE("random1");
-        QRCODE q2 = new QRCODE("random2");
 
-        db.writeQRCode(q1, androidId);
-        db.writeQRCode(q2, androidId);
-        // https://console.firebase.google.com/project/bestqrdb/database/bestqrdb-default-rtdb/data
-        // https://console.firebase.google.com/project/bestqrdb/storage/bestqrdb.appspot.com/files
-        ///////////////////////////////
 
 
         scanButton= findViewById(R.id.scanButton);

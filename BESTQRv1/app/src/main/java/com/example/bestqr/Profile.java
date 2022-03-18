@@ -7,6 +7,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -23,8 +24,10 @@ public class Profile extends Activity {
     private Toolbar toolbar;
     private ArrayList<Integer> qrScores;
     private ArrayList<Bitmap> qrBitmaps;
+
     public Profile(String android_id) {
         this.androidId = android_id;
+        this.scannedCodes = new ArrayList<QRCODE>();
     }
 
     /**
@@ -61,6 +64,17 @@ public class Profile extends Activity {
 //        this.scannedCodes.add(qr3);
 //    }
 
+    public void setScannedCodes(ArrayList<QRCODE> qrcodes) {
+        this.scannedCodes = qrcodes;
+//        this.scannedCodes.addAll(qrcodes);
+    }
+
+    public ArrayList<QRCODE> getScannedCodes() {
+        return this.scannedCodes;
+    }
+
+
+    public String getAndroidID() { return this.androidId;}
 
     /**
      * This class returns the unique device id for users  log in with
