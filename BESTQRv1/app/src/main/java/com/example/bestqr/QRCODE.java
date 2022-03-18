@@ -12,18 +12,24 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 
 public class QRCODE {
     private Location codeLocation;
     private Bitmap bitmap;
     private String hash;
+    private boolean isimported;
     private int score;
     static MessageDigest digest;
 
 
+    public QRCODE() {
+    }
     /**
      * This constructor is for the QRCODE where location is stored
      * @param codeLocation: This is the Location that is recorded for the QRCODE
@@ -46,20 +52,32 @@ public class QRCODE {
         this.score = calculateScore(hash);
     }
 
-    //    public HashMap<String,Object> toMap() {
-//        HashMap<String, Object> asMap = new HashMap<String, Object>();
-//
-//        return asMap;
-//
-//    }
-    public HashMap<String, Object> getLocation() {
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        if (this.codeLocation != null) {
-            map.put("Latitude", codeLocation.getLatitude());
-            map.put("Longitude", codeLocation.getLongitude());
-        }
-        return map;
+    //test
+    public void setBitmap(Bitmap bitmap) {this.bitmap = bitmap;}
+
+    public void setHash(String hash) {
+        this.hash = hash;
     }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public void setIsimported(boolean b) {
+        this.isimported = b;
+    }
+
+
+    public void setisImported(boolean imported) {
+        this.isimported = imported;
+    }
+
+    public boolean getisImported() {
+        return this.isimported;
+    }
+
+
+
 
     /**
      * This method generates a QRCODE for the content passed in
@@ -101,6 +119,11 @@ public class QRCODE {
      */
     public Location getCodeLocation(){
         return codeLocation;
+    }
+
+    // for testing
+    public void setCodeLocation(Location location) {
+        this.codeLocation = location;
     }
 
     /**
