@@ -31,6 +31,9 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.bestqr.databinding.ActivityMainBinding;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.LuminanceSource;
 import com.google.zxing.MultiFormatReader;
@@ -87,6 +90,30 @@ public class CameraActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
+
+
+        String androidid = "androidid2";
+        db = new Database();
+        Profile p = db.get_user(androidid);
+
+        Storage storage = new Storage();
+
+        QRCODE q1 = new QRCODE("random data5513123532");
+        System.out.println(q1.getCode());
+        System.out.println(q1.getCode().toString());
+        System.out.println(q1.getCode().getRowBytes());
+
+
+
+
+
+//        bitmap
+//        QRCODE q1 = new QRCODE("random54321");
+
+
+
+
+
         // This should be in th login activity
         // get unique device id
 //        @SuppressLint("HardwareIds") String androidId = Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);
@@ -118,9 +145,6 @@ public class CameraActivity extends AppCompatActivity {
 //        ///////////////////////////////
 
         // jay
-        db = new Database();
-        String androidid = "androidid1";
-        userProfile = db.get_user(androidid);
 
 //        System.out.println(userProfile.)
 //

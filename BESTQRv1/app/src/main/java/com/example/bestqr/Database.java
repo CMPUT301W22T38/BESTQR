@@ -13,6 +13,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import java.text.SimpleDateFormat;
 
@@ -23,36 +24,37 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
+import javax.sql.DataSource;
+
 public class Database {
     private FirebaseDatabase database;
     private DatabaseReference user_ref;
+    private DatabaseReference username_ref;
 //    private Profile currentclient;
 
     public Database() {
         database = FirebaseDatabase.getInstance();
         user_ref = database.getReference().child("user");
-
-
+        username_ref = database.getReference().child("username");
     }
 
     public Profile get_user(String androidid) {
         Profile profile = new Profile(androidid);
 
-        DatabaseReference currentuser_ref = get_children(user_ref, androidid).getRef();
-        DatabaseReference userinfo_ref = get_children(currentuser_ref, "userinfo").getRef();
+        DatabaseReference currentuser_ref = user_ref.child(androidid);
+
+        DatabaseReference userinfo_ref = currentuser_ref.child("userinfo");
+        DatabaseReference history_ref = currentuser_ref.child("history");
 
         DataSnapshot history_data = get_children(currentuser_ref, "history");
-        DatabaseReference history_ref = history_data.getRef();
-
 
         if (user_exists(androidid)) {
+            DataSnapshot loginqrcode = get_children(userinfo_ref, "loginqrcode");
 
-            String loginqrcode = get_child(userinfo_ref, "loginqrcode");
-
-            if (loginqrcode.equals("null")) {
-                profile.setUserName(get_child(userinfo_ref, "username"));
-                profile.setEmailAddress(get_child(userinfo_ref, "emailaddress"));
-                profile.setPhoneNumber(get_child(userinfo_ref, "phonenumber"));
+            if (loginqrcode.getChildrenCount() == 0) {
+                profile.setUserName(get_child_value(userinfo_ref, "username"));
+                profile.setEmailAddress(get_child_value(userinfo_ref, "emailaddress"));
+                profile.setPhoneNumber(get_child_value(userinfo_ref, "phonenumber"));
 
                 profile.setScannedCodes(get_qr_list(androidid, history_data));
             }
@@ -60,11 +62,13 @@ public class Database {
         }
         else {
             add_child(currentuser_ref, "createdAt", get_current_time());
-
-            add_child(userinfo_ref, "username", "null");
+            add_child(userinfo_ref, "username", get_default_username());
+            profile.setUserName(get_default_username());
             add_child(userinfo_ref, "phonenumber", "null");
             add_child(userinfo_ref, "emailaddress", "null");
             add_child(userinfo_ref, "loginqrcode", "null");
+
+
 
             history_ref.setValue("null");
         }
@@ -83,16 +87,6 @@ public class Database {
         return false;
     }
 
-    private Boolean user_exists(String androidid) {
-        DataSnapshot data = get_children(user_ref, androidid);
-        if (data.exists()) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
     public ArrayList<QRCODE> get_qr_list(String androidid, DataSnapshot data) {
         ArrayList<QRCODE> qrlist = new ArrayList<QRCODE>();
         if (data.getChildrenCount() > 0 ) {
@@ -106,10 +100,10 @@ public class Database {
 
 
 
-    private QRCODE get_qrcode(String hash) {
-        QRCODE qrcode = new QRCODE();
-        return qrcode;
-    }
+//    private QRCODE get_qrcode(String hash) {
+//        QRCODE qrcode = new QRCODE();
+//        return qrcode;
+//    }
 
     public QRCODE get_qrcode(String androidid, String hash) {
         QRCODE qrcode = new QRCODE();
@@ -121,20 +115,20 @@ public class Database {
         if (user_exists(androidid)) {
             if (qrdata.exists()) {
                 qrcode.setHash(qrdata.getKey());
-                qrcode.setIsimported(Boolean.valueOf(get_child(qr_ref, "imported")));
+                qrcode.setIsimported(Boolean.valueOf(get_child_value(qr_ref, "imported")));
 
 
-                if (!get_child(qr_ref, "location").equals("null")) {
+                if (!get_child_value(qr_ref, "location").equals("null")) {
                     DatabaseReference location_ref = get_children(qr_ref, "location").getRef();
 
                     Location location = new Location(LocationManager.GPS_PROVIDER);
-                    location.setLongitude(Double.valueOf(get_child(location_ref, "Longitude")));
-                    location.setLatitude(Double.valueOf(get_child(location_ref, "Latitude")));
+                    location.setLongitude(Double.valueOf(get_child_value(location_ref, "Longitude")));
+                    location.setLatitude(Double.valueOf(get_child_value(location_ref, "Latitude")));
                     qrcode.setCodeLocation(location);
                 } else {
                     qrcode.setCodeLocation(null);
                 }
-                qrcode.setScore(Integer.valueOf(get_child(qr_ref, "score")));
+                qrcode.setScore(Integer.valueOf(get_child_value(qr_ref, "score")));
             }
         }
         return qrcode;
@@ -169,12 +163,16 @@ public class Database {
     }
 
 
+    private Boolean user_exists(String androidid) {
+        DataSnapshot data = get_children(user_ref, androidid);
+
+        return (data.exists()) ? true : false;
+    }
 
     private DataSnapshot get_children(DatabaseReference reference, String key) {
         DataSnapshot data = null;
 
-        DatabaseReference ref = reference.child(key);
-        Task<DataSnapshot> task = ref.get();
+        Task<DataSnapshot> task = reference.child(key).get();
 
         while (!task.isComplete()) {}
 
@@ -184,27 +182,99 @@ public class Database {
         return data;
     }
 
-    private String get_child(DatabaseReference reference, String key) {
+    private DataSnapshot get_children(DataSnapshot reference, String key) {
+        return get_children(reference.getRef(), key);
+    }
+
+    private String get_child_value(DatabaseReference reference, String key) {
         DataSnapshot data = get_children(reference, key);
         String value = data.getValue().toString();
         return value;
     }
 
+    private String get_child_value(DataSnapshot reference, String key) {
+        return get_child_value(reference.getRef(), key);
+    }
+
     private void add_child(DatabaseReference reference, String key, String value) {
-        DatabaseReference ref = reference.child(key);
-        ref.setValue(value);
+        reference.child(key).setValue(value);
+    }
+
+    private void add_child(DataSnapshot reference, String key, String value) {
+        add_child(reference.getRef(), key, value);
     }
 
 
+    // current time //
+    static public String get_current_time() {
+        SimpleDateFormat DateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        DateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 
-
-
-    // helper methods //
-    private String get_current_time() {
-        SimpleDateFormat gmtDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        gmtDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-
-        String timestamp = gmtDateFormat.format(new Date()) + " GMT +00:00";
-        return timestamp;
+        String string = DateFormat.format(new Date()) + " GMT +00:00";
+        return string;
     }
+
+    private String get_default_username() {
+        String string = "user" + String.valueOf(this.get_usercount() + 1);
+        return string;
+    }
+
+    private int get_usercount() {
+        DataSnapshot data = null;
+        Task<DataSnapshot> task = username_ref.get();
+
+        while (!task.isComplete() && !task.isSuccessful()) {}
+        data = task.getResult();
+        return (int) data.getChildrenCount();
+    }
+
+
 }
+
+//    private String get_child_value(DatabaseReference reference, String key) {
+//        String str = null;
+//
+//        Task<DataSnapshot> task = reference.child(key).get();
+//
+//        while (!task.isComplete()) {}
+//
+//        if (task.isSuccessful() && task.isComplete()) {
+//
+//            DataSnapshot data = task.getResult();
+//            if (data.exists() && data.getChildrenCount() == 0) {
+//                str = data.toString();
+//            }
+//        }
+//        return str;
+//    }
+//
+//    private DataSnapshot get_children(DatabaseReference reference, String key) {
+//        DataSnapshot data = null;
+//
+//        Task<DataSnapshot> task = reference.child(key).get();
+//
+//        while (!task.isComplete()) {}
+//
+//        if (task.isSuccessful() && task.isComplete()) {
+//            data = task.getResult();
+//            if (!data.exists() || data.getChildrenCount() == 0) {
+//                data = null;
+//            }
+//        }
+//        return data;
+//    }
+
+
+
+
+
+
+//    private String get_child_value(DatabaseReference reference, String key) {
+//        DataSnapshot data = get_children(reference, key);
+//        String value = data.getValue().toString();
+//        return value;
+//    }
+//
+//    private String get_child_value(DataSnapshot reference, String key) {
+//        return get_child_value(reference.getRef(), key);
+//    }
