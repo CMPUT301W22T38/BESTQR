@@ -143,7 +143,6 @@ public class Profile{
      * @return: scores of all qrCodes scanned
      */
     public ArrayList<Integer> getQrScores(String condition){
-        if (condition != "chronological") {
             if (condition == "descending") {
                 Collections.sort(scannedCodes, new Comparator<QRCODE>() {
                     @Override
@@ -159,11 +158,11 @@ public class Profile{
                     }
                 });
             }
+
             qrScores = new ArrayList<>();
             for (QRCODE item:scannedCodes) {
                 qrScores.add(item.getScore());
             }
-        }
 
         return qrScores;
     }
@@ -172,11 +171,11 @@ public class Profile{
      * This method returns the Bitmaps of all qrcodes scanned
      * @return: Bitmaps of all qrCodes scanned
      */
-    public ArrayList<Bitmap> getQrBitmaps(String condition){
-        qrBitmaps = new ArrayList<>();
-        for (QRCODE item : scannedCodes) {
-            qrBitmaps.add(item.getCode());
-        }
+    public ArrayList<Bitmap> getQrBitmaps(){
+            qrBitmaps = new ArrayList<>();
+            for (QRCODE item : scannedCodes) {
+                qrBitmaps.add(item.getCode());
+            }
 
         return qrBitmaps;
     }

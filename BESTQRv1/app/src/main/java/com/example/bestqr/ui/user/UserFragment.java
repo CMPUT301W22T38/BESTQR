@@ -62,7 +62,7 @@ public class UserFragment extends Fragment {
         binding.toolbarUserProfile.setText(userProfile.getUserName());
 
         ListView qrCodes = binding.qrlist;
-        qrlistAdapter myAdapter = new qrlistAdapter(getActivity() , userProfile.getQrScores("chronological"), userProfile.getQrBitmaps("chronological"));
+        qrlistAdapter myAdapter = new qrlistAdapter(getActivity() , userProfile.getQrScores("chronological"), userProfile.getQrBitmaps());
         qrCodes.setAdapter(myAdapter);
 
         // onClick Listener for the QR button on the toolbar
@@ -89,15 +89,15 @@ public class UserFragment extends Fragment {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         if (item.getItemId() == R.id.leaderboard_user_sort_ascending){
-                            qrlistAdapter asc_adapter = new qrlistAdapter(getActivity() , userProfile.getQrScores("ascending"), userProfile.getQrBitmaps("ascending"));
+                            qrlistAdapter asc_adapter = new qrlistAdapter(getActivity() , userProfile.getQrScores("ascending"), userProfile.getQrBitmaps());
                             qrCodes.setAdapter(asc_adapter);
                         }
                         else if (item.getItemId() == R.id.leaderboard_user_sort_descending){
-                            qrlistAdapter des_adapter = new qrlistAdapter(getActivity() , userProfile.getQrScores("descending"), userProfile.getQrBitmaps("descending"));
+                            qrlistAdapter des_adapter = new qrlistAdapter(getActivity() , userProfile.getQrScores("descending"), userProfile.getQrBitmaps());
                             qrCodes.setAdapter(des_adapter);
                         }
                         else if (item.getItemId() == R.id.leaderboard_user_sort_ascending){
-                            qrlistAdapter chr_adapter = new qrlistAdapter(getActivity() , userProfile.getQrScores("chronological"), userProfile.getQrBitmaps("chronological"));
+                            qrlistAdapter chr_adapter = new qrlistAdapter(getActivity() , userProfile.getQrScores("chronological"), userProfile.getQrBitmaps());
                             qrCodes.setAdapter(chr_adapter);
                         }
                         return true;
