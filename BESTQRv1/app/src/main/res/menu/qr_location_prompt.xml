@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- menu group -->
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/image"
+            android:title="Store Image of Object" />
+        <item
+            android:id="@+id/geolocation"
+            android:title="Store Geolocation" />
+    </group>
+</menu>

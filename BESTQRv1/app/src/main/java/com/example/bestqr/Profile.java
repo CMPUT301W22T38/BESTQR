@@ -4,6 +4,8 @@ package com.example.bestqr;
 import android.graphics.Bitmap;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 public class Profile{
@@ -140,11 +142,29 @@ public class Profile{
      * This method returns the scores of all qrcodes scanned
      * @return: scores of all qrCodes scanned
      */
-    public ArrayList<Integer> getQrScores(){
-        qrScores = new ArrayList<>();
-        for (QRCODE item:scannedCodes) {
-            qrScores.add(item.getScore());
+    public ArrayList<Integer> getQrScores(String condition){
+        if (condition != "chronological") {
+            if (condition == "descending") {
+                Collections.sort(scannedCodes, new Comparator<QRCODE>() {
+                    @Override
+                    public int compare(QRCODE qrcode, QRCODE t1) {
+                        return t1.getScore() - (qrcode.getScore());
+                    }
+                });
+            } else if (condition == "ascending") {
+                Collections.sort(scannedCodes, new Comparator<QRCODE>() {
+                    @Override
+                    public int compare(QRCODE qrcode, QRCODE t1) {
+                        return qrcode.getScore() - t1.getScore();
+                    }
+                });
+            }
+            qrScores = new ArrayList<>();
+            for (QRCODE item:scannedCodes) {
+                qrScores.add(item.getScore());
+            }
         }
+
         return qrScores;
     }
 
@@ -152,11 +172,12 @@ public class Profile{
      * This method returns the Bitmaps of all qrcodes scanned
      * @return: Bitmaps of all qrCodes scanned
      */
-    public ArrayList<Bitmap> getQrBitmaps(){
+    public ArrayList<Bitmap> getQrBitmaps(String condition){
         qrBitmaps = new ArrayList<>();
-        for (QRCODE item:scannedCodes) {
+        for (QRCODE item : scannedCodes) {
             qrBitmaps.add(item.getCode());
         }
+
         return qrBitmaps;
     }
 

@@ -107,6 +107,9 @@ public class CameraActivity extends AppCompatActivity {
         QRCODE qr5 = new QRCODE("qr5");
         QRCODE qr6 = new QRCODE("qr6");
 
+
+
+
         db.add_qrcode(androidid1,qr1);
         db.add_qrcode(androidid1,qr2);
         db.add_qrcode(androidid1,qr3);

@@ -2,6 +2,7 @@ package com.example.bestqr.ui.user;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -32,6 +33,7 @@ public class UserFragment extends Fragment {
     //    private Profile profile;
     private UserViewModel userViewModel;
     private FragmentUserBinding binding;
+    private ListView qrCodes;
 
     /**
      * Creates and returns the root view of the fragment
@@ -60,7 +62,7 @@ public class UserFragment extends Fragment {
         binding.toolbarUserProfile.setText(userProfile.getUserName());
 
         ListView qrCodes = binding.qrlist;
-        qrlistAdapter myAdapter = new qrlistAdapter(getActivity() , userProfile.getQrScores(), userProfile.getQrBitmaps());
+        qrlistAdapter myAdapter = new qrlistAdapter(getActivity() , userProfile.getQrScores("chronological"), userProfile.getQrBitmaps("chronological"));
         qrCodes.setAdapter(myAdapter);
 
         // onClick Listener for the QR button on the toolbar
@@ -83,6 +85,25 @@ public class UserFragment extends Fragment {
                 PopupMenu popup = new PopupMenu(getActivity(), sort_button);
                 popup.getMenuInflater().inflate(R.menu.user_sort_menu, popup.getMenu());
                 popup.show();
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        if (item.getItemId() == R.id.leaderboard_user_sort_ascending){
+                            qrlistAdapter asc_adapter = new qrlistAdapter(getActivity() , userProfile.getQrScores("ascending"), userProfile.getQrBitmaps("ascending"));
+                            qrCodes.setAdapter(asc_adapter);
+                        }
+                        else if (item.getItemId() == R.id.leaderboard_user_sort_descending){
+                            qrlistAdapter des_adapter = new qrlistAdapter(getActivity() , userProfile.getQrScores("descending"), userProfile.getQrBitmaps("descending"));
+                            qrCodes.setAdapter(des_adapter);
+                        }
+                        else if (item.getItemId() == R.id.leaderboard_user_sort_ascending){
+                            qrlistAdapter chr_adapter = new qrlistAdapter(getActivity() , userProfile.getQrScores("chronological"), userProfile.getQrBitmaps("chronological"));
+                            qrCodes.setAdapter(chr_adapter);
+                        }
+                        return true;
+                    }
+
+                });
             }
         });
 
