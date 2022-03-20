@@ -16,4 +16,8 @@ public class QRCodeList extends ArrayList<QRCODE> {
     }
 
 
+
+
+
+
 }
