@@ -26,10 +26,9 @@ public class QRCODE {
     private boolean isimported;
     private int score;
     static MessageDigest digest;
+    private String timestamp;
 
-
-    public QRCODE() {
-    }
+    public QRCODE() {}
     /**
      * This constructor is for the QRCODE where location is stored
      * @param codeLocation: This is the Location that is recorded for the QRCODE
@@ -40,6 +39,7 @@ public class QRCODE {
         this.hash = calculateHash(contents);
         this.score = calculateScore(hash);
     }
+
 
     /**
      * This constructor is for the QRCODE where location is stored
@@ -76,8 +76,8 @@ public class QRCODE {
         return this.isimported;
     }
 
-
-
+    // testing
+    public String getScannedTime() {return "2022-03-03";}
 
     /**
      * This method generates a QRCODE for the content passed in

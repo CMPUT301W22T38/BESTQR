@@ -13,14 +13,15 @@ public class Profile{
     private String emailAddress;
     private QRCODE deviceQrCode;
     private int score = 0;
-    private ArrayList<QRCODE> scannedCodes;
+    private QRCodeList scannedCodes;
 
     private ArrayList<Integer> qrScores;
     private ArrayList<Bitmap> qrBitmaps;
+    private ArrayList<String> qrTimestamps;
 
     public Profile(String android_id) {
         this.androidId = android_id;
-        this.scannedCodes = new ArrayList<QRCODE>();
+        this.scannedCodes = new QRCodeList();
     }
 
     /**
@@ -36,17 +37,15 @@ public class Profile{
         this.deviceQrCode = deviceQrCode;
         this.phoneNumber = phoneNumber;
         this.emailAddress = emailAddress;
-        this.scannedCodes = new ArrayList<QRCODE>();
+        this.scannedCodes = new QRCodeList();
     }
 
-    public void setScannedCodes(ArrayList<QRCODE> qrcodes) {
+    public void setScannedCodes(QRCodeList qrcodes) {
         this.scannedCodes = qrcodes;
-//        this.scannedCodes.addAll(qrcodes);
     }
 
-    public ArrayList<QRCODE> getScannedCodes() {
-        return this.scannedCodes;
-    }
+    public QRCodeList getScannedCodes() {return  this.scannedCodes;}
+
 
 
     public String getAndroidID() { return this.androidId;}
@@ -160,6 +159,14 @@ public class Profile{
         return qrBitmaps;
     }
 
+    public ArrayList<String> getQrTimestamps() {
+        qrTimestamps = new ArrayList<>();
+        for (QRCODE item: scannedCodes) {
+            qrTimestamps.add(item.getScannedTime());
+        }
+        return qrTimestamps;
+    }
+
 
     /**
      * this method will return the score value of the highest-scoring
@@ -167,13 +174,7 @@ public class Profile{
      * @return : integer score value
      */
     public int getHighestScore(){
-        int max = 0;
-        for (int i = 0; i < this.scannedCodes.size(); i++){
-            if(this.scannedCodes.get(i).getScore() > max){
-                max = this.scannedCodes.get(i).getScore();
-            }
-        }
-        return max;
+        return this.scannedCodes.getHighest().getScore();
     }
 
     /**

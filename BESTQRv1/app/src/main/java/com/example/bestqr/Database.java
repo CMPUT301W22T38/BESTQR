@@ -62,7 +62,8 @@ public class Database {
                 profile.setEmailAddress(get_child_value(userinfo_ref, "emailaddress"));
                 profile.setPhoneNumber(get_child_value(userinfo_ref, "phonenumber"));
                 profile.setScannedCodes(get_qr_list(androidid, history_data));
-                profile.recountTotalScore();
+
+//                profile.recountTotalScore();
             }
 
         }
@@ -95,8 +96,8 @@ public class Database {
         return false;
     }
 
-    public ArrayList<QRCODE> get_qr_list(String androidid, DataSnapshot data) {
-        ArrayList<QRCODE> qrlist = new ArrayList<QRCODE>();
+    public QRCodeList get_qr_list(String androidid, DataSnapshot data) {
+        QRCodeList qrlist = new QRCodeList();
         if (data.getChildrenCount() > 0 ) {
             data.getChildren().forEach((d) -> {
                 QRCODE qrcode = get_qrcode(androidid, d.getKey().toString());
@@ -105,11 +106,6 @@ public class Database {
         }
         return qrlist;
     }
-
-//    private QRCODE get_qrcode(String hash) {
-//        QRCODE qrcode = new QRCODE();
-//        return qrcode;
-//    }
 
     public QRCODE get_qrcode(String androidid, String hash) {
         QRCODE qrcode = new QRCODE();
@@ -246,8 +242,6 @@ public class Database {
         data = task.getResult();
         return (int) data.getChildrenCount();
     }
-
-
 }
 
 //    private String get_child_value(DatabaseReference reference, String key) {

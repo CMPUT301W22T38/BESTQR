@@ -118,6 +118,7 @@ public class CameraActivity extends AppCompatActivity {
         userViewModel.setUserProfile(p1);
 
 
+
 //        Storage storage = new Storage();
 //
 //        QRCODE q1 = new QRCODE("random data5513123532");
@@ -142,34 +143,6 @@ public class CameraActivity extends AppCompatActivity {
 //        QrViewModel = new ViewModelProvider(this).get(QrViewModel.class);
 //        QrViewModel.setUserProfile(userProfile);
 //
-//        //This is open camera
-//
-//        ////////////////////////////
-//        db = new Database();
-//
-//        Profile p = db.getProfile(androidId);
-//
-//        QRCODE q1 = new QRCODE("random1");
-//        QRCODE q2 = new QRCODE("random2");
-//
-//        db.writeQRCode(q1, androidId);
-//        db.writeQRCode(q2, androidId);
-//        // https://console.firebase.google.com/project/bestqrdb/database/bestqrdb-default-rtdb/data
-//        // https://console.firebase.google.com/project/bestqrdb/storage/bestqrdb.appspot.com/files
-//        ///////////////////////////////
-
-        // jay
-
-//        System.out.println(userProfile.)
-//
-//        Location location = new Location(LocationManager.GPS_PROVIDER);
-//        location.setAltitude(1.421);
-//        location.setLongitude(5.325);
-//        qr.setCodeLocation(location);
-//        db.add_qrcode(androidid, qr);
-//
-//        db.get_qrcode(androidid, "3ad621f46a4bcc34d12490adc689d51ef0dbc12c913538427a667e1c52b97459");
-
     }
 
     public void scanButton(View v){
