@@ -53,9 +53,6 @@ public class UserFragment extends Fragment {
         binding = FragmentUserBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        MutableLiveData<String> tex = new MutableLiveData<String>();
-        tex.setValue("B");
-        //userViewModel.setText(tex);
         Profile userProfile = userViewModel.getUserProfile();
         binding.toolbarUserProfile.setText(userProfile.getUserName());
 

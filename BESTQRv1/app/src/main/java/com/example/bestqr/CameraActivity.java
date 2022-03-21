@@ -106,8 +106,13 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
         String androidid1 = "52e697d704";
         String androidid2 = "753098d871";
 
-//        p1 = db.get_user(androidid1);
-		  p1 = new Profile(androidId);
+        p1 = db.get_user(androidid1);
+        // p1 = new Profile(androidid1);
+
+        // The current user must be here!
+        // Should be a valid user from the database.
+        userViewModel.setUserProfile(p1);
+
 //        Profile p2 = this.db.get_user(androidid2);
 
 //        QRCODE qr1 = new QRCODE("qr1");
@@ -123,8 +128,6 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
 //        db.add_qrcode(androidid2,qr3);
 //        db.add_qrcode(androidid2,qr5);
 //        db.add_qrcode(androidid2,qr6);
-
-        userViewModel.setUserProfile(p1);
 
 
 

@@ -44,6 +44,11 @@ public class Profile implements Serializable {
 
     public void setScannedCodes(QRCodeList qrcodes) {
         this.scannedCodes = qrcodes;
+        // Need to iterate through qr codes to update profile's score correctly
+        this.score = 0;
+        for(QRCODE qr : qrcodes){
+            this.score += qr.getScore();
+        }
     }
 
     public QRCodeList getScannedCodes() {return  this.scannedCodes;}

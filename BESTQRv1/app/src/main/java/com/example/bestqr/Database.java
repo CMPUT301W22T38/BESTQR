@@ -64,7 +64,6 @@ public class Database {
                 profile.setPhoneNumber(get_child_value(userinfo_ref, "phonenumber"));
                 profile.setScannedCodes(get_qr_list(androidid, history_data));
 
-//                profile.recountTotalScore();
             }
 
         }
@@ -157,7 +156,6 @@ public class Database {
             if (qrdata.exists()) {
                 qrcode.setHash(qrdata.getKey());
                 qrcode.setIsimported(Boolean.valueOf(get_child_value(qr_ref, "imported")));
-
 
                 if (!get_child_value(qr_ref, "location").equals("null")) {
                     DatabaseReference location_ref = get_children(qr_ref, "location").getRef();
