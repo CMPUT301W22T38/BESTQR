@@ -60,7 +60,7 @@ public class UserFragment extends Fragment {
         binding.toolbarUserProfile.setText(userProfile.getUserName());
 
         ListView qrCodes = binding.qrlist;
-        qrlistAdapter myAdapter = new qrlistAdapter(getActivity() , userProfile.getQrScores(), userProfile.getQrBitmaps());
+        qrlistAdapter myAdapter = new qrlistAdapter(getActivity() , userProfile.getQrScores(), userProfile.getQrTimestamps(), userProfile.getQrBitmaps());
         qrCodes.setAdapter(myAdapter);
 
         // onClick Listener for the QR button on the toolbar

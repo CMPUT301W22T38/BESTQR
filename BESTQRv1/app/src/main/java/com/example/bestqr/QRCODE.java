@@ -9,6 +9,7 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -19,27 +20,30 @@ import java.util.Map;
 import java.util.TimeZone;
 
 
-public class QRCODE {
+public class QRCODE implements Serializable {
     private Location codeLocation;
     private Bitmap bitmap;
     private String hash;
     private boolean isimported;
+    private String contents;
     private int score;
+    private Bitmap objectImage;
     static MessageDigest digest;
+    private String timestamp;
 
-
-    public QRCODE() {
-    }
+    public QRCODE() {}
     /**
      * This constructor is for the QRCODE where location is stored
      * @param codeLocation: This is the Location that is recorded for the QRCODE
      * @param contents: this is the content of the QRCODE
      */
     public QRCODE(Location codeLocation, String contents) {
+        this.contents = contents;
         this.codeLocation = codeLocation;
         this.hash = calculateHash(contents);
         this.score = calculateScore(hash);
     }
+
 
     /**
      * This constructor is for the QRCODE where location is stored
@@ -47,6 +51,7 @@ public class QRCODE {
      */
     public QRCODE(String contents) {
         // this enforces the privacy rule for user location
+        this.contents = contents;
         this.codeLocation = null;
         this.hash = calculateHash(contents);
         this.score = calculateScore(hash);
@@ -77,7 +82,16 @@ public class QRCODE {
     }
 
 
+    public Bitmap getObjectImage() {
+        return objectImage;
+    }
 
+    public void setObjectImage(Bitmap objectImage) {
+        this.objectImage = objectImage;
+    }
+
+    // testing
+    public String getScannedTime() {return "2022-03-03";}
 
     /**
      * This method generates a QRCODE for the content passed in
@@ -86,7 +100,7 @@ public class QRCODE {
     public Bitmap getCode(){
         MultiFormatWriter writer = new MultiFormatWriter();
         try {
-            BitMatrix matrix = writer.encode(hash, BarcodeFormat.QR_CODE, 350, 350);
+            BitMatrix matrix = writer.encode(contents, BarcodeFormat.QR_CODE, 350, 350);
             BarcodeEncoder encoder = new BarcodeEncoder();
             bitmap = encoder.createBitmap(matrix);
         } catch (WriterException e) {

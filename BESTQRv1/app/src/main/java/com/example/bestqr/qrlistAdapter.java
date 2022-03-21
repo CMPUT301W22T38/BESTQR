@@ -17,10 +17,14 @@ import java.util.ArrayList;
 public class qrlistAdapter extends ArrayAdapter<String> {
     ArrayList<Integer> scores;
     ArrayList<Bitmap> Pictures;
+    ArrayList<String> timestamps;
+
     Context mContext;
-    public qrlistAdapter(@NonNull Context context, ArrayList<Integer> qrScores, ArrayList<Bitmap> qrPictures) {
+    public qrlistAdapter(@NonNull Context context, ArrayList<Integer> qrScores,
+                         ArrayList<String> qrTimestamps, ArrayList<Bitmap> qrPictures) {
         super(context, R.layout.qrlist_item);
         this.scores = qrScores;
+        this.timestamps = qrTimestamps;
         this.Pictures = qrPictures;
         this.mContext = context;
     }
@@ -37,7 +41,11 @@ public class qrlistAdapter extends ArrayAdapter<String> {
             LayoutInflater mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = mInflater.inflate(R.layout.qrlist_item, parent, false);
             mViewholder.QRimage = (ImageView) convertView.findViewById(R.id.imageView);
-            mViewholder.Score = (TextView) convertView.findViewById(R.id.textView);
+            mViewholder.Score = (TextView) convertView.findViewById(R.id.textView1);
+            mViewholder.Timestamp = (TextView) convertView.findViewById(R.id.textView2);
+
+
+
             convertView.setTag(mViewholder);//for faster scrolling
         }else{
             mViewholder = (ViewHolder)convertView.getTag();
@@ -45,6 +53,7 @@ public class qrlistAdapter extends ArrayAdapter<String> {
         //set value for image view and text view
         mViewholder.QRimage.setImageBitmap(Pictures.get(position));
         mViewholder.Score.setText(Integer.toString(scores.get(position)));
+        mViewholder.Timestamp.setText(String.valueOf(timestamps.get(position)));
 
         return convertView;
     }
@@ -52,5 +61,6 @@ public class qrlistAdapter extends ArrayAdapter<String> {
     static class ViewHolder{
         ImageView QRimage;
         TextView Score;
+        TextView Timestamp;
     }
 }

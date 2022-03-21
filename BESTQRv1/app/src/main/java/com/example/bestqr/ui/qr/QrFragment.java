@@ -62,7 +62,7 @@ public class QrFragment extends Fragment {
 
         MultiFormatWriter writer = new MultiFormatWriter();
         try {
-            BitMatrix matrix = writer.encode("hello", BarcodeFormat.QR_CODE, 350, 350);
+            BitMatrix matrix = writer.encode(userProfile.getAndroidID(), BarcodeFormat.QR_CODE, 350, 350);
             BarcodeEncoder encoder = new BarcodeEncoder();
             bitmap = encoder.createBitmap(matrix);
         } catch (WriterException e) {
