@@ -99,23 +99,24 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
 
         String androidid1 = "52e697d704";
         String androidid2 = "753098d871";
-        this.db = new Database();
-        p1 = this.db.get_user(androidid1);
-        Profile p2 = this.db.get_user(androidid2);
+        db = new Database();
+//        p1 = db.get_user(androidid1);
+        p1 = new Profile(androidId);
+//        Profile p2 = this.db.get_user(androidid2);
 
-        QRCODE qr1 = new QRCODE("qr1");
-        QRCODE qr2 = new QRCODE("qr2");
-        QRCODE qr3 = new QRCODE("qr3");
-        QRCODE qr5 = new QRCODE("qr5");
-        QRCODE qr6 = new QRCODE("qr6");
-
-        db.add_qrcode(androidid1,qr1);
-        db.add_qrcode(androidid1,qr2);
-        db.add_qrcode(androidid1,qr3);
-
-        db.add_qrcode(androidid2,qr3);
-        db.add_qrcode(androidid2,qr5);
-        db.add_qrcode(androidid2,qr6);
+//        QRCODE qr1 = new QRCODE("qr1");
+//        QRCODE qr2 = new QRCODE("qr2");
+//        QRCODE qr3 = new QRCODE("qr3");
+//        QRCODE qr5 = new QRCODE("qr5");
+//        QRCODE qr6 = new QRCODE("qr6");
+//
+//        db.add_qrcode(androidid1,qr1);
+//        db.add_qrcode(androidid1,qr2);
+//        db.add_qrcode(androidid1,qr3);
+//
+//        db.add_qrcode(androidid2,qr3);
+//        db.add_qrcode(androidid2,qr5);
+//        db.add_qrcode(androidid2,qr6);
 
         userViewModel.setUserProfile(p1);
 
