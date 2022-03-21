@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.bestqr.ui.qr.QrViewModel;
@@ -47,13 +48,14 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class CameraActivity extends AppCompatActivity {
+public class CameraActivity extends AppCompatActivity implements locationPrompt.OnFragmentInteractionListener {
 
     // Define the pic id and pic_image id
     private static final int PIC_ID = 123;
     private static final int PICK_IMAGE = 1;
     private QRCODE qr;
     private String contents;
+    private Profile p1;
     private int score = 0;
 
     private static final String TAG = "CameraActivity";
@@ -98,7 +100,7 @@ public class CameraActivity extends AppCompatActivity {
         String androidid1 = "52e697d704";
         String androidid2 = "753098d871";
         this.db = new Database();
-        Profile p1 = this.db.get_user(androidid1);
+        p1 = this.db.get_user(androidid1);
         Profile p2 = this.db.get_user(androidid2);
 
         QRCODE qr1 = new QRCODE("qr1");
@@ -195,6 +197,7 @@ public class CameraActivity extends AppCompatActivity {
                     // Create new QR object using contents as argument
                     qr = new QRCODE(contents);
                     score = qr.getScore();
+                    locationPrompt.newInstance(p1,qr).show(getSupportFragmentManager(),"NEW QRCODE");
 
 //                    db.writeImage(newQR, profile.getandroidId());
 //                    db.QRCodeReceivedFromCameraActivity(newQR, profile.getandroidId());
@@ -217,7 +220,7 @@ public class CameraActivity extends AppCompatActivity {
             }
         }
 
-        else {
+        else if (requestCode == 49374) {
             //Check condition
             if (intentResult.getContents() != null) {
                 //When result content is not null
@@ -225,6 +228,7 @@ public class CameraActivity extends AppCompatActivity {
                 contents = intentResult.getContents();
                 qr = new QRCODE(contents);
                 score = qr.getScore();
+                locationPrompt.newInstance(p1,qr).show(getSupportFragmentManager(),"NEW QRCODE");
 
             } else {
                 //When result content is null
@@ -234,28 +238,11 @@ public class CameraActivity extends AppCompatActivity {
                         .show();
             }
         }
-        // Build dialog using score of QR
-        AlertDialog.Builder builder = new AlertDialog.Builder(
-                CameraActivity.this
-        );
 
-
-        //Set title
-        builder.setTitle("Score = ");
-        //Set score(but currently is set message)
-        builder.setMessage(score + " ");
-        //Set positive button
-        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                //Dismiss dialog
-                dialogInterface.dismiss();
-            }
-        });
-        //Show alert dialog
-        builder.show();
-
-        //
+        else{
+            Bitmap captureImage = (Bitmap) data.getExtras().get("data");
+            qr.setObjectImage(captureImage);
+        }
     }
 
     /**
@@ -278,4 +265,10 @@ public class CameraActivity extends AppCompatActivity {
     public static Set<Integer> getTopLevelDestinations(){
         return topLevelDestinations;
     }
+
+    @Override
+    public void onOkPressed(Profile profile,QRCODE qrcode) {
+//        db.add_qrcode();
+    }
+
 }

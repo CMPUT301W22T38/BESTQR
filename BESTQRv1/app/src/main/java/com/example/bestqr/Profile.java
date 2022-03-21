@@ -2,11 +2,13 @@ package com.example.bestqr;
 
 
 import android.graphics.Bitmap;
+
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Profile{
+public class Profile implements Serializable {
     private String androidId;
     private String userName;
     private String phoneNumber;

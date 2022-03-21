@@ -14,10 +14,5 @@ public class QRCodeList extends ArrayList<QRCODE> {
     public QRCODE getHighest() {
         return Collections.max(this, Comparator.comparing(s -> s.getScore()));
     }
-
-
-
-
-
-
+    
 }
