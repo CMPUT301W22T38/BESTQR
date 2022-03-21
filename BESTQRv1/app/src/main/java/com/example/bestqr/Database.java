@@ -11,6 +11,7 @@ import android.location.LocationManager;
 
 import androidx.annotation.NonNull;
 
+import com.example.bestqr.ui.leaderboard.LeaderboardScoreBlock;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -95,6 +96,44 @@ public class Database {
         return false;
     }
 
+    /**
+     * Function for getting the QR codes for all users, and calculating the relevant scores associated.
+     * Used by the Leaderboard tab.
+     * @return : A list of LeaderboardScoreBlock objects, which each hold scoring types for a specific user
+     */
+    public ArrayList<LeaderboardScoreBlock> get_all_scoring_types(){
+        // Object to hold the various score types
+        ArrayList<LeaderboardScoreBlock> result = new ArrayList<LeaderboardScoreBlock>();
+        // Get all users from database
+        DataSnapshot users = this.get_children(database.getReference(), "user");
+        if(users.hasChildren()){
+            Iterable<DataSnapshot> children = users.getChildren();
+            for(DataSnapshot child : children){
+                // TODO: This currently fetches the user's hash
+                // Once the database has userinfo for all users this should be updated to
+                // actually fetch the username.
+                String username = child.getKey();
+                DataSnapshot qr_codes = child.child("history");
+                // Get total amount of qr codes a user has scanned. Cast from long
+                int totalScanned = (int)qr_codes.getChildrenCount();
+                int max = 0;
+                int totalScore = 0;
+                Iterable<DataSnapshot> qr_codes_iterable = qr_codes.getChildren();
+                for(DataSnapshot qr : qr_codes_iterable){
+                    DataSnapshot score = qr.child("score");
+                    int qrscore = Integer.parseInt((String) score.getValue());
+                    score.getValue();
+                    if(qrscore > max) {
+                        max = qrscore;
+                    }
+                    totalScore += qrscore;
+                    }
+                result.add(new LeaderboardScoreBlock(username, username, max, totalScanned, totalScore));
+                }
+            }
+        return result;
+    }
+
     public ArrayList<QRCODE> get_qr_list(String androidid, DataSnapshot data) {
         ArrayList<QRCODE> qrlist = new ArrayList<QRCODE>();
         if (data.getChildrenCount() > 0 ) {
@@ -105,6 +144,7 @@ public class Database {
         }
         return qrlist;
     }
+
 
 //    private QRCODE get_qrcode(String hash) {
 //        QRCODE qrcode = new QRCODE();

@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.bestqr.ui.leaderboard.LeaderboardViewModel;
 import com.example.bestqr.ui.qr.QrViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -71,6 +72,7 @@ public class CameraActivity extends AppCompatActivity {
 
     // UserViewModel
     private UserViewModel userViewModel;
+    private LeaderboardViewModel leaderboardViewModel;
     private QrViewModel QrViewModel;
     private Database db;
 
@@ -94,10 +96,13 @@ public class CameraActivity extends AppCompatActivity {
         QRCODE userIdentification = new QRCODE(androidId);
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        leaderboardViewModel = new ViewModelProvider(this).get(LeaderboardViewModel.class);
+
+        this.db = new Database();
+        userViewModel.setDb(this.db);
 
         String androidid1 = "52e697d704";
         String androidid2 = "753098d871";
-        this.db = new Database();
         Profile p1 = this.db.get_user(androidid1);
         Profile p2 = this.db.get_user(androidid2);
 

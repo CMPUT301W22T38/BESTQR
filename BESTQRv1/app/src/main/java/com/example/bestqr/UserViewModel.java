@@ -9,7 +9,7 @@ import com.example.bestqr.QRCODE;
 
 import java.util.ArrayList;
 
-// UserViewModel is a ViewModel that is global to all fragments, as it is owned by the Main Activity
+// UserViewModel is a ViewModel that can be global to all fragments, as it is owned by the Main Activity
 // This Class will allow a user profile to persist across fragment navigation
 // And can be used to handle data changes
 public class UserViewModel extends ViewModel {
@@ -22,6 +22,14 @@ public class UserViewModel extends ViewModel {
         mText = new MutableLiveData<>();
         mText.setValue("Test");
 
+    }
+
+    public Database getDb() {
+        return db;
+    }
+
+    public void setDb(Database db) {
+        this.db = db;
     }
 
     /** Sets the main user profile

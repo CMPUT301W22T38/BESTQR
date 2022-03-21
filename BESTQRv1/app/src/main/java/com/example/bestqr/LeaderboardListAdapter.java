@@ -12,19 +12,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.bestqr.ui.leaderboard.LeaderboardScoreBlock;
+import com.example.bestqr.ui.leaderboard.LeaderboardViewModel;
+
 import java.util.ArrayList;
 
-public class LeaderboardListAdapter extends ArrayAdapter<String> {
-    ArrayList<String> usernames;
-    ArrayList<Integer> scores;
-    ArrayList<Integer> ranks;
+public class LeaderboardListAdapter extends ArrayAdapter<LeaderboardScoreBlock> {
+    ArrayList<LeaderboardScoreBlock> scores;
+    Context context;
+    int sortingMethod;
 
-    Context mContext;
-    public LeaderboardListAdapter(@NonNull Context context, ArrayList<String> usernames, ArrayList<Integer> scores, ArrayList<Integer> ranks) {
+    public LeaderboardListAdapter(@NonNull Context context, ArrayList<LeaderboardScoreBlock> scores, int sortingMethod) {
         super(context, R.layout.qrlist_item);
-        this.usernames = usernames;
+        this.context = context;
         this.scores = scores;
-        this.ranks = ranks;
+        this.sortingMethod = sortingMethod;
     }
     @Override
     public int getCount(){
@@ -36,7 +38,7 @@ public class LeaderboardListAdapter extends ArrayAdapter<String> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         ViewHolder mViewholder = new ViewHolder();
         if(convertView == null) {
-            LayoutInflater mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater mInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = mInflater.inflate(R.layout.leaderboardlist_item, parent, false);
             mViewholder.userTextView = (TextView) convertView.findViewById(R.id.leaderboard_list_user);
             mViewholder.scoreTextView = (TextView) convertView.findViewById(R.id.leaderboard_list_score);
@@ -46,12 +48,25 @@ public class LeaderboardListAdapter extends ArrayAdapter<String> {
             mViewholder = (ViewHolder)convertView.getTag();
         }
 
-        //mViewholder.QRimage.setImageBitmap(Pictures.get(position));
-        //mViewholder.userTextView.setText(usernames.get(position));
-        //mViewholder.userTextView.setText();
-        //mViewholder.userTextView.setText();
+        mViewholder.userTextView.setText(scores.get(position).getUsername());
+        mViewholder.rankTextView.setText(Integer.toString(position + 1));
 
+        switch(this.sortingMethod) {
+            case 1:
+                mViewholder.scoreTextView.setText(Integer.toString(this.scores.get(position).getHighestScoring()));
+                break;
+            case 2:
+                mViewholder.scoreTextView.setText(Integer.toString(this.scores.get(position).getTotalNum()));
+                break;
+            case 0:
+                mViewholder.scoreTextView.setText(Integer.toString(this.scores.get(position).getTotalSumOfScores()));
+                break;
+        }
         return convertView;
+    }
+
+    public void setSortingMethod(int sortingMethod) {
+        this.sortingMethod = sortingMethod;
     }
 
     static class ViewHolder{
@@ -59,9 +74,4 @@ public class LeaderboardListAdapter extends ArrayAdapter<String> {
         TextView scoreTextView;
         TextView rankTextView;
     }
-}
-
-public class LeaderboardListItem(){
-
-
 }

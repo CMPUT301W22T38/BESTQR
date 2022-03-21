@@ -2,7 +2,9 @@ package com.example.bestqr.ui.leaderboard;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -20,12 +22,15 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.bestqr.CameraActivity;
+import com.example.bestqr.Database;
 import com.example.bestqr.LeaderboardListAdapter;
 import com.example.bestqr.Profile;
 import com.example.bestqr.R;
 import com.example.bestqr.databinding.FragmentLeaderboardBinding;
 import com.example.bestqr.UserViewModel;
 import com.example.bestqr.qrlistAdapter;
+
+import java.util.ArrayList;
 
 public class LeaderboardFragment extends Fragment {
 
@@ -47,7 +52,7 @@ public class LeaderboardFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         leaderboardViewModel =
-                new ViewModelProvider(this).get(LeaderboardViewModel.class);
+                new ViewModelProvider(requireActivity()).get(LeaderboardViewModel.class);
 
         // Get Activity-Owned UserViewModel (global to all fragments)
         userViewModel =
@@ -58,9 +63,21 @@ public class LeaderboardFragment extends Fragment {
 
         TextView profile_icon = binding.toolbarLeaderboardProfile;
 
-        LeaderboardListAdapter myAdapter = new LeaderboardListAdapter(getActivity(), );
+        // Fetch all the scores from the database for display
+        // TODO: This should be threaded.
+        if(!leaderboardViewModel.scoresInitialized) {
+            leaderboardViewModel.updateScoreBlocks(userViewModel.getDb());
+            // Sort scores after fetching. This is the default sorting method when the fragment is created.
+            leaderboardViewModel.sortScoresByTotalSum();
+        }
+
+        LeaderboardListAdapter myAdapter = new LeaderboardListAdapter(getActivity(), leaderboardViewModel.getScoreBlocks(), 0);
         binding.leaderboardList.setAdapter(myAdapter);
 
+        // TODO: Implement putting user scores into highlighted bar
+        // ArrayList<Integer> scoreRank = leaderboardViewModel.getUserScoreAndRank(userViewModel.getUserProfile().getDeviceID());
+        // binding.leaderboardUserBlockValue.setText(scoreRank.get(0));
+        // binding.leaderboardUserBlockRank.setText(scoreRank.get(1));
 
         /**
          * OnClick Listener for the Sort button
@@ -68,7 +85,6 @@ public class LeaderboardFragment extends Fragment {
          * Highest Total, Highest Code, # Of Codes
          * This sorts the stats of the local & global leaderboard
          */
-
         ImageButton sort_button = binding.toolbarLeaderboardSort;
         sort_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,8 +92,31 @@ public class LeaderboardFragment extends Fragment {
                 PopupMenu popup = new PopupMenu(getActivity(), sort_button);
                 popup.getMenuInflater().inflate(R.menu.leaderboard_sort_menu, popup.getMenu());
                 popup.show();
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        int id = item.getItemId();
+                        switch(id) {
+                            case R.id.leaderboard_menu_code:
+                                leaderboardViewModel.sortScoresByHighestUnique();
+                                break;
+                            case R.id.leaderboard_menu_numcodes:
+                                leaderboardViewModel.sortScoresByTotalScanned();
+                                break;
+                            case R.id.leaderboard_menu_total:
+                                leaderboardViewModel.sortScoresByTotalSum();
+                                break;
+                        }
+                        // LeaderboardListAdapter newAdapter = new LeaderboardListAdapter(getActivity(),
+                        // leaderboardViewModel.getScoreBlocks(), leaderboardViewModel.getSortingMethod());
+                        myAdapter.setSortingMethod(leaderboardViewModel.getSortingMethod());
+                        myAdapter.clear();
+                        myAdapter.addAll(leaderboardViewModel.getScoreBlocks());
+                        // binding.leaderboardList.setAdapter(newAdapter);
+                        return true;
+                    }
+                });
             }
-
         });
 
         /**
@@ -119,6 +158,8 @@ public class LeaderboardFragment extends Fragment {
         NavigationUI.setupWithNavController(binding.toolbarLeaderboard, navController, appBarConfiguration);
 
         updateUserScores();
+        // leaderboardViewModel.
+
     }
 
     /**
@@ -143,4 +184,22 @@ public class LeaderboardFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
+    /*
+    class FetchAndSort implements Runnable {
+        LeaderboardViewModel leaderboardViewModel;
+        Database db;
+        FetchAndSort(LeaderboardViewModel leaderboardViewModel, Database db){
+            this.leaderboardViewModel = leaderboardViewModel;
+            this.db = db;
+        }
+
+        public void run(){
+            leaderboardViewModel.updateScoreBlocks(this.db);
+            leaderboardViewModel.sortScoresByTotalSum();
+        }
+
+
+    }
+    */
 }

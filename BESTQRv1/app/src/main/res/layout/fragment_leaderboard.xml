@@ -6,16 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".ui.leaderboard.LeaderboardFragment">
 
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_leaderboard"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:theme="?attr/actionBarTheme"
         android:background="?attr/colorPrimary"
+        android:theme="?attr/actionBarTheme"
         app:contentInsetLeft="0dp"
-        app:contentInsetStart="0dp">
+        app:contentInsetStart="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -36,8 +37,8 @@
                 android:id="@+id/toolbar_leaderboard_stats"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:text="USER STATS HERE"
                 android:layout_marginStart="8dp"
+                android:text="USER STATS HERE"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/toolbar_leaderboard_search"
                 app:layout_constraintStart_toEndOf="@+id/toolbar_leaderboard_profile"
@@ -94,40 +95,82 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>
 
-    <LinearLayout
-        android:id="@+id/leaderboard_user_block"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/leaderboard_user_block_profile"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:background="?attr/colorAccent"
+        android:padding="8dp"
+        android:text="You"
+        android:textAlignment="viewStart"
+        app:layout_constraintEnd_toStartOf="@+id/leaderboard_guideline1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_leaderboard">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_leaderboard" />
 
-        <TextView
-            android:id="@+id/leaderboard_user_block_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+    <TextView
+        android:id="@+id/leaderboard_user_block_value"
+        android:padding="8dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorAccent"
+        android:textAlignment="viewStart"
+        app:layout_constraintStart_toEndOf="@+id/leaderboard_guideline1"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_leaderboard"
+        app:layout_constraintEnd_toStartOf="@id/leaderboard_guideline2"/>
 
-        <TextView
-            android:id="@+id/leaderboard_user_block_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+    <TextView
+        android:id="@+id/leaderboard_user_block_rank"
+        android:padding="8dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorAccent"
+        android:textAlignment="viewEnd"
+        app:layout_constraintStart_toEndOf="@+id/leaderboard_guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_leaderboard" />
 
-        <TextView
-            android:id="@+id/leaderboard_user_block_rank"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
 
-    </LinearLayout>
+    <TextView
+        android:id="@+id/leaderboard_list_label_user"
+        android:padding="8dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="viewStart"
+        android:layout_weight="1"
+        android:text="Username"
+        app:layout_constraintEnd_toStartOf="@+id/leaderboard_guideline1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/leaderboard_user_block_profile" />
+
+    <TextView
+        android:id="@+id/leaderboard_list_label_value"
+        android:padding="8dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="viewStart"
+        android:text="Score"
+        app:layout_constraintStart_toEndOf="@+id/leaderboard_guideline1"
+        app:layout_constraintTop_toBottomOf="@+id/leaderboard_user_block_profile"
+        app:layout_constraintEnd_toStartOf="@id/leaderboard_guideline2"/>
+
+    <TextView
+        android:id="@+id/leaderboard_list_label_rank"
+        android:padding="8dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="viewEnd"
+        android:text="Rank"
+        app:layout_constraintStart_toEndOf="@+id/leaderboard_guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/leaderboard_user_block_profile" />
 
     <ListView
         android:id="@+id/leaderboard_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/leaderboard_user_block"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/leaderboard_list_label_user" />
 
     <TextView
         android:id="@+id/text_notifications"
@@ -142,6 +185,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/leaderboard_guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/leaderboard_guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.75" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
