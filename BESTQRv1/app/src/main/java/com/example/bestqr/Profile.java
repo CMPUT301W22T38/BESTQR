@@ -21,6 +21,10 @@ public class Profile implements Serializable {
     private ArrayList<Bitmap> qrBitmaps;
     private ArrayList<String> qrTimestamps;
 
+    /**
+     * This constructor is used to initialize an empty Profile object within Database.java
+     * @param android_id: android Id of the user
+     */
     public Profile(String android_id) {
         this.androidId = android_id;
         this.scannedCodes = new QRCodeList();

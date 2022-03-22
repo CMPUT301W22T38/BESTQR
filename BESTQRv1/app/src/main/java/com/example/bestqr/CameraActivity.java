@@ -103,37 +103,44 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
         this.db = new Database();
         userViewModel.setDb(this.db);
 
-        String androidid1 = "52e697d704";
-        String androidid2 = "753098d871";
+//        String androidid1 = "52e697d704";
+//        String androidid2 = "753098d871";
+        String androidid3 = "ab734cef15";
+//        String androidid4 = "fe6385a27d";
+//        String androidid5 = "ae73fa84dd";
 
-        p1 = db.get_user(androidid1);
-        // p1 = new Profile(androidid1);
+//        Profile p1 = db.get(androidid1);
+//        Profile p2 = db.get(androidid2);
+        Profile p3 = db.get(androidid3);
+//        Profile p4 = db.get(androidid4);
+//        Profile p5 = db.get(androidid5);
 
-        // The current user must be here!
-        // Should be a valid user from the database.
-        userViewModel.setUserProfile(p1);
 
-//        Profile p2 = this.db.get_user(androidid2);
-
-//        QRCODE qr1 = new QRCODE("qr1");
-//        QRCODE qr2 = new QRCODE("qr2");
-//        QRCODE qr3 = new QRCODE("qr3");
-//        QRCODE qr5 = new QRCODE("qr5");
-//        QRCODE qr6 = new QRCODE("qr6");
+//        QRCODE q1 = new QRCODE("cccc1");
+//        QRCODE q2 = new QRCODE("cccc2");
+//        QRCODE q3 = new QRCODE("cccc3");
+//        QRCODE q4 = new QRCODE("cccc4");
+//        QRCODE q5 = new QRCODE("cccc5");
 //
-//        db.add_qrcode(androidid1,qr1);
-//        db.add_qrcode(androidid1,qr2);
-//        db.add_qrcode(androidid1,qr3);
+//        db.add_qrcode(p3.getUserName(), q1);
+//        db.add_qrcode(p3.getUserName(), q2);
+//        db.add_qrcode(p3.getUserName(), q3);
+//        db.add_qrcode(p3.getUserName(), q4);
+//        db.add_qrcode(p3.getUserName(), q5);
 //
-//        db.add_qrcode(androidid2,qr3);
-//        db.add_qrcode(androidid2,qr5);
-//        db.add_qrcode(androidid2,qr6);
-
-
-
+//
+//
+//
 //        Storage storage = new Storage();
-//
-//        QRCODE q1 = new QRCODE("random data5513123532");
+//        storage.upload(q1, p3.getAndroidID());
+//        storage.upload(q2, p3.getAndroidID());
+//        storage.upload(q3, p3.getAndroidID());
+//        storage.upload(q4, p3.getAndroidID());
+//        storage.upload(q5, p3.getAndroidID());
+
+        userViewModel.setUserProfile(p3);
+
+//        storage.upload(q1, androidid3);
 //        System.out.println(q1.getCode());
 //        System.out.println(q1.getCode().toString());
 //        System.out.println(q1.getCode().getRowBytes());

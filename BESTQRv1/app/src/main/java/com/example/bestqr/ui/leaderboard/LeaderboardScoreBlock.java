@@ -9,6 +9,10 @@ public class LeaderboardScoreBlock {
     private int totalNum;
     private int totalSumOfScores;
 
+    public LeaderboardScoreBlock(String username, int totalSumOfScores, int totalNum, int rank) {
+
+    }
+
     public LeaderboardScoreBlock(String userHash, String username, int highestScoring, int totalNum, int totalSumOfScores){
         this.username = username;
         this.userHash = userHash;

@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,7 +30,8 @@ public class QRCODE implements Serializable {
     private int score;
     private Bitmap objectImage;
     static MessageDigest digest;
-    private String timestamp;
+
+    private TimeStamp timestamp;
 
     public QRCODE() {}
     /**
@@ -42,6 +44,7 @@ public class QRCODE implements Serializable {
         this.codeLocation = codeLocation;
         this.hash = calculateHash(contents);
         this.score = calculateScore(hash);
+        this.timestamp = new TimeStamp();
     }
 
 
@@ -55,6 +58,7 @@ public class QRCODE implements Serializable {
         this.codeLocation = null;
         this.hash = calculateHash(contents);
         this.score = calculateScore(hash);
+        this.timestamp = new TimeStamp();
     }
 
     //test
@@ -68,10 +72,9 @@ public class QRCODE implements Serializable {
         this.score = score;
     }
 
-    public void setIsimported(boolean b) {
-        this.isimported = b;
+    public void setTimestamp(TimeStamp timestamp) {
+        this.timestamp = timestamp;
     }
-
 
     public void setisImported(boolean imported) {
         this.isimported = imported;
