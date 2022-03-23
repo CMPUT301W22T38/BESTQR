@@ -18,6 +18,7 @@ import java.util.Comparator;
 public class UserViewModel extends ViewModel {
 
     private Profile user_profile;
+    private Profile guest_profile;
     private Database db;
 
     public Database getDb() {
@@ -41,6 +42,20 @@ public class UserViewModel extends ViewModel {
     public void sortListChronological() {
         QRCodeList qrcodelist = this.user_profile.getScannedCodes();
         Collections.sort(qrcodelist, Comparator.comparing(QRCODE::getScannedTime));
+    }
+
+    /** Sets the user profile that will be used for navigating to profiles other than the current user
+     * @return : Profile
+     */
+    public Profile getGuestProfile() {
+        return guest_profile;
+    }
+
+    /** Gets the user profile that will be used for navigating to profiles other than the current user
+     * @param guest_profile : Profile
+     */
+    public void setGuestProfile(Profile guest_profile) {
+        this.guest_profile = guest_profile;
     }
 
     /** Sets the main user profile

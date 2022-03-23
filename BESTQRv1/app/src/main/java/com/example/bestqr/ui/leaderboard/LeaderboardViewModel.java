@@ -64,7 +64,6 @@ public class LeaderboardViewModel extends ViewModel {
     public void sortScoresByTotalSum(){
 //        Collections.sort(this.scoreBlocks, LeaderboardScoreBlock.totalSumComparator);
         Collections.sort(this.scoreBlocks, Comparator.comparing(LeaderboardScoreBlock::getTotalSumOfScores).reversed());
-
         this.sortingMethod = 0;
     }
 
