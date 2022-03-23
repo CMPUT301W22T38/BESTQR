@@ -40,9 +40,11 @@ public class LeaderboardListAdapter extends ArrayAdapter<LeaderboardScoreBlock> 
         if(convertView == null) {
             LayoutInflater mInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = mInflater.inflate(R.layout.leaderboardlist_item, parent, false);
-            mViewholder.userTextView = (TextView) convertView.findViewById(R.id.leaderboard_list_user);
-            mViewholder.scoreTextView = (TextView) convertView.findViewById(R.id.leaderboard_list_score);
+            mViewholder.userTextView = (TextView) convertView.findViewById(R.id.leaderboard_list_username);
+            mViewholder.scoreTextView = (TextView) convertView.findViewById(R.id.leaderboard_list_total_score);
             mViewholder.rankTextView = (TextView) convertView.findViewById(R.id.leaderboard_list_rank);
+            mViewholder.scannednumTextView = (TextView) convertView.findViewById(R.id.leaderboard_list_scanned_number);
+
             convertView.setTag(mViewholder);//for faster scrolling
         }else{
             mViewholder = (ViewHolder)convertView.getTag();
@@ -50,18 +52,20 @@ public class LeaderboardListAdapter extends ArrayAdapter<LeaderboardScoreBlock> 
 
         mViewholder.userTextView.setText(scores.get(position).getUsername());
         mViewholder.rankTextView.setText(Integer.toString(position + 1));
-
+        mViewholder.scannednumTextView.setText(String.valueOf(scores.get(position).getTotalNum()));
         switch(this.sortingMethod) {
-            case 1:
-                mViewholder.scoreTextView.setText(Integer.toString(this.scores.get(position).getHighestScoring()));
-                break;
-            case 2:
-                mViewholder.scoreTextView.setText(Integer.toString(this.scores.get(position).getTotalNum()));
-                break;
             case 0:
                 mViewholder.scoreTextView.setText(Integer.toString(this.scores.get(position).getTotalSumOfScores()));
                 break;
+            case 1:
+                mViewholder.scoreTextView.setText(String.valueOf(this.scores.get(position).getHighestScoring()));
+                break;
+            case 2:
+//                mViewholder.scoreTextView.setText(Integer.toString(this.scores.get(position).getTotalNum()));
+                break;
         }
+
+
         return convertView;
     }
 
@@ -70,8 +74,9 @@ public class LeaderboardListAdapter extends ArrayAdapter<LeaderboardScoreBlock> 
     }
 
     static class ViewHolder{
+        TextView rankTextView;
         TextView userTextView;
         TextView scoreTextView;
-        TextView rankTextView;
+        TextView scannednumTextView;
     }
 }

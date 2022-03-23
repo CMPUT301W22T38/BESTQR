@@ -1,5 +1,6 @@
 package com.example.bestqr.ui.leaderboard;
 
+import java.util.Collections;
 import java.util.Comparator;
 
 public class LeaderboardScoreBlock {
@@ -8,10 +9,8 @@ public class LeaderboardScoreBlock {
     private int highestScoring;
     private int totalNum;
     private int totalSumOfScores;
+    private int rank;
 
-    public LeaderboardScoreBlock(String username, int totalSumOfScores, int totalNum, int rank) {
-
-    }
 
     public LeaderboardScoreBlock(String userHash, String username, int highestScoring, int totalNum, int totalSumOfScores){
         this.username = username;
@@ -21,32 +20,35 @@ public class LeaderboardScoreBlock {
         this.totalSumOfScores = totalSumOfScores;
     }
 
-    public static Comparator<LeaderboardScoreBlock> highestScoringComparator = new Comparator<LeaderboardScoreBlock>() {
-
-        public int compare(LeaderboardScoreBlock s1, LeaderboardScoreBlock s2){
-            int s1_score = s1.getHighestScoring();
-            int s2_score = s2.getHighestScoring();
-            return s2_score - s1_score;
-        }
-    };
-
-    public static Comparator<LeaderboardScoreBlock> totalNumComparator = new Comparator<LeaderboardScoreBlock>() {
-
-        public int compare(LeaderboardScoreBlock s1, LeaderboardScoreBlock s2){
-            int s1_score = s1.getTotalNum();
-            int s2_score = s2.getTotalNum();
-            return s2_score - s1_score;
-        }
-    };
-
-    public static Comparator<LeaderboardScoreBlock> totalSumComparator = new Comparator<LeaderboardScoreBlock>() {
-
-        public int compare(LeaderboardScoreBlock s1, LeaderboardScoreBlock s2){
-            int s1_score = s1.getTotalSumOfScores();
-            int s2_score = s2.getTotalSumOfScores();
-            return s2_score - s1_score;
-        }
-    };
+//
+//    public static Comparator<LeaderboardScoreBlock> highestScoringComparator = new Comparator<LeaderboardScoreBlock>() {
+//
+//        public int compare(LeaderboardScoreBlock s1, LeaderboardScoreBlock s2){
+//            int s1_score = s1.getHighestScoring();
+//            int s2_score = s2.getHighestScoring();
+//
+//            return s2_score - s1_score;
+//        }
+//    };
+//
+//    public static Comparator<LeaderboardScoreBlock> totalNumComparator = new Comparator<LeaderboardScoreBlock>() {
+//        int rank = 0;
+//        public int compare(LeaderboardScoreBlock s1, LeaderboardScoreBlock s2){
+//            int s1_score = s1.getTotalNum();
+//            int s2_score = s2.getTotalNum();
+//
+//            return s2_score - s1_score;
+//        }
+//    };
+//
+//    public static Comparator<LeaderboardScoreBlock> totalSumComparator = new Comparator<LeaderboardScoreBlock>() {
+//
+//        public int compare(LeaderboardScoreBlock s1, LeaderboardScoreBlock s2){
+//            int s1_score = s1.getTotalSumOfScores();
+//            int s2_score = s2.getTotalSumOfScores();
+//            return s2_score - s1_score;
+//        }
+//    };
 
     public String getUserHash() {
         return userHash;
@@ -86,5 +88,13 @@ public class LeaderboardScoreBlock {
 
     public void setTotalSumOfScores(int totalSumOfScores) {
         this.totalSumOfScores = totalSumOfScores;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
     }
 }

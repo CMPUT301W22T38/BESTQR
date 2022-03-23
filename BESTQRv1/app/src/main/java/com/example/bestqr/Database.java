@@ -42,6 +42,8 @@ public class Database {
     private DatabaseTable GLOBAL_USERNAMETABLE;
     private DatabaseTable GLOBAL_USERTABLE;
 
+    private Storage storage;
+
 
 
     public Database() {
@@ -54,6 +56,8 @@ public class Database {
         GLOBAL_USERTABLE = new DatabaseTable(database.getReference().child("user"));
         GLOBAL_USERNAMETABLE = new DatabaseTable(database.getReference().child("username"));
         GLOBAL_REGISTRATIONTABLE = new DatabaseTable(database.getReference().child("registeredandroidid"));
+
+        storage = new Storage();
     }
 
     public Profile get(String androidid) {
@@ -141,6 +145,10 @@ public class Database {
         return qrcode;
     }
 
+//    public void add_qrcode(Profile profile, QRCODE qrcode) {
+//
+//    }
+
     public void add_qrcode(String username, QRCODE qrcode) {
         String androidid = GLOBAL_USERNAMETABLE.get(username);
         DatabaseTable user_table = new DatabaseTable(GLOBAL_USERTABLE, androidid);
@@ -163,10 +171,13 @@ public class Database {
                 int total = Integer.valueOf(GLOBAL_QRCODETABLE.get(hash, "count"));
                 GLOBAL_QRCODETABLE.add(hash, "count", String.valueOf(total + 1));
             }
+            else {
+                GLOBAL_QRCODETABLE.add(hash, "count", "1");
+            }
             GLOBAL_QRCODETABLE.add(hash, "users", androidid, timestamp.getTimeStamp());
 
+            storage.upload(qrcode, androidid);
         }
-
 
     }
 

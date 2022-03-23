@@ -15,5 +15,4 @@ public class QRCodeList extends ArrayList<QRCODE> {
         return Collections.max(this, Comparator.comparing(s -> s.getScore()));
     }
 
-
 }

@@ -6,8 +6,11 @@ import androidx.lifecycle.ViewModel;
 import com.example.bestqr.Database;
 import com.example.bestqr.Profile;
 import com.example.bestqr.QRCODE;
+import com.example.bestqr.ui.leaderboard.LeaderboardScoreBlock;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 // UserViewModel is a ViewModel that can be global to all fragments, as it is owned by the Main Activity
 // This Class will allow a user profile to persist across fragment navigation
@@ -15,14 +18,7 @@ import java.util.ArrayList;
 public class UserViewModel extends ViewModel {
 
     private Profile user_profile;
-    private MutableLiveData<String> mText;
     private Database db;
-
-    public UserViewModel(){
-        mText = new MutableLiveData<>();
-        mText.setValue("Test");
-
-    }
 
     public Database getDb() {
         return db;
@@ -30,6 +26,21 @@ public class UserViewModel extends ViewModel {
 
     public void setDb(Database db) {
         this.db = db;
+    }
+
+    public void sortListAscendingScore() {
+        QRCodeList qrcodelist = this.user_profile.getScannedCodes();
+        Collections.sort(qrcodelist, Comparator.comparing(QRCODE::getScore));
+    }
+
+    public void sortListDescending() {
+        QRCodeList qrcodelist = this.user_profile.getScannedCodes();
+        Collections.sort(qrcodelist, Comparator.comparing(QRCODE::getScore).reversed());
+    }
+
+    public void sortListChronological() {
+        QRCodeList qrcodelist = this.user_profile.getScannedCodes();
+        Collections.sort(qrcodelist, Comparator.comparing(QRCODE::getScannedTime));
     }
 
     /** Sets the main user profile

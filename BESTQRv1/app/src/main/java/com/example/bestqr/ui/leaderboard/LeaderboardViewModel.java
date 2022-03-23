@@ -5,9 +5,11 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.bestqr.Database;
+import com.google.common.collect.Comparators;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 public class LeaderboardViewModel extends ViewModel {
 
@@ -57,10 +59,22 @@ public class LeaderboardViewModel extends ViewModel {
 
     /**
      * This method sorts the list of LeaderboardScoreBlock objects,
+     * according to the total sum of qr code scores for a user
+     */
+    public void sortScoresByTotalSum(){
+//        Collections.sort(this.scoreBlocks, LeaderboardScoreBlock.totalSumComparator);
+        Collections.sort(this.scoreBlocks, Comparator.comparing(LeaderboardScoreBlock::getTotalSumOfScores).reversed());
+
+        this.sortingMethod = 0;
+    }
+
+    /**
+     * This method sorts the list of LeaderboardScoreBlock objects,
      * according to the highest scoring qr code a user has scanned
      */
     public void sortScoresByHighestUnique(){
-        Collections.sort(this.scoreBlocks, LeaderboardScoreBlock.highestScoringComparator);
+//        Collections.sort(this.scoreBlocks, LeaderboardScoreBlock.highestScoringComparator);
+        Collections.sort(this.scoreBlocks, Comparator.comparing(LeaderboardScoreBlock::getHighestScoring).reversed());
         this.sortingMethod = 1;
     }
 
@@ -69,18 +83,12 @@ public class LeaderboardViewModel extends ViewModel {
      * sorted to the total number of qr codes scanned by a user.
      */
     public void sortScoresByTotalScanned(){
-        Collections.sort(this.scoreBlocks, LeaderboardScoreBlock.totalNumComparator);
+
+//        Collections.sort(this.scoreBlocks, LeaderboardScoreBlock.totalNumComparator);
+        Collections.sort(this.scoreBlocks, Comparator.comparing(LeaderboardScoreBlock::getTotalNum).reversed());
         this.sortingMethod = 2;
     }
 
-    /**
-     * This method sorts the list of LeaderboardScoreBlock objects,
-     * according to the total sum of qr code scores for a user
-     */
-    public void sortScoresByTotalSum(){
-        Collections.sort(this.scoreBlocks, LeaderboardScoreBlock.totalSumComparator);
-        this.sortingMethod = 0;
-    }
 
     /**
      * This method returns the score value for an item, with the score corresponding to the current sorting method
@@ -108,5 +116,7 @@ public class LeaderboardViewModel extends ViewModel {
     public ArrayList<LeaderboardScoreBlock> getScoreBlocks(){
         return this.scoreBlocks;
     }
+
+
 
 }

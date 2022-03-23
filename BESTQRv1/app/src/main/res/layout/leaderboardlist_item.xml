@@ -5,32 +5,39 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/leaderboard_list_user"
-        android:layout_width="0dp"
+        android:id="@+id/leaderboard_list_rank"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="start"
-        android:textAlignment="viewStart"
-        android:padding="8dp"
+
+        android:padding="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/leaderboard_list_guideline1"/>
 
     <TextView
-        android:id="@+id/leaderboard_list_score"
-        android:layout_width="0dp"
+        android:id="@+id/leaderboard_list_username"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAlignment="viewStart"
-        android:padding="8dp"
+
+        android:padding="10dp"
         app:layout_constraintStart_toEndOf="@+id/leaderboard_list_guideline1"
         app:layout_constraintEnd_toStartOf="@+id/leaderboard_list_guideline2"/>
 
     <TextView
-        android:id="@+id/leaderboard_list_rank"
-        android:layout_width="0dp"
+        android:id="@+id/leaderboard_list_total_score"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAlignment="viewEnd"
-        android:padding="8dp"
-        android:gravity="end"
+
+        android:padding="10dp"
         app:layout_constraintStart_toEndOf="@+id/leaderboard_list_guideline2"
+        app:layout_constraintEnd_toEndOf="@+id/leaderboard_list_guideline3"/>
+
+    <TextView
+        android:id="@+id/leaderboard_list_scanned_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:padding="10dp"
+        app:layout_constraintStart_toEndOf="@+id/leaderboard_list_guideline3"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <androidx.constraintlayout.widget.Guideline
@@ -38,10 +45,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
+        app:layout_constraintGuide_percent="0.15" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/leaderboard_list_guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/leaderboard_list_guideline3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"

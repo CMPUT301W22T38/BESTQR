@@ -95,76 +95,52 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>
 
-    <TextView
-        android:id="@+id/leaderboard_user_block_profile"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="?attr/colorAccent"
-        android:padding="8dp"
-        android:text="You"
-        android:textAlignment="viewStart"
-        app:layout_constraintEnd_toStartOf="@+id/leaderboard_guideline1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_leaderboard" />
+
 
     <TextView
-        android:id="@+id/leaderboard_user_block_value"
-        android:padding="8dp"
-        android:layout_width="0dp"
+        android:id="@+id/leaderboard_list_label_rank"
+        android:padding="10dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="?attr/colorAccent"
-        android:textAlignment="viewStart"
-        app:layout_constraintStart_toEndOf="@+id/leaderboard_guideline1"
+        android:text="Rank"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_leaderboard"
-        app:layout_constraintEnd_toStartOf="@id/leaderboard_guideline2"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/leaderboard_guideline1" />
 
-    <TextView
-        android:id="@+id/leaderboard_user_block_rank"
-        android:padding="8dp"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorAccent"
-        android:textAlignment="viewEnd"
-        app:layout_constraintStart_toEndOf="@+id/leaderboard_guideline2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_leaderboard" />
+
+
 
 
     <TextView
         android:id="@+id/leaderboard_list_label_user"
-        android:padding="8dp"
-        android:layout_width="0dp"
+        android:padding="10dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAlignment="viewStart"
-        android:layout_weight="1"
         android:text="Username"
-        app:layout_constraintEnd_toStartOf="@+id/leaderboard_guideline1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/leaderboard_user_block_profile" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_leaderboard"
+        app:layout_constraintStart_toEndOf="@+id/leaderboard_guideline1"
+        app:layout_constraintEnd_toStartOf="@+id/leaderboard_guideline2"/>
 
     <TextView
         android:id="@+id/leaderboard_list_label_value"
-        android:padding="8dp"
-        android:layout_width="0dp"
+        android:padding="10dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAlignment="viewStart"
         android:text="Score"
-        app:layout_constraintStart_toEndOf="@+id/leaderboard_guideline1"
-        app:layout_constraintTop_toBottomOf="@+id/leaderboard_user_block_profile"
-        app:layout_constraintEnd_toStartOf="@id/leaderboard_guideline2"/>
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_leaderboard"
+        app:layout_constraintStart_toEndOf="@+id/leaderboard_guideline2"
+        app:layout_constraintEnd_toStartOf="@+id/leaderboard_guideline3"/>
+
 
     <TextView
-        android:id="@+id/leaderboard_list_label_rank"
-        android:padding="8dp"
-        android:layout_width="0dp"
+        android:id="@+id/leaderboard_list_label_value2"
+        android:padding="10dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAlignment="viewEnd"
-        android:text="Rank"
-        app:layout_constraintStart_toEndOf="@+id/leaderboard_guideline2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/leaderboard_user_block_profile" />
-
+        android:text="# of scanned"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_leaderboard"
+        app:layout_constraintStart_toEndOf="@+id/leaderboard_guideline3"
+        app:layout_constraintEnd_toEndOf="parent"/>
     <ListView
         android:id="@+id/leaderboard_list"
         android:layout_width="match_parent"
@@ -191,10 +167,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
+        app:layout_constraintGuide_percent="0.15" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/leaderboard_guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/leaderboard_guideline3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"

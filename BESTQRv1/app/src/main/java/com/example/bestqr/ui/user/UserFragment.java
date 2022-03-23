@@ -2,8 +2,10 @@ package com.example.bestqr.ui.user;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -19,6 +21,8 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.bestqr.QRCODE;
+import com.example.bestqr.QRCodeList;
 import com.example.bestqr.UserViewModel;
 import com.example.bestqr.qrlistAdapter;
 import com.example.bestqr.CameraActivity;
@@ -27,11 +31,15 @@ import com.example.bestqr.databinding.FragmentUserBinding;
 
 import com.example.bestqr.Profile;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+
 public class UserFragment extends Fragment {
 
     //    private Profile profile;
     private UserViewModel userViewModel;
     private FragmentUserBinding binding;
+
 
     /**
      * Creates and returns the root view of the fragment
@@ -60,6 +68,7 @@ public class UserFragment extends Fragment {
         qrlistAdapter myAdapter = new qrlistAdapter(getActivity() , userProfile.getQrScores(), userProfile.getQrTimestamps(), userProfile.getQrBitmaps());
         qrCodes.setAdapter(myAdapter);
 
+
         // onClick Listener for the QR button on the toolbar
         // This button navigates to QrFragment, which displays a list of the user's QR codes
         ImageButton qr_button = binding.toolbarUserQr;
@@ -80,6 +89,26 @@ public class UserFragment extends Fragment {
                 PopupMenu popup = new PopupMenu(getActivity(), sort_button);
                 popup.getMenuInflater().inflate(R.menu.user_sort_menu, popup.getMenu());
                 popup.show();
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        int id = item.getItemId();
+                        switch(id) {
+                            case R.id.leaderboard_user_sort_ascending:
+                                userViewModel.sortListAscendingScore();
+                                break;
+                            case R.id.leaderboard_user_sort_descending:
+                                userViewModel.sortListDescending();
+                                break;
+                            case R.id.leaderboard_user_sort_chronological:
+                                userViewModel.sortListChronological();
+                                break;
+                        }
+                        qrlistAdapter myAdapter = new qrlistAdapter(getActivity() , userProfile.getQrScores(), userProfile.getQrTimestamps(), userProfile.getQrBitmaps());
+                        qrCodes.setAdapter(myAdapter);
+                        return true;
+                    }
+                });
             }
         });
 
@@ -93,6 +122,42 @@ public class UserFragment extends Fragment {
                 NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
                 navController.navigate(R.id.action_navigation_user_to_navigation_user_info);
             }
+        });
+
+
+
+        ImageButton delete_button = binding.toolbarUserDelete;
+        delete_button.setOnClickListener(new View.OnClickListener() {
+            boolean checkbox_visible = false;
+            @Override
+            public void onClick(View view) {
+                ListView listview = (ListView) getView().findViewById(R.id.qrlist);
+                ArrayList<CheckBox> checkBoxes = new ArrayList<>();
+
+                for (int i = 0; i < listview.getChildCount(); i++) {
+                    View v = listview.getChildAt(i);
+                    CheckBox checkbox = (CheckBox) v.findViewById(R.id.checkBox);
+                    checkBoxes.add(checkbox);
+                }
+
+                if (checkbox_visible) {
+                    for (CheckBox checkBox: checkBoxes) {
+                        checkBox.setVisibility(View.VISIBLE);
+                    }
+                }
+                else {
+
+                }
+
+                checkbox_visible = (checkbox_visible) ? false : true;
+            }
+
+//                ListView listview = (ListView) getView().findViewById(R.id.qrlist);
+//                listview.getView
+//                System.out.println(myAdapter.getCount());
+//                View v = myAdapter.getView(1);
+//                CheckBox box = (CheckBox) v.findViewById(R.id.checkbox);
+//                myAdapter.getCount()
         });
 
         return root;

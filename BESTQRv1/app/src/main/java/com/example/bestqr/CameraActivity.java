@@ -1,13 +1,11 @@
 package com.example.bestqr;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.location.Location;
-import android.location.LocationManager;
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -103,42 +101,17 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
         this.db = new Database();
         userViewModel.setDb(this.db);
 
-//        String androidid1 = "52e697d704";
-//        String androidid2 = "753098d871";
-        String androidid3 = "ab734cef15";
-//        String androidid4 = "fe6385a27d";
-//        String androidid5 = "ae73fa84dd";
+        Profile profile = db.get(androidId);
 
-//        Profile p1 = db.get(androidid1);
-//        Profile p2 = db.get(androidid2);
-        Profile p3 = db.get(androidid3);
-//        Profile p4 = db.get(androidid4);
-//        Profile p5 = db.get(androidid5);
+//        QRCODE q1 = new QRCODE("53624625");
+//        QRCODE q2 = new QRCODE("53257541634");
+//        db.add_qrcode(profile.getUserName(), q1);
+//        db.add_qrcode(profile.getUserName(), q2);
+//        profile.addNewQRCode(q1);
+//        profile.addNewQRCode(q2);
 
 
-//        QRCODE q1 = new QRCODE("cccc1");
-//        QRCODE q2 = new QRCODE("cccc2");
-//        QRCODE q3 = new QRCODE("cccc3");
-//        QRCODE q4 = new QRCODE("cccc4");
-//        QRCODE q5 = new QRCODE("cccc5");
-//
-//        db.add_qrcode(p3.getUserName(), q1);
-//        db.add_qrcode(p3.getUserName(), q2);
-//        db.add_qrcode(p3.getUserName(), q3);
-//        db.add_qrcode(p3.getUserName(), q4);
-//        db.add_qrcode(p3.getUserName(), q5);
-//
-//
-//
-//
-//        Storage storage = new Storage();
-//        storage.upload(q1, p3.getAndroidID());
-//        storage.upload(q2, p3.getAndroidID());
-//        storage.upload(q3, p3.getAndroidID());
-//        storage.upload(q4, p3.getAndroidID());
-//        storage.upload(q5, p3.getAndroidID());
-
-        userViewModel.setUserProfile(p3);
+        userViewModel.setUserProfile(profile);
 
 //        storage.upload(q1, androidid3);
 //        System.out.println(q1.getCode());

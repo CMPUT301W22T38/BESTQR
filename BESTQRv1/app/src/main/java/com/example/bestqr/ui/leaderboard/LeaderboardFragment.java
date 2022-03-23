@@ -38,6 +38,7 @@ public class LeaderboardFragment extends Fragment {
     private FragmentLeaderboardBinding binding;
     private UserViewModel userViewModel;
 
+
     /**
      * Creates and returns the root view of the fragment
      * @param inflater
@@ -62,6 +63,7 @@ public class LeaderboardFragment extends Fragment {
         View root = binding.getRoot();
 
         TextView profile_icon = binding.toolbarLeaderboardProfile;
+
 
         // Fetch all the scores from the database for display
         // TODO: This should be threaded.
@@ -98,12 +100,14 @@ public class LeaderboardFragment extends Fragment {
                         int id = item.getItemId();
                         switch(id) {
                             case R.id.leaderboard_menu_code:
+                                binding.leaderboardListLabelValue.setText("Highest unique");
                                 leaderboardViewModel.sortScoresByHighestUnique();
                                 break;
                             case R.id.leaderboard_menu_numcodes:
                                 leaderboardViewModel.sortScoresByTotalScanned();
                                 break;
                             case R.id.leaderboard_menu_total:
+                                binding.leaderboardListLabelValue.setText("Total score");
                                 leaderboardViewModel.sortScoresByTotalSum();
                                 break;
                         }
@@ -112,6 +116,8 @@ public class LeaderboardFragment extends Fragment {
                         myAdapter.setSortingMethod(leaderboardViewModel.getSortingMethod());
                         myAdapter.clear();
                         myAdapter.addAll(leaderboardViewModel.getScoreBlocks());
+
+
                         // binding.leaderboardList.setAdapter(newAdapter);
                         return true;
                     }

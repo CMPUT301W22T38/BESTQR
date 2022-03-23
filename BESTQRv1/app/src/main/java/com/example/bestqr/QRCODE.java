@@ -94,7 +94,7 @@ public class QRCODE implements Serializable {
     }
 
     // testing
-    public String getScannedTime() {return "2022-03-03";}
+    public String getScannedTime() {return this.timestamp.getTimeStamp();}
 
     /**
      * This method generates a QRCODE for the content passed in
