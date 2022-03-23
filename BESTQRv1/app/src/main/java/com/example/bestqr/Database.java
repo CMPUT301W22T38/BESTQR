@@ -197,7 +197,7 @@ public class Database {
             username = profile.getUserName();
             QRCodeList list = profile.getScannedCodes();
 
-            if (list != null) {
+            if (!list.isEmpty()) {
                 highest_score = profile.getHighestScore();
                 total_scanned = profile.getNumberCodesScanned();
                 total_score = list.getTotalScore();
