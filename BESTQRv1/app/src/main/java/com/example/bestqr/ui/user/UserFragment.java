@@ -126,40 +126,40 @@ public class UserFragment extends Fragment {
 
 
 
-        ImageButton delete_button = binding.toolbarUserDelete;
-        delete_button.setOnClickListener(new View.OnClickListener() {
-            boolean checkbox_visible = false;
-            @Override
-            public void onClick(View view) {
-                ListView listview = (ListView) getView().findViewById(R.id.qrlist);
-                ArrayList<CheckBox> checkBoxes = new ArrayList<>();
-
-                for (int i = 0; i < listview.getChildCount(); i++) {
-                    View v = listview.getChildAt(i);
-                    CheckBox checkbox = (CheckBox) v.findViewById(R.id.checkBox);
-                    checkBoxes.add(checkbox);
-                }
-
-                if (checkbox_visible) {
-                    for (CheckBox checkBox: checkBoxes) {
-                        checkBox.setVisibility(View.VISIBLE);
-                    }
-                }
-                else {
-
-                }
-
-                checkbox_visible = (checkbox_visible) ? false : true;
-            }
-
+//        ImageButton delete_button = binding.toolbarUserDelete;
+//        delete_button.setOnClickListener(new View.OnClickListener() {
+//            boolean checkbox_visible = false;
+//            @Override
+//            public void onClick(View view) {
 //                ListView listview = (ListView) getView().findViewById(R.id.qrlist);
-//                listview.getView
-//                System.out.println(myAdapter.getCount());
-//                View v = myAdapter.getView(1);
-//                CheckBox box = (CheckBox) v.findViewById(R.id.checkbox);
-//                myAdapter.getCount()
-        });
-
+//                ArrayList<CheckBox> checkBoxes = new ArrayList<>();
+//
+//                for (int i = 0; i < listview.getChildCount(); i++) {
+//                    View v = listview.getChildAt(i);
+//                    CheckBox checkbox = (CheckBox) v.findViewById(R.id.checkBox);
+//                    checkBoxes.add(checkbox);
+//                }
+//
+//                if (checkbox_visible) {
+//                    for (CheckBox checkBox: checkBoxes) {
+//                        checkBox.setVisibility(View.VISIBLE);
+//                    }
+//                }
+//                else {
+//
+//                }
+//
+//                checkbox_visible = (checkbox_visible) ? false : true;
+//            }
+//
+////                ListView listview = (ListView) getView().findViewById(R.id.qrlist);
+////                listview.getView
+////                System.out.println(myAdapter.getCount());
+////                View v = myAdapter.getView(1);
+////                CheckBox box = (CheckBox) v.findViewById(R.id.checkbox);
+////                myAdapter.getCount()
+//        });
+//
         return root;
     }
 

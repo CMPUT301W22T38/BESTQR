@@ -103,22 +103,14 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
 
         Profile profile = db.get(androidId);
 
-//        QRCODE q1 = new QRCODE("53624625");
-//        QRCODE q2 = new QRCODE("53257541634");
-//        db.add_qrcode(profile.getUserName(), q1);
-//        db.add_qrcode(profile.getUserName(), q2);
-//        profile.addNewQRCode(q1);
-//        profile.addNewQRCode(q2);
-
-
         userViewModel.setUserProfile(profile);
+
 
 //        storage.upload(q1, androidid3);
 //        System.out.println(q1.getCode());
 //        System.out.println(q1.getCode().toString());
 //        System.out.println(q1.getCode().getRowBytes());
 
-//        bitmap
 //        QRCODE q1 = new QRCODE("random54321");
 
         // This should be in th login activity
