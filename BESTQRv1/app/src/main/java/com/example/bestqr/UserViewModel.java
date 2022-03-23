@@ -53,7 +53,8 @@ public class UserViewModel extends ViewModel {
 
     /** Gets the main user profile
      * @return profile
-     *      a profile object, containing info on a user
+     *      a profile object, containing info on a u
+     *      ser
      */
     public Profile getUserProfile(){
         return user_profile;

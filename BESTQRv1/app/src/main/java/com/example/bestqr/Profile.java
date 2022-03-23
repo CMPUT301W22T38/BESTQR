@@ -58,7 +58,6 @@ public class Profile implements Serializable {
     public QRCodeList getScannedCodes() {return  this.scannedCodes;}
 
 
-
     public String getAndroidID() { return this.androidId;}
 
     /**

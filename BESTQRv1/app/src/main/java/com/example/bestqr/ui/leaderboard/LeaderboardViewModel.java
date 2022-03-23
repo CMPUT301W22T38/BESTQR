@@ -117,6 +117,4 @@ public class LeaderboardViewModel extends ViewModel {
         return this.scoreBlocks;
     }
 
-
-
 }
