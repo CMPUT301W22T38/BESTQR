@@ -92,18 +92,7 @@ public class GuestUserFragment extends Fragment {
             }
         });
 
-        // onClick Listener for the Info Button on the toolbar
-        // When pressed, a dialogfragment showing the user's info will be shown
-        // The user will be able to edit their info, and have it updated in the db.
-        ImageButton info_button = binding.toolbarUserInfo;
-        info_button.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
-                navController.navigate(R.id.action_navigation_user_to_navigation_user_info);
-            }
-        });
-
+        // TODO: add delete button accessible only by owner.
 
 
 //        ImageButton delete_button = binding.toolbarUserDelete;
@@ -154,12 +143,11 @@ public class GuestUserFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        // Setup navigation for Fragment Top-Level destination toolbar
-        // Top-Level Fragments need to pass an AppBarConfiguration to the toolbar
-        // to function correctly.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(CameraActivity.getTopLevelDestinations()).build();
+        // Setup navigation for Fragment-owned Toolbar
+        // As this destination is not top-level, we don't need to pass an AppBarConfiguration
+        // which allows the back button to appear.
         NavController navController = NavHostFragment.findNavController(this);
-        NavigationUI.setupWithNavController(binding.toolbarUser, navController, appBarConfiguration);
+        NavigationUI.setupWithNavController(binding.toolbarGuestUser, navController);
     }
 
     /**

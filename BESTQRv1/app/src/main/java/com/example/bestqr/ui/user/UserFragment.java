@@ -68,7 +68,6 @@ public class UserFragment extends Fragment {
         qrlistAdapter myAdapter = new qrlistAdapter(getActivity() , userProfile.getQrScores(), userProfile.getQrTimestamps(), userProfile.getQrBitmaps());
         qrCodes.setAdapter(myAdapter);
 
-
         // onClick Listener for the QR button on the toolbar
         // This button navigates to QrFragment, which displays a list of the user's QR codes
         ImageButton qr_button = binding.toolbarUserQr;
@@ -113,7 +112,7 @@ public class UserFragment extends Fragment {
         });
 
         // onClick Listener for the Info Button on the toolbar
-        // When pressed, a dialogfragment showing the user's info will be shown
+        // When pressed, a dialog fragment showing the user's info will be shown
         // The user will be able to edit their info, and have it updated in the db.
         ImageButton info_button = binding.toolbarUserInfo;
         info_button.setOnClickListener(new View.OnClickListener(){
