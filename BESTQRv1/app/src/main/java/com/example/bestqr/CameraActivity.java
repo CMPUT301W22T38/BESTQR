@@ -54,7 +54,7 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
     private static final int PICK_IMAGE = 1;
     private QRCODE qr;
     private String contents;
-    private Profile p1;
+    private Profile profile;
     private int score = 0;
 
     private static final String TAG = "CameraActivity";
@@ -101,7 +101,7 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
         this.db = new Database();
         userViewModel.setDb(this.db);
 
-        Profile profile = db.get(androidId);
+        profile = db.get(androidId);
 
         userViewModel.setUserProfile(profile);
 
@@ -179,7 +179,7 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
                     // Create new QR object using contents as argument
                     qr = new QRCODE(contents);
                     score = qr.getScore();
-                    locationPrompt.newInstance(p1,qr).show(getSupportFragmentManager(),"NEW QRCODE");
+                    locationPrompt.newInstance(profile,qr).show(getSupportFragmentManager(),"NEW QRCODE");
 
 //                    db.writeImage(newQR, profile.getandroidId());
 //                    db.QRCodeReceivedFromCameraActivity(newQR, profile.getandroidId());
@@ -210,7 +210,7 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
                 contents = intentResult.getContents();
                 qr = new QRCODE(contents);
                 score = qr.getScore();
-                locationPrompt.newInstance(p1,qr).show(getSupportFragmentManager(),"NEW QRCODE");
+                locationPrompt.newInstance(profile,qr).show(getSupportFragmentManager(),"NEW QRCODE");
 
             } else {
                 //When result content is null
