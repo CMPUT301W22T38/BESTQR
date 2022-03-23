@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.bestqr.ui.map.MapFragment"
+        android:name="com.example.bestqr.ui.map.MapsFragment"
         android:label="Map"
-        tools:layout="@layout/fragment_map" />
+        tools:layout="@layout/fragment_maps" />
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.example.bestqr.ui.camera.CameraFragment"
