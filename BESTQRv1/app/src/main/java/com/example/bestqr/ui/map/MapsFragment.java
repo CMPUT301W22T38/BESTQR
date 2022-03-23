@@ -25,9 +25,9 @@ public class MapsFragment extends Fragment {
         @Override
         public void onMapReady(GoogleMap googleMap) {
             //marker location
-            LatLng qrLocation = new LatLng(-34, 151);
+            LatLng qrLocation = new LatLng(53.567, -113.517);
             //maker title
-            googleMap.addMarker(new MarkerOptions().position(qrLocation).title("temp"));
+            googleMap.addMarker(new MarkerOptions().position(qrLocation).title("140p"));
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(qrLocation));
         }
     };
