@@ -163,7 +163,7 @@ public class LeaderboardFragment extends Fragment {
         NavController navController = NavHostFragment.findNavController(this);
         NavigationUI.setupWithNavController(binding.toolbarLeaderboard, navController, appBarConfiguration);
 
-        updateUserScores();
+//        updateUserScores();
         // leaderboardViewModel.
 
     }
