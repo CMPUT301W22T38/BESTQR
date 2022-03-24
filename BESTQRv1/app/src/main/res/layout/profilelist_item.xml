@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_launcher_background">
+        app:srcCompat="@drawable/ic_launcher_background"
+        tools:ignore="ImageContrastCheck,ImageContrastCheck">
 
     </ImageView>
 
@@ -34,7 +35,7 @@
             android:layout_height="match_parent"
             android:text="Score: "
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:textSize="10dp"
+            android:textSize="11sp"
             app:layout_constraintBottom_toTopOf="@+id/added_date"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +47,7 @@
             android:layout_height="match_parent"
             android:text="Added:"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:textSize="10dp"
+            android:textSize="11sp"
             app:layout_constraintBottom_toTopOf="@+id/temporary_textfield"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -58,7 +59,7 @@
             android:layout_height="match_parent"
             android:text="temporary"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:textSize="10dp"
+            android:textSize="11sp"
             app:layout_constraintBottom_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -66,12 +67,13 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
 
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/checkBox"
+        app:layout_constraintEnd_toStartOf="@+id/profile_deleteqr"
         app:layout_constraintStart_toEndOf="@+id/constraintLayout"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -82,7 +84,7 @@
             android:layout_height="match_parent"
             android:text="TextView"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:textSize="10dp"
+            android:textSize="11sp"
             app:layout_constraintBottom_toTopOf="@+id/textView2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -93,7 +95,7 @@
             android:layout_height="match_parent"
             android:text="TextView"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:textSize="10dp"
+            android:textSize="11sp"
             app:layout_constraintBottom_toTopOf="@+id/textView3"
 
             app:layout_constraintStart_toStartOf="parent"
@@ -105,7 +107,7 @@
             android:layout_height="match_parent"
             android:text="textfield"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:textSize="10dp"
+            android:textSize="11sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -113,15 +115,16 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
-    <CheckBox
-        android:id="@+id/checkBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:checked="false"
-        android:visibility="invisible"
+    <Button
+        android:id="@+id/profile_deleteqr"
+        android:layout_width="80dp"
+        android:layout_height="48dp"
+        android:text="Delete"
+        android:textSize="11sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/constraintLayout2"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline

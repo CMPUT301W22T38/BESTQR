@@ -6,7 +6,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -15,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -23,19 +21,14 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.bestqr.QRCODE;
-import com.example.bestqr.QRCodeList;
 import com.example.bestqr.UserViewModel;
-import com.example.bestqr.qrlistAdapter;
+import com.example.bestqr.profilelistAdapter;
 import com.example.bestqr.CameraActivity;
 import com.example.bestqr.R;
 import com.example.bestqr.databinding.FragmentUserBinding;
 
 import com.example.bestqr.Profile;
 import com.example.bestqr.ui.qr.QrViewModel;
-
-import java.util.ArrayList;
-import java.util.Comparator;
 
 public class UserFragment extends Fragment {
 
@@ -70,7 +63,7 @@ public class UserFragment extends Fragment {
         binding.toolbarUserProfile.setText(userProfile.getUserName());
 
         ListView qrCodes = binding.qrlist;
-        qrlistAdapter myAdapter = new qrlistAdapter(getActivity() , userProfile.getQrScores(), userProfile.getQrTimestamps(), userProfile.getQrBitmaps());
+        profilelistAdapter myAdapter = new profilelistAdapter(getActivity() , userProfile.getQrScores(), userProfile.getQrTimestamps(), userProfile.getQrBitmaps(),userProfile);
         qrCodes.setAdapter(myAdapter);
 
         qrCodes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -122,7 +115,7 @@ public class UserFragment extends Fragment {
                                 userViewModel.sortListChronological();
                                 break;
                         }
-                        qrlistAdapter myAdapter = new qrlistAdapter(getActivity() , userProfile.getQrScores(), userProfile.getQrTimestamps(), userProfile.getQrBitmaps());
+                        profilelistAdapter myAdapter = new profilelistAdapter(getActivity() , userProfile.getQrScores(), userProfile.getQrTimestamps(), userProfile.getQrBitmaps(),userProfile);
                         qrCodes.setAdapter(myAdapter);
                         return true;
                     }
