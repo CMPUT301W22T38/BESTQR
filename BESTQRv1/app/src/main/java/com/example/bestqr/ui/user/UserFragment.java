@@ -5,9 +5,11 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,6 +32,7 @@ import com.example.bestqr.R;
 import com.example.bestqr.databinding.FragmentUserBinding;
 
 import com.example.bestqr.Profile;
+import com.example.bestqr.ui.qr.QrViewModel;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -39,6 +42,7 @@ public class UserFragment extends Fragment {
     //    private Profile profile;
     private UserViewModel userViewModel;
     private FragmentUserBinding binding;
+    private QrViewModel qrViewModel;
 
 
     /**
@@ -57,6 +61,7 @@ public class UserFragment extends Fragment {
 
         // Get Activity-Owned UserViewModel (global to all fragments)
         userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
+        qrViewModel = new ViewModelProvider(this).get(QrViewModel.class);
 
         binding = FragmentUserBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -68,6 +73,16 @@ public class UserFragment extends Fragment {
         qrlistAdapter myAdapter = new qrlistAdapter(getActivity() , userProfile.getQrScores(), userProfile.getQrTimestamps(), userProfile.getQrBitmaps());
         qrCodes.setAdapter(myAdapter);
 
+        qrCodes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                userViewModel.setSelectedQrcode(userProfile.getScannedCodes().get(i));
+                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
+                navController.navigate(R.id.action_navigation_from_user_to_qr);
+
+            }
+        });
+
 
         // onClick Listener for the QR button on the toolbar
         // This button navigates to QrFragment, which displays a list of the user's QR codes
@@ -75,8 +90,11 @@ public class UserFragment extends Fragment {
         qr_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(getActivity(), "set", Toast.LENGTH_SHORT).show();
+                userViewModel.setSelectedQrcode(userProfile.getDeviceQrCode());
                 NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
                 navController.navigate(R.id.action_navigation_from_user_to_qr);
+
             }
         });
 
@@ -123,6 +141,8 @@ public class UserFragment extends Fragment {
                 navController.navigate(R.id.action_navigation_user_to_navigation_user_info);
             }
         });
+
+
 
 
 

@@ -18,6 +18,7 @@ import java.util.Comparator;
 public class UserViewModel extends ViewModel {
 
     private Profile user_profile;
+    private QRCODE qrcode;
     private Database db;
 
     public Database getDb() {
@@ -59,4 +60,11 @@ public class UserViewModel extends ViewModel {
         return user_profile;
     }
 
+    public void setSelectedQrcode(QRCODE qrcode1){
+        qrcode = qrcode1;
+    }
+
+    public QRCODE getSelectedQrcode() {
+        return qrcode;
+    }
 }

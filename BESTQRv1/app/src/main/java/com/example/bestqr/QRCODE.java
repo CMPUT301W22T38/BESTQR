@@ -16,6 +16,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,10 +32,13 @@ public class QRCODE implements Serializable {
     private int score;
     private Bitmap objectImage;
     static MessageDigest digest;
+    private ArrayList<String> comments;
 
     private TimeStamp timestamp;
 
-    public QRCODE() {}
+    public QRCODE() {
+        this.comments = new ArrayList<>();
+    }
     /**
      * This constructor is for the QRCODE where location is stored
      * @param codeLocation: This is the Location that is recorded for the QRCODE
@@ -46,6 +50,7 @@ public class QRCODE implements Serializable {
         this.hash = calculateHash(contents);
         this.score = calculateScore(hash);
         this.timestamp = new TimeStamp();
+        this.comments = new ArrayList<>();
     }
 
 
@@ -60,6 +65,7 @@ public class QRCODE implements Serializable {
         this.hash = calculateHash(contents);
         this.score = calculateScore(hash);
         this.timestamp = new TimeStamp();
+        this.comments = new ArrayList<>();
     }
 
     //test
@@ -75,10 +81,6 @@ public class QRCODE implements Serializable {
 
     public void setTimestamp(TimeStamp timestamp) {
         this.timestamp = timestamp;
-    }
-
-    public TimeStamp getTimestamp(){
-        return timestamp;
     }
 
     public void setisImported(boolean imported) {
@@ -145,6 +147,16 @@ public class QRCODE implements Serializable {
 //        location.setLongitude(89.909090);
 //        return location;
         return codeLocation;
+    }
+
+
+    public void addComments(String comment){
+        comments.add(comment);
+    }
+
+
+    public ArrayList<String> getComments() {
+        return comments;
     }
 
     // for testing

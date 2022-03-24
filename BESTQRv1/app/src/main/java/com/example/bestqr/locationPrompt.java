@@ -30,11 +30,13 @@ import androidx.lifecycle.ViewModelProvider;
 import android.os.Looper;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,6 +54,7 @@ import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.zxing.common.StringUtils;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -68,8 +71,7 @@ public class locationPrompt extends DialogFragment {
     private ImageView qrImage;
     private TextView scores;
     private Profile profile;
-    private double latitude;
-    private double longitude;
+    private EditText comments;
     private QRCODE qrcode;
     private OnFragmentInteractionListener listener;
     private LocationRequest locationRequest;
@@ -114,6 +116,7 @@ public class locationPrompt extends DialogFragment {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
         storeImage = view.findViewById(R.id.storeImage);
         storeLocation = view.findViewById(R.id.storeLocation);
+        comments = view.findViewById(R.id.comments);
         qrImage = view.findViewById(R.id.ObjectImage);
         scores = view.findViewById(R.id.scoreText);
         Bundle args = getArguments();
@@ -137,143 +140,14 @@ public class locationPrompt extends DialogFragment {
                             startActivityForResult(intent, CAMERA_REQUEST_CODE);
                         }
                         if (storeLocation.isChecked()){
-                            getCurrentLocation();
-                            getCurrentLocation();
-                            Toast.makeText(getActivity(), "Latitude: " + qrcode.getCodeLocation().getLatitude() + "Longitude: " + qrcode.getCodeLocation().getLongitude(), Toast.LENGTH_SHORT).show();
-                            }
-                            profile.addNewQRCode(qrcode);
+                        }
 
-                        UserViewModel model = new ViewModelProvider(getActivity()).get(UserViewModel.class);
-                        model.setUserProfile(profile);
-
+                        if (TextUtils.isEmpty(comments.getText().toString()) == false){
+                            qrcode.addComments(comments.getText().toString());
+                        }
+                        profile.addNewQRCode(qrcode);
                     }
                 }).create();
-
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == 1) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                if (isGPSEnabled()) {
-
-                    getCurrentLocation();
-
-                } else {
-
-                    turnOnGPS();
-                }
-            }
-        }
-
-
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == 2) {
-            if (resultCode == Activity.RESULT_OK) {
-
-                getCurrentLocation();
-            }
-        }
-    }
-
-    public  void getCurrentLocation() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-
-                if (isGPSEnabled()) {
-
-                    LocationServices.getFusedLocationProviderClient(getActivity())
-                            .requestLocationUpdates(locationRequest, new LocationCallback() {
-                                @Override
-                                public void onLocationResult(@NonNull LocationResult locationResult) {
-                                    super.onLocationResult(locationResult);
-
-                                    LocationServices.getFusedLocationProviderClient(getActivity())
-                                            .removeLocationUpdates(getActivity());
-
-                                    if (locationResult != null && locationResult.getLocations().size() >0){
-
-                                        int index = locationResult.getLocations().size() - 1;
-                                        latitude = locationResult.getLocations().get(index).getLatitude();
-                                        longitude = locationResult.getLocations().get(index).getLongitude();
-                                        Toast.makeText(getActivity(), "this is it", Toast.LENGTH_SHORT).show();
-                                        Toast.makeText(getActivity(), latitude + "", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            }, Looper.getMainLooper());
-
-                } else {
-                    turnOnGPS();
-                }
-
-            } else {
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-            }
-        }
-    }
-
-    private void turnOnGPS() {
-
-
-
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
-                .addLocationRequest(locationRequest);
-        builder.setAlwaysShow(true);
-
-        Task<LocationSettingsResponse> result = LocationServices.getSettingsClient(getActivity().getApplicationContext())
-                .checkLocationSettings(builder.build());
-
-        result.addOnCompleteListener(new OnCompleteListener<LocationSettingsResponse>() {
-            @Override
-            public void onComplete(@NonNull Task<LocationSettingsResponse> task) {
-
-                try {
-                    LocationSettingsResponse response = task.getResult(ApiException.class);
-                    Toast.makeText(getActivity(), "GPS is already tured on", Toast.LENGTH_SHORT).show();
-
-                } catch (ApiException e) {
-
-                    switch (e.getStatusCode()) {
-                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-
-                            try {
-                                ResolvableApiException resolvableApiException = (ResolvableApiException) e;
-                                resolvableApiException.startResolutionForResult(getActivity(), 2);
-                            } catch (IntentSender.SendIntentException ex) {
-                                ex.printStackTrace();
-                            }
-                            break;
-
-                        case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                            //Device does not have location
-                            break;
-                    }
-                }
-            }
-        });
-
-    }
-
-    private boolean isGPSEnabled() {
-        ;
-        LocationManager locationManager = null;
-        boolean isEnabled = false;
-
-        if (locationManager == null) {
-            locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        }
-
-        isEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        return isEnabled;
-
 
     }
 

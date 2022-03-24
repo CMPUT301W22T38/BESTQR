@@ -14,31 +14,5 @@ public class QRCodeList extends ArrayList<QRCODE> {
         return Collections.max(this, Comparator.comparing(s -> s.getScore()));
     }
 
-    public void ascendingSort(){
-        Collections.sort(this, new Comparator<QRCODE>() {
-            @Override
-            public int compare(QRCODE qrcode, QRCODE t1) {
-                return qrcode.getScore() - t1.getScore();
-            }
-        });
-    }
-
-    public void descendingSort(){
-        Collections.sort(this, new Comparator<QRCODE>() {
-            @Override
-            public int compare(QRCODE qrcode, QRCODE t1) {
-                return  t1.getScore() - qrcode.getScore();
-            }
-        });
-    }
-
-    public void chronologicalSort() {
-        Collections.sort(this, new Comparator<QRCODE>() {
-            @Override
-            public int compare(QRCODE qrcode, QRCODE t1) {
-                return qrcode.getTimestamp().getTimeStamp().compareTo(t1.getTimestamp().getTimeStamp());
-            }
-        });
-    }
 
 }

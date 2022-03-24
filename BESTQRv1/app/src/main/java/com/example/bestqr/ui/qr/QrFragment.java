@@ -3,15 +3,24 @@ package com.example.bestqr.ui.qr;
 
 import android.graphics.Bitmap;
 
+import com.example.bestqr.QRCODE;
 import com.example.bestqr.UserViewModel;
 import com.example.bestqr.ui.leaderboard.LeaderboardViewModel;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
+
+import android.media.Image;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,10 +41,16 @@ public class QrFragment extends Fragment {
 
     private QrViewModel qrViewModel;
     private UserViewModel userViewModel;
+    private QRCODE qr;
     private FragmentQrBinding binding;
     private Profile userProfile;
     private ImageView image;
+    private ImageButton commentButton;
     private Bitmap bitmap;
+    private EditText addComments;
+    private TextView allComments;
+    private String qrComments;
+    private Button addButton;
 
     /**
      * Creates and returns the root view of the fragment
@@ -51,28 +66,65 @@ public class QrFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         // ViewModel owned by this fragment
-        qrViewModel = new ViewModelProvider(this).get(QrViewModel.class);
+        qrViewModel = new ViewModelProvider(requireActivity()).get(QrViewModel.class);
+
         // Activity-owned ViewModel, (global to all fragments)
         userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
-
         binding = FragmentQrBinding.inflate(inflater, container, false);
+        addComments = binding.addComment;
+        addButton = binding.addButton;
         View root = binding.getRoot();
 
         userProfile = userViewModel.getUserProfile();
+        qr = userViewModel.getSelectedQrcode();
 
-        MultiFormatWriter writer = new MultiFormatWriter();
-        try {
-            BitMatrix matrix = writer.encode(userProfile.getAndroidID(), BarcodeFormat.QR_CODE, 350, 350);
-            BarcodeEncoder encoder = new BarcodeEncoder();
-            bitmap = encoder.createBitmap(matrix);
-        } catch (WriterException e) {
-            e.printStackTrace();
+        if (qr != null) {
+            bitmap = qr.getCode();
         }
+
         image = binding.imageView;
         image.setImageBitmap(bitmap);
 
+        commentButton =  binding.toolbarQrComments;
+        allComments = binding.comments;
+
+        qrComments = String.join("\n",qr.getComments());
+        allComments.setText(qrComments);
+
+        commentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addComments.setVisibility(View.VISIBLE);
+                addButton.setVisibility(View.VISIBLE);
+            }
+        });
+
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (TextUtils.isEmpty(addComments.getText().toString()) == false){
+                   qr.addComments(addComments.getText().toString());
+                }
+                addComments.setText("");
+                addComments.setVisibility(View.INVISIBLE);
+                addButton.setVisibility(View.INVISIBLE);
+                qrComments = String.join("\n",qr.getComments());
+                allComments.setText(qrComments);
+
+            }
+        });
+
+
+
         return root;
+
     }
+
+
+
+
+
+
 
     /**
      *

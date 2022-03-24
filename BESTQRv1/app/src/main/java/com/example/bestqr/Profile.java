@@ -151,6 +151,16 @@ public class Profile implements Serializable {
      * @return: scores of all qrCodes scanned
      */
     public ArrayList<Integer> getQrScores(){
+//        if (condition == "ascending"){
+//            scannedCodes.ascendingSort();
+//        }
+//        else if (condition == "descending"){
+//            scannedCodes.descendingSort();
+//        }
+//        else{
+//            scannedCodes.chronologicalSort();
+//        }
+
         qrScores = new ArrayList<>();
         for (QRCODE item:scannedCodes) {
             qrScores.add(item.getScore());
@@ -209,4 +219,10 @@ public class Profile implements Serializable {
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
     }
+
+    public QRCODE getDeviceQrCode(){
+        return new QRCODE(getAndroidID());
+    }
+
 }
+
