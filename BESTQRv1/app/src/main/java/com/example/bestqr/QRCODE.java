@@ -2,6 +2,7 @@ package com.example.bestqr;
 
 import android.graphics.Bitmap;
 import android.location.Location;
+import android.location.LocationManager;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
@@ -76,6 +77,10 @@ public class QRCODE implements Serializable {
         this.timestamp = timestamp;
     }
 
+    public TimeStamp getTimestamp(){
+        return timestamp;
+    }
+
     public void setisImported(boolean imported) {
         this.isimported = imported;
     }
@@ -135,6 +140,10 @@ public class QRCODE implements Serializable {
      * @return the location of the QRCODE
      */
     public Location getCodeLocation(){
+//        Location location = new Location("dummyprovider");
+//        location.setLatitude(89.909090);
+//        location.setLongitude(89.909090);
+//        return location;
         return codeLocation;
     }
 
