@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -54,9 +53,9 @@ public class profilelistAdapter extends ArrayAdapter<String> {
         //set value for image view and text view
 
         mViewholder.QRimage = (ImageView) convertView.findViewById(R.id.imageView);
-        mViewholder.Score = (TextView) convertView.findViewById(R.id.textView1);
+        mViewholder.Score = (TextView) convertView.findViewById(R.id.profile_score);
         mViewholder.delete_button = (Button)convertView.findViewById(R.id.profile_deleteqr);
-        mViewholder.Timestamp = (TextView) convertView.findViewById(R.id.textView2);
+        mViewholder.Timestamp = (TextView) convertView.findViewById(R.id.profile_timestamp);
 
         mViewholder.QRimage.setImageBitmap(Pictures.get(position));
         mViewholder.Score.setText(Integer.toString(scores.get(position)));
