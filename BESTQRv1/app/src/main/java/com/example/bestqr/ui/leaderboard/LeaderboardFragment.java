@@ -2,13 +2,11 @@ package com.example.bestqr.ui.leaderboard;
 
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,15 +20,11 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.bestqr.CameraActivity;
-import com.example.bestqr.Database;
 import com.example.bestqr.LeaderboardListAdapter;
 import com.example.bestqr.Profile;
 import com.example.bestqr.R;
 import com.example.bestqr.databinding.FragmentLeaderboardBinding;
 import com.example.bestqr.UserViewModel;
-import com.example.bestqr.qrlistAdapter;
-
-import java.util.ArrayList;
 
 public class LeaderboardFragment extends Fragment {
 

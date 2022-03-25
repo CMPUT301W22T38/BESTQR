@@ -23,7 +23,7 @@ public class LeaderboardListAdapter extends ArrayAdapter<LeaderboardScoreBlock> 
     int sortingMethod;
 
     public LeaderboardListAdapter(@NonNull Context context, ArrayList<LeaderboardScoreBlock> scores, int sortingMethod) {
-        super(context, R.layout.qrlist_item);
+        super(context, R.layout.leaderboardlist_item);
         this.context = context;
         this.scores = scores;
         this.sortingMethod = sortingMethod;

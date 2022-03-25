@@ -200,12 +200,15 @@ public class Profile implements Serializable {
 
     /**
      * this method removes a QRCODE from the QR CODES scanned by the user and updates he score accordingly
-     * @param qrCode - the QRCODE to be removed
      */
-    public void removeCode(QRCODE qrCode){
+    public void removeCodebyPosition(int position){
         // also remove it from the owner list of qrCodes if it not exist there
-        scannedCodes.remove(qrCode);
-        score -= qrCode.getScore();
+        if(this.scannedCodes == null || position < 0 || position >= this.scannedCodes.size()){
+            //avoid possible problem
+        }else{
+            scannedCodes.remove(position);
+        }
+
     }
 
     public void setUserName(String userName) {
