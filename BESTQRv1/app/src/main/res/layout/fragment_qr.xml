@@ -48,12 +48,14 @@
                 android:id="@+id/toolbar_qr_comments"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_marginEnd="44dp"
                 android:background="@null"
                 android:src="@android:drawable/sym_action_chat"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="w,4:5"
                 app:layout_constraintEnd_toStartOf="@+id/toolbar_qr_location"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
 
             <ImageButton
                 android:id="@+id/toolbar_qr_location"
@@ -63,6 +65,17 @@
                 android:background="@null"
                 android:src="@android:drawable/ic_menu_mylocation"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="4:5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/toolbar_user_delete"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="52dp"
+                android:background="@null"
+                android:src="@android:drawable/ic_menu_delete"
                 app:layout_constraintDimensionRatio="4:5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

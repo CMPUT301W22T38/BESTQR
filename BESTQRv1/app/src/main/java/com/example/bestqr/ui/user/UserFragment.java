@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -21,6 +23,8 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.bestqr.QRCODE;
+import com.example.bestqr.QRCodeList;
 import com.example.bestqr.UserViewModel;
 import com.example.bestqr.profilelistAdapter;
 import com.example.bestqr.CameraActivity;
@@ -29,6 +33,9 @@ import com.example.bestqr.databinding.FragmentUserBinding;
 
 import com.example.bestqr.Profile;
 import com.example.bestqr.ui.qr.QrViewModel;
+
+import java.util.ArrayList;
+import java.util.Comparator;
 
 public class UserFragment extends Fragment {
 
@@ -63,7 +70,7 @@ public class UserFragment extends Fragment {
         binding.toolbarUserProfile.setText(userProfile.getUserName());
 
         ListView qrCodes = binding.qrlist;
-        profilelistAdapter myAdapter = new profilelistAdapter(getActivity() , userProfile.getQrScores(), userProfile.getQrTimestamps(), userProfile.getQrBitmaps(),userProfile);
+        profilelistAdapter myAdapter = new profilelistAdapter(getActivity() , userProfile.getQrScores(), userProfile.getQrTimestamps(), userProfile.getQrBitmaps());
         qrCodes.setAdapter(myAdapter);
 
         qrCodes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -115,7 +122,7 @@ public class UserFragment extends Fragment {
                                 userViewModel.sortListChronological();
                                 break;
                         }
-                        profilelistAdapter myAdapter = new profilelistAdapter(getActivity() , userProfile.getQrScores(), userProfile.getQrTimestamps(), userProfile.getQrBitmaps(),userProfile);
+                        profilelistAdapter myAdapter = new profilelistAdapter(getActivity() , userProfile.getQrScores(), userProfile.getQrTimestamps(), userProfile.getQrBitmaps());
                         qrCodes.setAdapter(myAdapter);
                         return true;
                     }
@@ -135,44 +142,6 @@ public class UserFragment extends Fragment {
             }
         });
 
-
-
-
-
-//        ImageButton delete_button = binding.toolbarUserDelete;
-//        delete_button.setOnClickListener(new View.OnClickListener() {
-//            boolean checkbox_visible = false;
-//            @Override
-//            public void onClick(View view) {
-//                ListView listview = (ListView) getView().findViewById(R.id.qrlist);
-//                ArrayList<CheckBox> checkBoxes = new ArrayList<>();
-//
-//                for (int i = 0; i < listview.getChildCount(); i++) {
-//                    View v = listview.getChildAt(i);
-//                    CheckBox checkbox = (CheckBox) v.findViewById(R.id.checkBox);
-//                    checkBoxes.add(checkbox);
-//                }
-//
-//                if (checkbox_visible) {
-//                    for (CheckBox checkBox: checkBoxes) {
-//                        checkBox.setVisibility(View.VISIBLE);
-//                    }
-//                }
-//                else {
-//
-//                }
-//
-//                checkbox_visible = (checkbox_visible) ? false : true;
-//            }
-//
-////                ListView listview = (ListView) getView().findViewById(R.id.qrlist);
-////                listview.getView
-////                System.out.println(myAdapter.getCount());
-////                View v = myAdapter.getView(1);
-////                CheckBox box = (CheckBox) v.findViewById(R.id.checkbox);
-////                myAdapter.getCount()
-//        });
-//
         return root;
     }
 
@@ -204,3 +173,5 @@ public class UserFragment extends Fragment {
         binding = null;
     }
 }
+
+

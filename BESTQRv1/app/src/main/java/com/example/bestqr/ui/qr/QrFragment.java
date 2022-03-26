@@ -4,6 +4,7 @@ package com.example.bestqr.ui.qr;
 import android.graphics.Bitmap;
 
 import com.example.bestqr.QRCODE;
+import com.example.bestqr.R;
 import com.example.bestqr.UserViewModel;
 import com.example.bestqr.ui.leaderboard.LeaderboardViewModel;
 import com.google.zxing.MultiFormatWriter;
@@ -28,6 +29,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
@@ -46,6 +48,7 @@ public class QrFragment extends Fragment {
     private Profile userProfile;
     private ImageView image;
     private ImageButton commentButton;
+    private ImageButton deleteButton;
     private Bitmap bitmap;
     private EditText addComments;
     private TextView allComments;
@@ -88,6 +91,8 @@ public class QrFragment extends Fragment {
         commentButton =  binding.toolbarQrComments;
         allComments = binding.comments;
 
+        deleteButton = binding.toolbarUserDelete;
+
         qrComments = String.join("\n",qr.getComments());
         allComments.setText(qrComments);
 
@@ -114,14 +119,19 @@ public class QrFragment extends Fragment {
             }
         });
 
-
-
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                userProfile.removeCodebyPosition(userProfile.getScannedCodes().indexOf(qr));
+                userViewModel.setSelectedQrcode(null);
+                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
+                navController.navigate(R.id.action_navigation_to_user);
+            }
+        });
+        
         return root;
 
     }
-
-
-
 
 
 
