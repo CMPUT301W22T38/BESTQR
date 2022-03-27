@@ -128,7 +128,7 @@ public class QrFragment extends Fragment {
                 navController.navigate(R.id.action_navigation_to_user);
             }
         });
-        
+
         return root;
 
     }
