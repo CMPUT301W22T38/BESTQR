@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.bestqr.Database;
-import com.google.common.collect.Comparators;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,7 +32,7 @@ public class LeaderboardViewModel extends ViewModel {
         ArrayList<Integer> result = new ArrayList<Integer>();
         for(int i = 0; i < this.scoreBlocks.size(); i++){
             LeaderboardScoreBlock s = this.scoreBlocks.get(i);
-            if(s.getUserHash() == userHash){
+            if(s.getAndroidID() == userHash){
                 result.add(getScoreCurrentSorted(i));
                 result.add(i);
             }
@@ -104,6 +103,15 @@ public class LeaderboardViewModel extends ViewModel {
                 return this.scoreBlocks.get(position).getTotalSumOfScores();
         }
         return 0;
+    }
+
+    /**
+     * This method returns a score block for a given position.
+     * @param position
+     * @return : LeaderboardScoreBlock (position is according to current sorting method)
+     */
+    public LeaderboardScoreBlock getBlock(int position){
+        return scoreBlocks.get(position);
     }
 
     /**

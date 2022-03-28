@@ -1,10 +1,7 @@
 package com.example.bestqr.ui.leaderboard;
 
-import java.util.Collections;
-import java.util.Comparator;
-
 public class LeaderboardScoreBlock {
-    private String userHash;
+    private String androidID;
     private String username;
     private int highestScoring;
     private int totalNum;
@@ -12,9 +9,9 @@ public class LeaderboardScoreBlock {
     private int rank;
 
 
-    public LeaderboardScoreBlock(String userHash, String username, int highestScoring, int totalNum, int totalSumOfScores){
+    public LeaderboardScoreBlock(String androidID, String username, int highestScoring, int totalNum, int totalSumOfScores){
         this.username = username;
-        this.userHash = userHash;
+        this.androidID = androidID;
         this.highestScoring = highestScoring;
         this.totalNum = totalNum;
         this.totalSumOfScores = totalSumOfScores;
@@ -50,12 +47,12 @@ public class LeaderboardScoreBlock {
 //        }
 //    };
 
-    public String getUserHash() {
-        return userHash;
+    public String getAndroidID() {
+        return androidID;
     }
 
-    public void setUserHash(String user_hash) {
-        this.userHash = user_hash;
+    public void setAndroidID(String user_hash) {
+        this.androidID = user_hash;
     }
 
     public String getUsername() {

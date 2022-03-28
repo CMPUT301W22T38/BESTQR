@@ -42,7 +42,6 @@ public class LeaderboardFragment extends Fragment {
     private LeaderboardViewModel leaderboardViewModel;
     private FragmentLeaderboardBinding binding;
     private UserViewModel userViewModel;
-    private ListView listview;
     private LeaderboardListAdapter myAdapter;
 
     /**
@@ -67,6 +66,9 @@ public class LeaderboardFragment extends Fragment {
         userViewModel =
                 new ViewModelProvider(requireActivity()).get(UserViewModel.class);
 
+        Log.d("AAA", "Test Log");
+
+
         binding = FragmentLeaderboardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -80,7 +82,7 @@ public class LeaderboardFragment extends Fragment {
             leaderboardViewModel.sortScoresByTotalSum();
         }
 
-        myAdapter = new LeaderboardListAdapter(getContext(),
+        myAdapter = new LeaderboardListAdapter(getContext(), R.layout.leaderboardlist_item,
                 leaderboardViewModel.getScoreBlocks(), 0);
         binding.leaderboardList.setAdapter(myAdapter);
 
@@ -92,16 +94,14 @@ public class LeaderboardFragment extends Fragment {
         binding.leaderboardList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), "clicked", Toast.LENGTH_SHORT).show();
-                // Log.d("LeaderboardFragment", "Clicked on object!" + position);
-                // Profile clickedProfile = (Profile) parent.getItemAtPosition(position);
-                // userViewModel.setGuestProfile(clickedProfile);
-                // NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
-                // navController.navigate(R.id.action_navigation_leaderboard_to_navigation_guest_user);
+                LeaderboardScoreBlock clickedScore = leaderboardViewModel.getBlock(position);
+                String androidID = clickedScore.getAndroidID();
+                Profile guestProfile = userViewModel.getDb().get(androidID);
+                userViewModel.setGuestProfile(guestProfile);
+                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
+                navController.navigate(R.id.action_navigation_leaderboard_to_navigation_guest_user);
             }
         });
-
-
 
         // TODO: Implement putting user scores into highlighted bar
         // ArrayList<Integer> scoreRank = leaderboardViewModel.getUserScoreAndRank(userViewModel.getUserProfile().getDeviceID());
@@ -138,14 +138,9 @@ public class LeaderboardFragment extends Fragment {
                                 leaderboardViewModel.sortScoresByTotalSum();
                                 break;
                         }
-                        // LeaderboardListAdapter newAdapter = new LeaderboardListAdapter(getActivity(),
-                        // leaderboardViewModel.getScoreBlocks(), leaderboardViewModel.getSortingMethod());
                         myAdapter.setSortingMethod(leaderboardViewModel.getSortingMethod());
                         myAdapter.clear();
                         myAdapter.addAll(leaderboardViewModel.getScoreBlocks());
-
-
-                        // binding.leaderboardList.setAdapter(newAdapter);
                         return true;
                     }
                 });
