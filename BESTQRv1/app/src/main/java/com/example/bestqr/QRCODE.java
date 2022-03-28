@@ -2,6 +2,7 @@ package com.example.bestqr;
 
 import android.graphics.Bitmap;
 import android.location.Location;
+import android.location.LocationManager;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
@@ -15,6 +16,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,10 +32,13 @@ public class QRCODE implements Serializable {
     private int score;
     private Bitmap objectImage;
     static MessageDigest digest;
+    private ArrayList<String> comments;
 
     private TimeStamp timestamp;
 
-    public QRCODE() {}
+    public QRCODE() {
+        this.comments = new ArrayList<>();
+    }
     /**
      * This constructor is for the QRCODE where location is stored
      * @param codeLocation: This is the Location that is recorded for the QRCODE
@@ -45,6 +50,7 @@ public class QRCODE implements Serializable {
         this.hash = calculateHash(contents);
         this.score = calculateScore(hash);
         this.timestamp = new TimeStamp();
+        this.comments = new ArrayList<>();
     }
 
 
@@ -59,6 +65,7 @@ public class QRCODE implements Serializable {
         this.hash = calculateHash(contents);
         this.score = calculateScore(hash);
         this.timestamp = new TimeStamp();
+        this.comments = new ArrayList<>();
     }
 
     //test
@@ -135,7 +142,21 @@ public class QRCODE implements Serializable {
      * @return the location of the QRCODE
      */
     public Location getCodeLocation(){
+//        Location location = new Location("dummyprovider");
+//        location.setLatitude(89.909090);
+//        location.setLongitude(89.909090);
+//        return location;
         return codeLocation;
+    }
+
+
+    public void addComments(String comment){
+        comments.add(comment);
+    }
+
+
+    public ArrayList<String> getComments() {
+        return comments;
     }
 
     // for testing

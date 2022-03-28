@@ -3,15 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_gravity="center_horizontal"
     android:layout_height="match_parent"
     tools:context=".ui.qr.QrFragment">
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="356dp"
-        android:layout_height="313dp"
+        android:layout_width="347dp"
+        android:layout_height="269dp"
         android:layout_marginStart="36dp"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="36dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_qr" />
 
@@ -44,12 +48,14 @@
                 android:id="@+id/toolbar_qr_comments"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_marginEnd="44dp"
                 android:background="@null"
                 android:src="@android:drawable/sym_action_chat"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="w,4:5"
                 app:layout_constraintEnd_toStartOf="@+id/toolbar_qr_location"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
 
             <ImageButton
                 android:id="@+id/toolbar_qr_location"
@@ -63,24 +69,64 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <ImageButton
+                android:id="@+id/toolbar_user_delete"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="52dp"
+                android:background="@null"
+                android:src="@android:drawable/ic_menu_delete"
+                app:layout_constraintDimensionRatio="4:5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>
 
+
     <TextView
-        android:id="@+id/text_notifications"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:id="@+id/commentsText"
+        android:layout_width="296dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="56dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
+        android:text="Comments:"
+        android:textColor="@color/black"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.739" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <TextView
+        android:id="@+id/comments"
+        android:layout_width="308dp"
+        android:layout_height="209dp"
+        android:layout_marginStart="51dp"
+        android:layout_marginTop="10dp"
+        android:textAlignment="viewStart"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/commentsText" />
+
+    <EditText
+        android:id="@+id/addComment"
+        android:layout_width="300dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:textSize="20sp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/comments" />
+
+    <Button
+        android:id="@+id/addButton"
+        android:layout_width="85dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="8dp"
+        android:text="ADD"
+        android:visibility="invisible"
+        app:layout_constraintStart_toEndOf="@+id/addComment"
+        app:layout_constraintTop_toBottomOf="@+id/comments" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,9 +5,11 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,12 +26,13 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.bestqr.QRCODE;
 import com.example.bestqr.QRCodeList;
 import com.example.bestqr.UserViewModel;
-import com.example.bestqr.qrlistAdapter;
+import com.example.bestqr.profilelistAdapter;
 import com.example.bestqr.CameraActivity;
 import com.example.bestqr.R;
 import com.example.bestqr.databinding.FragmentUserBinding;
 
 import com.example.bestqr.Profile;
+import com.example.bestqr.ui.qr.QrViewModel;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -39,6 +42,7 @@ public class UserFragment extends Fragment {
     //    private Profile profile;
     private UserViewModel userViewModel;
     private FragmentUserBinding binding;
+    private QrViewModel qrViewModel;
 
 
     /**
@@ -57,6 +61,7 @@ public class UserFragment extends Fragment {
 
         // Get Activity-Owned UserViewModel (global to all fragments)
         userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
+        qrViewModel = new ViewModelProvider(this).get(QrViewModel.class);
 
         binding = FragmentUserBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -65,8 +70,18 @@ public class UserFragment extends Fragment {
         binding.toolbarUserProfile.setText(userProfile.getUserName());
 
         ListView qrCodes = binding.qrlist;
-        qrlistAdapter myAdapter = new qrlistAdapter(getActivity() , userProfile.getQrScores(), userProfile.getQrTimestamps(), userProfile.getQrBitmaps());
+        profilelistAdapter myAdapter = new profilelistAdapter(getActivity() , userProfile.getQrScores(), userProfile.getQrTimestamps(), userProfile.getQrBitmaps());
         qrCodes.setAdapter(myAdapter);
+
+        qrCodes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                userViewModel.setSelectedQrcode(userProfile.getScannedCodes().get(i));
+                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
+                navController.navigate(R.id.action_navigation_from_user_to_qr);
+
+            }
+        });
 
         // onClick Listener for the QR button on the toolbar
         // This button navigates to QrFragment, which displays a list of the user's QR codes
@@ -74,8 +89,11 @@ public class UserFragment extends Fragment {
         qr_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(getActivity(), "set", Toast.LENGTH_SHORT).show();
+                userViewModel.setSelectedQrcode(userProfile.getDeviceQrCode());
                 NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
                 navController.navigate(R.id.action_navigation_from_user_to_qr);
+
             }
         });
 
@@ -103,7 +121,7 @@ public class UserFragment extends Fragment {
                                 userViewModel.sortListChronological();
                                 break;
                         }
-                        qrlistAdapter myAdapter = new qrlistAdapter(getActivity() , userProfile.getQrScores(), userProfile.getQrTimestamps(), userProfile.getQrBitmaps());
+                        profilelistAdapter myAdapter = new profilelistAdapter(getActivity() , userProfile.getQrScores(), userProfile.getQrTimestamps(), userProfile.getQrBitmaps());
                         qrCodes.setAdapter(myAdapter);
                         return true;
                     }
@@ -123,42 +141,6 @@ public class UserFragment extends Fragment {
             }
         });
 
-
-
-//        ImageButton delete_button = binding.toolbarUserDelete;
-//        delete_button.setOnClickListener(new View.OnClickListener() {
-//            boolean checkbox_visible = false;
-//            @Override
-//            public void onClick(View view) {
-//                ListView listview = (ListView) getView().findViewById(R.id.qrlist);
-//                ArrayList<CheckBox> checkBoxes = new ArrayList<>();
-//
-//                for (int i = 0; i < listview.getChildCount(); i++) {
-//                    View v = listview.getChildAt(i);
-//                    CheckBox checkbox = (CheckBox) v.findViewById(R.id.checkBox);
-//                    checkBoxes.add(checkbox);
-//                }
-//
-//                if (checkbox_visible) {
-//                    for (CheckBox checkBox: checkBoxes) {
-//                        checkBox.setVisibility(View.VISIBLE);
-//                    }
-//                }
-//                else {
-//
-//                }
-//
-//                checkbox_visible = (checkbox_visible) ? false : true;
-//            }
-//
-////                ListView listview = (ListView) getView().findViewById(R.id.qrlist);
-////                listview.getView
-////                System.out.println(myAdapter.getCount());
-////                View v = myAdapter.getView(1);
-////                CheckBox box = (CheckBox) v.findViewById(R.id.checkbox);
-////                myAdapter.getCount()
-//        });
-//
         return root;
     }
 
@@ -190,3 +172,5 @@ public class UserFragment extends Fragment {
         binding = null;
     }
 }
+
+

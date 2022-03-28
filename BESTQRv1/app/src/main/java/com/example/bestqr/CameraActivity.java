@@ -1,13 +1,24 @@
 package com.example.bestqr;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
@@ -18,10 +29,26 @@ import android.widget.Toast;
 
 import com.example.bestqr.ui.leaderboard.LeaderboardViewModel;
 import com.example.bestqr.ui.qr.QrViewModel;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -54,6 +81,8 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
     private static final int PICK_IMAGE = 1;
     private QRCODE qr;
     private String contents;
+    private FusedLocationProviderClient mFusedLocationClient;
+
     private Profile profile;
     private int score = 0;
 
@@ -91,18 +120,23 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
 
         // This should be in th login activity
         // get unique device id
-        @SuppressLint("HardwareIds") String androidId = Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);
+        @SuppressLint("HardwareIds") String androidId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         // test identification of user ideally info will be taken in the signup activity and stored in firebase
         QRCODE userIdentification = new QRCODE(androidId);
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         leaderboardViewModel = new ViewModelProvider(this).get(LeaderboardViewModel.class);
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         this.db = new Database();
         userViewModel.setDb(this.db);
 
-        profile = db.get(androidId);
+//        profile = db.get(androidId);
+        profile = new Profile(androidId);
 
+        profile.addNewQRCode(new QRCODE("YES"));
+        profile.addNewQRCode(new QRCODE("YESterday"));
+        profile.addNewQRCode(new QRCODE("no"));
 
 //        run it once
 //        QRCODE qrcode1 = new QRCODE(androidId + "1");
@@ -150,7 +184,7 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
 //
     }
 
-    public void scanButton(View v){
+    public void scanButton(View v) {
         //initialize intent integrator
         IntentIntegrator intentIntegrator = new IntentIntegrator(CameraActivity.this);
         //locked orientation
@@ -162,7 +196,7 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
     }
 
 
-    public void openGallery(View v){
+    public void openGallery(View v) {
         Intent photoPickerIntent = new Intent();
         photoPickerIntent.setType("image/*");
         photoPickerIntent.setAction(Intent.ACTION_GET_CONTENT);
@@ -174,7 +208,7 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
         super.onActivityResult(requestCode, resultCode, data);
 //        Initialize intent result
         IntentResult intentResult = IntentIntegrator.parseActivityResult(
-                requestCode,resultCode,data
+                requestCode, resultCode, data
         );
 
         // If user chooses an image from the gallery
@@ -188,7 +222,7 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
 
                 try {
                     Bitmap bMap = selectedImage;
-                    int[] intArray = new int[bMap.getWidth()*bMap.getHeight()];
+                    int[] intArray = new int[bMap.getWidth() * bMap.getHeight()];
                     bMap.getPixels(intArray, 0, bMap.getWidth(), 0, 0, bMap.getWidth(), bMap.getHeight());
                     LuminanceSource source = new RGBLuminanceSource(bMap.getWidth(), bMap.getHeight(), intArray);
                     BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
@@ -200,7 +234,7 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
                     // Create new QR object using contents as argument
                     qr = new QRCODE(contents);
                     score = qr.getScore();
-                    locationPrompt.newInstance(profile,qr).show(getSupportFragmentManager(),"NEW QRCODE");
+                    locationPrompt.newInstance(profile, qr).show(getSupportFragmentManager(), "NEW QRCODE");
 
 //                    db.writeImage(newQR, profile.getandroidId());
 //                    db.QRCodeReceivedFromCameraActivity(newQR, profile.getandroidId());
@@ -209,7 +243,7 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
                     //When result content is not null
                     //Initialize alert dialog
 
-                } catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -221,9 +255,7 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
                 Toast.makeText(CameraActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
 
             }
-        }
-
-        else if (requestCode == 49374) {
+        } else if (requestCode == 49374) {
             //Check condition
             if (intentResult.getContents() != null) {
                 //When result content is not null
@@ -231,7 +263,7 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
                 contents = intentResult.getContents();
                 qr = new QRCODE(contents);
                 score = qr.getScore();
-                locationPrompt.newInstance(profile,qr).show(getSupportFragmentManager(),"NEW QRCODE");
+                locationPrompt.newInstance(profile, qr).show(getSupportFragmentManager(), "NEW QRCODE");
 
             } else {
                 //When result content is null
@@ -240,9 +272,12 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
                         , "sorry, nothing is scanned", Toast.LENGTH_SHORT)
                         .show();
             }
-        }
+        } else if (requestCode == 2) {
+            if (resultCode == Activity.RESULT_OK) {
 
-        else{
+
+            }
+        } else {
             Bitmap captureImage = (Bitmap) data.getExtras().get("data");
             qr.setObjectImage(captureImage);
         }
@@ -250,6 +285,7 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
 
     /**
      * This method converts the a bytes representation to a hexadecimal string
+     *
      * @param hash The bytes that are to be converted
      * @return the String hexadecimal representation of the bytes provided
      */
@@ -265,13 +301,126 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
         return hexString.toString();
     }
 
-    public static Set<Integer> getTopLevelDestinations(){
+    public static Set<Integer> getTopLevelDestinations() {
         return topLevelDestinations;
     }
 
     @Override
-    public void onOkPressed(Profile profile,QRCODE qrcode) {
+    public void onOkPressed(Profile profile, QRCODE qrcode) {
 //        db.add_qrcode();
     }
 
+
+
+
 }
+
+
+
+
+//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    private void fetchLocation() {
+//        if (ContextCompat.checkSelfPermission(CameraActivity.this,
+//                Manifest.permission.ACCESS_COARSE_LOCATION)
+//                != PackageManager.PERMISSION_GRANTED) {
+//
+//            // Permission is not granted
+//            // Should we show an explanation?
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(CameraActivity.this,
+//                    Manifest.permission.ACCESS_COARSE_LOCATION)) {
+//                // Show an explanation to the user *asynchronously* -- don't block
+//                // this thread waiting for the user's response! After the user
+//                // sees the explanation, try again to request the permission.
+//
+//                new AlertDialog.Builder(this)
+//                        .setTitle("Required Location Permission")
+//                        .setMessage("You have to give this permission to acess this feature")
+//                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialogInterface, int i) {
+//                                ActivityCompat.requestPermissions(CameraActivity.this,
+//                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+//                                        MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
+//                            }
+//                        })
+//                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialogInterface, int i) {
+//                                dialogInterface.dismiss();
+//                            }
+//                        })
+//                        .create()
+//                        .show();
+//
+//
+//            } else {
+//                // No explanation needed; request the permission
+//                ActivityCompat.requestPermissions(CameraActivity.this,
+//                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+//                        MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
+//
+//                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+//                // app-defined int constant. The callback method gets the
+//                // result of the request.
+//            }
+//        } else {
+//            // Permission has already been granted
+//            mFusedLocationClient.getLastLocation()
+//                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+//                        @Override
+//                        public void onSuccess(Location location) {
+//                            Toast.makeText(CameraActivity.this, "3-Latitude: " + qr.getCodeLocation().getLatitude() +"Longitude: " + qr.getCodeLocation().getLongitude() , Toast.LENGTH_SHORT).show();
+//                            // Got last known location. In some rare situations this can be null.
+//                            if (location != null) {
+//                                // Logic to handle location object
+//                                Double latitude = location.getLatitude();
+//                                Double longitude = location.getLongitude();
+////                                Toast.makeText(CameraActivity.this, latitude + "" + longitude, Toast.LENGTH_SHORT).show();
+//                                qr.setCodeLocation(location);
+////                                Toast.makeText(CameraActivity.this, "Latitude: " + qr.getCodeLocation().getLatitude() +"Longitude: " + qr.getCodeLocation().getLongitude() , Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+//                    });
+//
+//            }
+//
+//
+//    }
+//
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        if (requestCode == MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION) {
+//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                //abc
+//            } else {
+//
+//            }
+//        }
+//    }
+//
+//
+//}
+//
+
+
+
+
