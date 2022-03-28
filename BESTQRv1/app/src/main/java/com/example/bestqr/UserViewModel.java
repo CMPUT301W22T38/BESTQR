@@ -68,7 +68,7 @@ public class UserViewModel extends ViewModel {
 
     public void setGuestProfile(Profile guest_profile) {
         this.guest_profile = guest_profile;
-    }
+
 
     public void setSelectedQrcode(QRCODE qrcode1){
         qrcode = qrcode1;

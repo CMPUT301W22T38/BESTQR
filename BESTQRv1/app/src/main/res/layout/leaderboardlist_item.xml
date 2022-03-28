@@ -18,6 +18,7 @@
         android:id="@+id/leaderboard_list_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:padding="10dp"
         app:layout_constraintStart_toEndOf="@+id/leaderboard_list_guideline1"
         app:layout_constraintEnd_toStartOf="@+id/leaderboard_list_guideline2"/>
