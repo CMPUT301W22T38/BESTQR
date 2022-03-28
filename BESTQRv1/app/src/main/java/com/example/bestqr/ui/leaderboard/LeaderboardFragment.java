@@ -77,7 +77,6 @@ public class LeaderboardFragment extends Fragment {
                 leaderboardViewModel.getScoreBlocks(), 0);
         binding.leaderboardList.setAdapter(myAdapter);
 
-
         /**
          * Listener for clicks on users in ArrayAdapter
          * Upon clicking on a user, navigate to lower-level GuestUserFragment
@@ -137,12 +136,6 @@ public class LeaderboardFragment extends Fragment {
             }
         });
 
-        binding.leaderboardList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                // when leaderboard rows clicked
-            }
-        });
         /**
          * Disabled, as it introduces minor unintuitive navigation when opening non top-level tabs from user tab.
          * Consider re-enabling if this is fixed
