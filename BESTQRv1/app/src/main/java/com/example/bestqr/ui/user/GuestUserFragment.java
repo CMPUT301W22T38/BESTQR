@@ -25,7 +25,8 @@ import com.example.bestqr.R;
 import com.example.bestqr.UserViewModel;
 import com.example.bestqr.databinding.FragmentGuestUserBinding;
 import com.example.bestqr.databinding.FragmentUserBinding;
-import com.example.bestqr.qrlistAdapter;
+import com.example.bestqr.QRCodeList;
+import com.example.bestqr.profilelistAdapter;
 
 public class GuestUserFragment extends Fragment {
 
@@ -62,7 +63,7 @@ public class GuestUserFragment extends Fragment {
         binding.toolbarGuestUserProfile.setText(guestProfile.getUserName());
 
         ListView qrCodes = binding.guestUserQrlist;
-        qrlistAdapter myAdapter = new qrlistAdapter(getActivity(), guestProfile.getQrScores(), guestProfile.getQrTimestamps(), guestProfile.getQrBitmaps());
+        profilelistAdapter myAdapter = new profilelistAdapter(getActivity(), guestProfile.getQrScores(), guestProfile.getQrTimestamps(), guestProfile.getQrBitmaps());
         qrCodes.setAdapter(myAdapter);
 
         // onClick Listener for the Sort button on the toolbar
@@ -89,7 +90,7 @@ public class GuestUserFragment extends Fragment {
                                 guestUserViewModel.sortListChronological();
                                 break;
                         }
-                        qrlistAdapter myAdapter = new qrlistAdapter(getActivity() , guestProfile.getQrScores(), guestProfile.getQrTimestamps(), guestProfile.getQrBitmaps());
+                        profilelistAdapter myAdapter = new profilelistAdapter(getActivity() , guestProfile.getQrScores(), guestProfile.getQrTimestamps(), guestProfile.getQrBitmaps());
                         qrCodes.setAdapter(myAdapter);
                         return true;
                     }
