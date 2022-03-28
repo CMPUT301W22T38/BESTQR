@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,9 +19,10 @@ import com.example.bestqr.ui.leaderboard.LeaderboardViewModel;
 import java.util.ArrayList;
 
 public class LeaderboardListAdapter extends ArrayAdapter<LeaderboardScoreBlock> {
-    ArrayList<LeaderboardScoreBlock> scores;
-    Context context;
+    private ArrayList<LeaderboardScoreBlock> scores = new ArrayList<LeaderboardScoreBlock>();
+    private Context context;
     int sortingMethod;
+
 
     public LeaderboardListAdapter(@NonNull Context context, ArrayList<LeaderboardScoreBlock> scores, int sortingMethod) {
         super(context, R.layout.qrlist_item);
@@ -36,37 +38,36 @@ public class LeaderboardListAdapter extends ArrayAdapter<LeaderboardScoreBlock> 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        ViewHolder mViewholder = new ViewHolder();
-        if(convertView == null) {
-            LayoutInflater mInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = mInflater.inflate(R.layout.leaderboardlist_item, parent, false);
-            mViewholder.userTextView = (TextView) convertView.findViewById(R.id.leaderboard_list_username);
-            mViewholder.scoreTextView = (TextView) convertView.findViewById(R.id.leaderboard_list_total_score);
-            mViewholder.rankTextView = (TextView) convertView.findViewById(R.id.leaderboard_list_rank);
-            mViewholder.scannednumTextView = (TextView) convertView.findViewById(R.id.leaderboard_list_scanned_number);
-
-            convertView.setTag(mViewholder);//for faster scrolling
-        }else{
-            mViewholder = (ViewHolder)convertView.getTag();
+        View listItem = convertView;
+        if(listItem == null) {
+            listItem = LayoutInflater.from(this.context).inflate(R.layout.leaderboardlist_item, parent, false);
         }
 
-        mViewholder.userTextView.setText(scores.get(position).getUsername());
-        mViewholder.rankTextView.setText(Integer.toString(position + 1));
-        mViewholder.scannednumTextView.setText(String.valueOf(scores.get(position).getTotalNum()));
+        LeaderboardScoreBlock currentScoreBlock = scores.get(position);
+
+        TextView userTextView = (TextView) convertView.findViewById(R.id.leaderboard_list_username);
+        userTextView.setText(scores.get(position).getUsername());
+
+        TextView scoreTextView = (TextView) convertView.findViewById(R.id.leaderboard_list_total_score);
+
+        TextView rankTextView = (TextView) convertView.findViewById(R.id.leaderboard_list_rank);
+        rankTextView.setText(Integer.toString(position + 1));
+
+        TextView scannednumTextView = (TextView) convertView.findViewById(R.id.leaderboard_list_scanned_number);
+        scannednumTextView.setText(String.valueOf(scores.get(position).getTotalNum()));
+
         switch(this.sortingMethod) {
             case 0:
-                mViewholder.scoreTextView.setText(Integer.toString(this.scores.get(position).getTotalSumOfScores()));
+                scoreTextView.setText(Integer.toString(this.scores.get(position).getTotalSumOfScores()));
                 break;
             case 1:
-                mViewholder.scoreTextView.setText(String.valueOf(this.scores.get(position).getHighestScoring()));
+                scoreTextView.setText(String.valueOf(this.scores.get(position).getHighestScoring()));
                 break;
             case 2:
 //                mViewholder.scoreTextView.setText(Integer.toString(this.scores.get(position).getTotalNum()));
                 break;
         }
-
-
-        return convertView;
+        return listItem;
     }
 
     public void setSortingMethod(int sortingMethod) {

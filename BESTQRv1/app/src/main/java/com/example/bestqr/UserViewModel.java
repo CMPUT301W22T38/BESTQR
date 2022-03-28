@@ -44,20 +44,6 @@ public class UserViewModel extends ViewModel {
         Collections.sort(qrcodelist, Comparator.comparing(QRCODE::getScannedTime));
     }
 
-    /** Sets the user profile that will be used for navigating to profiles other than the current user
-     * @return : Profile
-     */
-    public Profile getGuestProfile() {
-        return guest_profile;
-    }
-
-    /** Gets the user profile that will be used for navigating to profiles other than the current user
-     * @param guest_profile : Profile
-     */
-    public void setGuestProfile(Profile guest_profile) {
-        this.guest_profile = guest_profile;
-    }
-
     /** Sets the main user profile
      * @param profile
      *      a profile object, containing info on a user
@@ -75,4 +61,11 @@ public class UserViewModel extends ViewModel {
         return user_profile;
     }
 
+    public Profile getGuestProfile() {
+        return guest_profile;
+    }
+
+    public void setGuestProfile(Profile guest_profile) {
+        this.guest_profile = guest_profile;
+    }
 }

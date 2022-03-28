@@ -31,6 +31,7 @@ public class GuestUserFragment extends Fragment {
 
     //    private Profile profile;
     private UserViewModel userViewModel;
+    private GuestUserViewModel guestUserViewModel;
     private FragmentGuestUserBinding binding;
     private Profile guestProfile;
 
@@ -50,14 +51,18 @@ public class GuestUserFragment extends Fragment {
 
         // Get Activity-Owned UserViewModel (global to all fragments)
         userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
+        guestUserViewModel = new ViewModelProvider(this).get(GuestUserViewModel.class);
+
+        guestUserViewModel.setUserProfile(userViewModel.getGuestProfile());
+
         binding = FragmentGuestUserBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        Profile guestProfile = userViewModel.getGuestProfile();
+        Profile guestProfile = guestUserViewModel.getUserProfile();
         binding.toolbarGuestUserProfile.setText(guestProfile.getUserName());
 
-        ListView qrCodes = binding.qrlist;
-        qrlistAdapter myAdapter = new qrlistAdapter(getActivity() , guestProfile.getQrScores(), guestProfile.getQrTimestamps(), guestProfile.getQrBitmaps());
+        ListView qrCodes = binding.guestUserQrlist;
+        qrlistAdapter myAdapter = new qrlistAdapter(getActivity(), guestProfile.getQrScores(), guestProfile.getQrTimestamps(), guestProfile.getQrBitmaps());
         qrCodes.setAdapter(myAdapter);
 
         // onClick Listener for the Sort button on the toolbar
@@ -75,13 +80,13 @@ public class GuestUserFragment extends Fragment {
                         int id = item.getItemId();
                         switch(id) {
                             case R.id.leaderboard_user_sort_ascending:
-                                userViewModel.sortListAscendingScore();
+                                guestUserViewModel.sortListAscendingScore();
                                 break;
                             case R.id.leaderboard_user_sort_descending:
-                                userViewModel.sortListDescending();
+                                guestUserViewModel.sortListDescending();
                                 break;
                             case R.id.leaderboard_user_sort_chronological:
-                                userViewModel.sortListChronological();
+                                guestUserViewModel.sortListChronological();
                                 break;
                         }
                         qrlistAdapter myAdapter = new qrlistAdapter(getActivity() , guestProfile.getQrScores(), guestProfile.getQrTimestamps(), guestProfile.getQrBitmaps());
@@ -93,7 +98,6 @@ public class GuestUserFragment extends Fragment {
         });
 
         // TODO: add delete button accessible only by owner.
-
 
 //        ImageButton delete_button = binding.toolbarUserDelete;
 //        delete_button.setOnClickListener(new View.OnClickListener() {

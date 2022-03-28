@@ -50,7 +50,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <ListView
-        android:id="@+id/qrlist"
+        android:id="@+id/guest_user_qrlist"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar_guest_user" >

@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -15,8 +17,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.ListFragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -37,7 +41,8 @@ public class LeaderboardFragment extends Fragment {
     private LeaderboardViewModel leaderboardViewModel;
     private FragmentLeaderboardBinding binding;
     private UserViewModel userViewModel;
-
+    private ListView listview;
+    private LeaderboardListAdapter myAdapter;
 
     /**
      * Creates and returns the root view of the fragment
@@ -50,6 +55,8 @@ public class LeaderboardFragment extends Fragment {
      * @return root
      *
      */
+
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         leaderboardViewModel =
@@ -64,6 +71,9 @@ public class LeaderboardFragment extends Fragment {
 
         TextView profile_icon = binding.toolbarLeaderboardProfile;
 
+        listview = binding.leaderboardList;
+
+
 
         // Fetch all the scores from the database for display
         // TODO: This should be threaded.
@@ -73,8 +83,31 @@ public class LeaderboardFragment extends Fragment {
             leaderboardViewModel.sortScoresByTotalSum();
         }
 
-        LeaderboardListAdapter myAdapter = new LeaderboardListAdapter(getActivity(), leaderboardViewModel.getScoreBlocks(), 0);
-        binding.leaderboardList.setAdapter(myAdapter);
+        myAdapter = new LeaderboardListAdapter<LeaderboardScoreBlock>(getContext(),
+                leaderboardViewModel.getScoreBlocks(), 0);
+        listview.setAdapter(myAdapter);
+
+
+        // binding.leaderboardList.setAdapter(myAdapter);
+
+        // ListView leaderboardList = binding.leaderboardList;
+
+        /**
+         * Listener for clicks on users in ArrayAdapter
+         * Upon clicking on a user, navigate to lower-level GuestUserFragment
+         */
+        Log.d("LeaderboardFragment", "Creating shit");
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("LeaderboardFragment", "Clicked on object!" + position);
+                Profile clickedProfile = (Profile) parent.getItemAtPosition(position);
+                userViewModel.setGuestProfile(clickedProfile);
+                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
+                navController.navigate(R.id.action_navigation_leaderboard_to_navigation_guest_user);
+            }
+        });
+
+
 
         // TODO: Implement putting user scores into highlighted bar
         // ArrayList<Integer> scoreRank = leaderboardViewModel.getUserScoreAndRank(userViewModel.getUserProfile().getDeviceID());

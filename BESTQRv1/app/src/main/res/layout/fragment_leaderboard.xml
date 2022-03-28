@@ -141,10 +141,12 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar_leaderboard"
         app:layout_constraintStart_toEndOf="@+id/leaderboard_guideline3"
         app:layout_constraintEnd_toEndOf="parent"/>
+
     <ListView
         android:id="@+id/leaderboard_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:drawSelectorOnTop="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/leaderboard_list_label_user" />
 

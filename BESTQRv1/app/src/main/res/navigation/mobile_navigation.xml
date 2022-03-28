@@ -19,7 +19,11 @@
         android:id="@+id/navigation_leaderboard"
         android:name="com.example.bestqr.ui.leaderboard.LeaderboardFragment"
         android:label=""
-        tools:layout="@layout/fragment_leaderboard"/>
+        tools:layout="@layout/fragment_leaderboard">
+        <action
+            android:id="@+id/action_navigation_leaderboard_to_navigation_guest_user"
+            app:destination="@id/navigation_guest_user" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_user"
         android:name="com.example.bestqr.ui.user.UserFragment"
@@ -28,6 +32,12 @@
         <action
             android:id="@+id/action_navigation_user_to_navigation_user_info"
             app:destination="@id/navigation_user_info" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_guest_user"
+        android:name="com.example.bestqr.ui.user.GuestUserFragment"
+        android:label=""
+        tools:layout="@layout/fragment_guest_user">
     </fragment>
     <fragment
         android:id="@+id/navigation_qr"

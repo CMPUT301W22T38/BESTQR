@@ -13,7 +13,7 @@
         <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_leaderboard_qr.xml" value="0.49377593360995853" />
         <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_leaderboard_user.xml" value="0.22" />
         <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_map.xml" value="0.33055555555555555" />
-        <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_qr.xml" value="0.20208333333333334" />
+        <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_qr.xml" value="0.264" />
         <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_user.xml" value="0.25" />
         <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_user_info.xml" value="0.2552083333333333" />
         <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/leaderboardlist_item.xml" value="0.2552083333333333" />
@@ -38,10 +38,7 @@
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.155" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1752786220871327" />
         <entry key="app/src/main/res/layout/fragment_camera.xml" value="0.1752786220871327" />
-        <entry key="app/src/main/res/layout/fragment_leaderboard.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_location.xml" value="0.44583333333333336" />
-        <entry key="app/src/main/res/layout/fragment_map.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_maps.xml" value="0.2078125" />
+        <entry key="app/src/main/res/layout/fragment_leaderboard.xml" value="0.1752786220871327" />
         <entry key="app/src/main/res/layout/fragment_qr.xml" value="0.25815217391304346" />
         <entry key="app/src/main/res/layout/fragment_user.xml" value="0.25815217391304346" />
         <entry key="app/src/main/res/layout/fragment_user_info.xml" value="0.33" />
