@@ -66,9 +66,6 @@ public class LeaderboardFragment extends Fragment {
         userViewModel =
                 new ViewModelProvider(requireActivity()).get(UserViewModel.class);
 
-        Log.d("AAA", "Test Log");
-
-
         binding = FragmentLeaderboardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -95,8 +92,7 @@ public class LeaderboardFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 LeaderboardScoreBlock clickedScore = leaderboardViewModel.getBlock(position);
-                String androidID = clickedScore.getAndroidID();
-                Profile guestProfile = userViewModel.getDb().get(androidID);
+                Profile guestProfile = clickedScore.getProfile();
                 userViewModel.setGuestProfile(guestProfile);
                 NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
                 navController.navigate(R.id.action_navigation_leaderboard_to_navigation_guest_user);

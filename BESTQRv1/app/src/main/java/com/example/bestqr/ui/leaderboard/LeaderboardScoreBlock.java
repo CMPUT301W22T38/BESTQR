@@ -1,17 +1,16 @@
 package com.example.bestqr.ui.leaderboard;
 
+import com.example.bestqr.Profile;
+
 public class LeaderboardScoreBlock {
-    private String androidID;
-    private String username;
     private int highestScoring;
     private int totalNum;
     private int totalSumOfScores;
     private int rank;
+    private Profile profile;
 
-
-    public LeaderboardScoreBlock(String androidID, String username, int highestScoring, int totalNum, int totalSumOfScores){
-        this.username = username;
-        this.androidID = androidID;
+    public LeaderboardScoreBlock(Profile profile, int highestScoring, int totalNum, int totalSumOfScores){
+        this.profile = profile;
         this.highestScoring = highestScoring;
         this.totalNum = totalNum;
         this.totalSumOfScores = totalSumOfScores;
@@ -47,20 +46,13 @@ public class LeaderboardScoreBlock {
 //        }
 //    };
 
-    public String getAndroidID() {
-        return androidID;
+
+    public Profile getProfile() {
+        return profile;
     }
 
-    public void setAndroidID(String user_hash) {
-        this.androidID = user_hash;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
     public int getHighestScoring() {

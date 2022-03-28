@@ -160,6 +160,7 @@ public class GuestUserFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        userViewModel.setGuestProfile(null);
         binding = null;
     }
 }

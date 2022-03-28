@@ -8,6 +8,7 @@ package com.example.bestqr;
 
 import android.location.Location;
 import android.location.LocationManager;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -188,21 +189,18 @@ public class Database {
 
         for (DataSnapshot dataSnapshot: GLOBAL_USERTABLE.getChildren()) {
             String androidid = dataSnapshot.getKey();
-            String username;
             int highest_score = 0;
             int total_scanned = 0;
             int total_score = 0;
-
             Profile profile = get(androidid);
-            username = profile.getUserName();
             QRCodeList list = profile.getScannedCodes();
-
             if (!list.isEmpty()) {
                 highest_score = profile.getHighestScore();
                 total_scanned = profile.getNumberCodesScanned();
                 total_score = list.getTotalScore();
             }
-            result.add(new LeaderboardScoreBlock(androidid, username, highest_score, total_scanned, total_score));
+            Log.d("DATABASE", "adding scoreblock to result...");
+            result.add(new LeaderboardScoreBlock(profile, highest_score, total_scanned, total_score));
         }
         return result;
     }

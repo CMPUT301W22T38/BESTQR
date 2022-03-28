@@ -32,7 +32,7 @@ public class LeaderboardViewModel extends ViewModel {
         ArrayList<Integer> result = new ArrayList<Integer>();
         for(int i = 0; i < this.scoreBlocks.size(); i++){
             LeaderboardScoreBlock s = this.scoreBlocks.get(i);
-            if(s.getAndroidID() == userHash){
+            if(s.getProfile().getAndroidID() == userHash){
                 result.add(getScoreCurrentSorted(i));
                 result.add(i);
             }

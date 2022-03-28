@@ -47,7 +47,7 @@ public class LeaderboardListAdapter extends ArrayAdapter<LeaderboardScoreBlock> 
         LeaderboardScoreBlock currentScoreBlock = scores.get(position);
 
         TextView userTextView = (TextView) listItem.findViewById(R.id.leaderboard_list_username);
-        userTextView.setText(scores.get(position).getUsername());
+        userTextView.setText(scores.get(position).getProfile().getUserName());
 
         TextView scoreTextView = (TextView) listItem.findViewById(R.id.leaderboard_list_total_score);
 
