@@ -16,9 +16,7 @@
         android:id="@+id/scoreText"
         android:layout_width="match_parent"
         android:layout_height="52dp"
-        android:text=""
-        android:textColor="@color/black"
-        android:textSize="20sp" />
+        android:text="" />
 
     <CheckBox
         android:id="@+id/storeImage"
@@ -31,17 +29,4 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Store GeoLocation" />
-
-
-    <TextView
-        android:id="@+id/commentsText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Comments:" />
-
-    <EditText
-        android:id="@+id/comments"
-        android:layout_width="match_parent"
-        android:layout_height="58dp"
-        android:text="" />
 </LinearLayout>

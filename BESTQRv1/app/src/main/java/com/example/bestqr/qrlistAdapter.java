@@ -15,16 +15,16 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-public class profilelistAdapter extends ArrayAdapter<String> {
+public class qrlistAdapter extends ArrayAdapter<String> {
     ArrayList<Integer> scores;
     ArrayList<Bitmap> Pictures;
     ArrayList<String> timestamps;
 
 
     Context mContext;
-    public profilelistAdapter(@NonNull Context context, ArrayList<Integer> qrScores,
+    public qrlistAdapter(@NonNull Context context, ArrayList<Integer> qrScores,
                          ArrayList<String> qrTimestamps, ArrayList<Bitmap> qrPictures) {
-        super(context, R.layout.profilelist_item);
+        super(context, R.layout.qrlist_item);
         this.scores = qrScores;
         this.timestamps = qrTimestamps;
         this.Pictures = qrPictures;
@@ -44,7 +44,7 @@ public class profilelistAdapter extends ArrayAdapter<String> {
         ViewHolder mViewholder = new ViewHolder();
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = mInflater.inflate(R.layout.profilelist_item, parent, false);
+            convertView = mInflater.inflate(R.layout.qrlist_item, parent, false);
 
 
             convertView.setTag(mViewholder);//for faster scrolling
@@ -54,8 +54,8 @@ public class profilelistAdapter extends ArrayAdapter<String> {
         //set value for image view and text view
 
         mViewholder.QRimage = (ImageView) convertView.findViewById(R.id.imageView);
-        mViewholder.Score = (TextView) convertView.findViewById(R.id.profile_score);
-        mViewholder.Timestamp = (TextView) convertView.findViewById(R.id.profile_timestamp);
+        mViewholder.Score = (TextView) convertView.findViewById(R.id.textView1);
+        mViewholder.Timestamp = (TextView) convertView.findViewById(R.id.textView2);
 
         mViewholder.QRimage.setImageBitmap(Pictures.get(position));
         mViewholder.Score.setText(Integer.toString(scores.get(position)));

@@ -150,16 +150,6 @@ public class Profile implements Serializable {
      * @return: scores of all qrCodes scanned
      */
     public ArrayList<Integer> getQrScores(){
-//        if (condition == "ascending"){
-//            scannedCodes.ascendingSort();
-//        }
-//        else if (condition == "descending"){
-//            scannedCodes.descendingSort();
-//        }
-//        else{
-//            scannedCodes.chronologicalSort();
-//        }
-
         qrScores = new ArrayList<>();
         for (QRCODE item:scannedCodes) {
             qrScores.add(item.getScore());
@@ -199,15 +189,12 @@ public class Profile implements Serializable {
 
     /**
      * this method removes a QRCODE from the QR CODES scanned by the user and updates he score accordingly
+     * @param qrCode - the QRCODE to be removed
      */
-    public void removeCodebyPosition(int position){
+    public void removeCode(QRCODE qrCode){
         // also remove it from the owner list of qrCodes if it not exist there
-        if(this.scannedCodes == null || position < 0 || position >= this.scannedCodes.size()){
-            //avoid possible problem
-        }else{
-            scannedCodes.remove(position);
-        }
-
+        scannedCodes.remove(qrCode);
+        score -= qrCode.getScore();
     }
 
     public void setUserName(String userName) {
@@ -221,10 +208,4 @@ public class Profile implements Serializable {
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
     }
-
-    public QRCODE getDeviceQrCode(){
-        return new QRCODE(getAndroidID());
-    }
-
 }
-

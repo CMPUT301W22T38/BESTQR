@@ -12,8 +12,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_launcher_background"
-        tools:ignore="ImageContrastCheck,ImageContrastCheck">
+        app:srcCompat="@drawable/ic_launcher_background">
 
     </ImageView>
 
@@ -25,6 +24,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline1"
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -34,7 +34,7 @@
             android:layout_height="match_parent"
             android:text="Score: "
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:textSize="11sp"
+            android:textSize="10dp"
             app:layout_constraintBottom_toTopOf="@+id/added_date"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +46,7 @@
             android:layout_height="match_parent"
             android:text="Added:"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:textSize="11sp"
+            android:textSize="10dp"
             app:layout_constraintBottom_toTopOf="@+id/temporary_textfield"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -58,7 +58,7 @@
             android:layout_height="match_parent"
             android:text="temporary"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:textSize="11sp"
+            android:textSize="10dp"
             app:layout_constraintBottom_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -66,40 +66,38 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout2"
         android:layout_width="wrap_content"
-
         android:layout_height="wrap_content"
+
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/profile_deleteqr"
+        app:layout_constraintEnd_toStartOf="@+id/checkBox"
         app:layout_constraintStart_toEndOf="@+id/constraintLayout"
         app:layout_constraintTop_toTopOf="parent">
 
 
         <TextView
-            android:id="@+id/profile_score"
+            android:id="@+id/textView1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="TextView"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:textSize="11sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/textView2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/profile_timestamp"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/profile_timestamp"
+            android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="TextView"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:textSize="11sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="10dp"
             app:layout_constraintBottom_toTopOf="@+id/textView3"
-            app:layout_constraintTop_toBottomOf="@+id/profile_score" />
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView1" />
 
         <TextView
             android:id="@+id/textView3"
@@ -107,13 +105,31 @@
             android:layout_height="match_parent"
             android:text="textfield"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:textSize="11sp"
+            android:textSize="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profile_timestamp" />
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.45" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,7 +19,6 @@ public class UserViewModel extends ViewModel {
 
     private Profile user_profile;
     private Profile guest_profile;
-    private QRCODE qrcode;
     private Database db;
 
     public Database getDb() {
@@ -68,13 +67,5 @@ public class UserViewModel extends ViewModel {
 
     public void setGuestProfile(Profile guest_profile) {
         this.guest_profile = guest_profile;
-
-
-    public void setSelectedQrcode(QRCODE qrcode1){
-        qrcode = qrcode1;
-    }
-
-    public QRCODE getSelectedQrcode() {
-        return qrcode;
     }
 }
