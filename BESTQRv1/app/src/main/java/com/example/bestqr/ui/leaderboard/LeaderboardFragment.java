@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -119,6 +120,12 @@ public class LeaderboardFragment extends Fragment {
             }
         });
 
+        binding.leaderboardList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // when leaderboard rows clicked
+            }
+        });
         /**
          * Disabled, as it introduces minor unintuitive navigation when opening non top-level tabs from user tab.
          * Consider re-enabling if this is fixed
