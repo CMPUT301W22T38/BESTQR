@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -71,10 +72,6 @@ public class LeaderboardFragment extends Fragment {
 
         TextView profile_icon = binding.toolbarLeaderboardProfile;
 
-        listview = binding.leaderboardList;
-
-
-
         // Fetch all the scores from the database for display
         // TODO: This should be threaded.
         if(!leaderboardViewModel.scoresInitialized) {
@@ -83,27 +80,24 @@ public class LeaderboardFragment extends Fragment {
             leaderboardViewModel.sortScoresByTotalSum();
         }
 
-        myAdapter = new LeaderboardListAdapter<LeaderboardScoreBlock>(getContext(),
+        myAdapter = new LeaderboardListAdapter(getContext(),
                 leaderboardViewModel.getScoreBlocks(), 0);
-        listview.setAdapter(myAdapter);
+        binding.leaderboardList.setAdapter(myAdapter);
 
-
-        // binding.leaderboardList.setAdapter(myAdapter);
-
-        // ListView leaderboardList = binding.leaderboardList;
 
         /**
          * Listener for clicks on users in ArrayAdapter
          * Upon clicking on a user, navigate to lower-level GuestUserFragment
          */
-        Log.d("LeaderboardFragment", "Creating shit");
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        binding.leaderboardList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("LeaderboardFragment", "Clicked on object!" + position);
-                Profile clickedProfile = (Profile) parent.getItemAtPosition(position);
-                userViewModel.setGuestProfile(clickedProfile);
-                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
-                navController.navigate(R.id.action_navigation_leaderboard_to_navigation_guest_user);
+                Toast.makeText(getActivity(), "clicked", Toast.LENGTH_SHORT).show();
+                // Log.d("LeaderboardFragment", "Clicked on object!" + position);
+                // Profile clickedProfile = (Profile) parent.getItemAtPosition(position);
+                // userViewModel.setGuestProfile(clickedProfile);
+                // NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
+                // navController.navigate(R.id.action_navigation_leaderboard_to_navigation_guest_user);
             }
         });
 
