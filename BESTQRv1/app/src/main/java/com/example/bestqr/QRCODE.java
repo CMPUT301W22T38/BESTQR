@@ -110,7 +110,7 @@ public class QRCODE implements Serializable {
     public Bitmap getCode(){
         MultiFormatWriter writer = new MultiFormatWriter();
             try {
-                BitMatrix matrix = writer.encode(contents, BarcodeFormat.QR_CODE, 350, 350);
+                BitMatrix matrix = writer.encode(hash, BarcodeFormat.QR_CODE, 350, 350);
                 BarcodeEncoder encoder = new BarcodeEncoder();
                 bitmap = encoder.createBitmap(matrix);
             } catch (WriterException e) {
