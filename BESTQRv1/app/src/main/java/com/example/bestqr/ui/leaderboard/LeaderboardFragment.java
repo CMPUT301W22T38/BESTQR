@@ -2,7 +2,6 @@ package com.example.bestqr.ui.leaderboard;
 
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,15 +25,11 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.bestqr.CameraActivity;
-import com.example.bestqr.Database;
 import com.example.bestqr.LeaderboardListAdapter;
 import com.example.bestqr.Profile;
 import com.example.bestqr.R;
 import com.example.bestqr.databinding.FragmentLeaderboardBinding;
 import com.example.bestqr.UserViewModel;
-import com.example.bestqr.qrlistAdapter;
-
-import java.util.ArrayList;
 
 public class LeaderboardFragment extends Fragment {
 
@@ -143,6 +137,12 @@ public class LeaderboardFragment extends Fragment {
             }
         });
 
+        binding.leaderboardList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // when leaderboard rows clicked
+            }
+        });
         /**
          * Disabled, as it introduces minor unintuitive navigation when opening non top-level tabs from user tab.
          * Consider re-enabling if this is fixed

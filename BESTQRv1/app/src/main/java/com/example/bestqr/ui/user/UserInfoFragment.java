@@ -10,9 +10,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.bestqr.R;
 import com.example.bestqr.UserViewModel;
 import com.example.bestqr.databinding.FragmentUserInfoBinding;
 import com.example.bestqr.Profile;
@@ -85,6 +87,8 @@ public class UserInfoFragment extends DialogFragment {
         userProfile.setPhoneNumber(phone);
 
         userViewModel.setUserProfile(userProfile);
+        NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
+        navController.navigate(R.id.action_navigation_to_user);
         super.onDestroyView();
         binding = null;
     }
