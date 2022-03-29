@@ -1,5 +1,7 @@
 package com.example.bestqr;
 
+import com.example.bestqr.models.Profile;
+
 import java.util.ArrayList;
 
 public class Owner {

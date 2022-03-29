@@ -17,7 +17,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.bestqr.R;
 import com.example.bestqr.UserViewModel;
 import com.example.bestqr.databinding.FragmentUserInfoBinding;
-import com.example.bestqr.Profile;
+import com.example.bestqr.models.Profile;
 
 public class UserInfoFragment extends DialogFragment {
 

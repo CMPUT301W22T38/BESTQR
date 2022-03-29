@@ -1,6 +1,6 @@
 package com.example.bestqr.ui.leaderboard;
 
-import com.example.bestqr.Profile;
+import com.example.bestqr.models.Profile;
 
 public class LeaderboardScoreBlock {
     private int highestScoring;

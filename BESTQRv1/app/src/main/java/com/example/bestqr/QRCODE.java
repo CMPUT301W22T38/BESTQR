@@ -2,8 +2,9 @@ package com.example.bestqr;
 
 import android.graphics.Bitmap;
 import android.location.Location;
-import android.location.LocationManager;
 
+import com.example.bestqr.models.TimeStamp;
+import com.example.bestqr.utils.QRmethods;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
@@ -14,13 +15,7 @@ import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TimeZone;
 
 
 public class QRCODE implements Serializable {
@@ -47,8 +42,8 @@ public class QRCODE implements Serializable {
     public QRCODE(Location codeLocation, String contents) {
         this.contents = contents;
         this.codeLocation = codeLocation;
-        this.hash = calculateHash(contents);
-        this.score = calculateScore(hash);
+        this.hash = QRmethods.calculateHash(contents);
+        this.score = QRmethods.calculateScore(hash);
         this.timestamp = new TimeStamp();
         this.comments = new ArrayList<>();
     }
@@ -62,8 +57,8 @@ public class QRCODE implements Serializable {
         // this enforces the privacy rule for user location
         this.contents = contents;
         this.codeLocation = null;
-        this.hash = calculateHash(contents);
-        this.score = calculateScore(hash);
+        this.hash = QRmethods.calculateHash(contents);
+        this.score = QRmethods.calculateScore(hash);
         this.timestamp = new TimeStamp();
         this.comments = new ArrayList<>();
     }
@@ -164,73 +159,5 @@ public class QRCODE implements Serializable {
         this.codeLocation = location;
     }
 
-    /**
-     * This method converts QR contents to encoded hash (bytes)
-     * @param contents : The content of the QRCODE
-     * @return: The String hexadecimal representation of the content of the QRCODE
-     */
-    public static String calculateHash(String contents) {
-        try{digest = MessageDigest.getInstance("SHA-256");}
-        catch (NoSuchAlgorithmException e)
-        {
-         System.err.println("Sorry, something went wrong");
-        }
-        byte[] encodedHash = digest.digest(
-                contents.getBytes(StandardCharsets.UTF_8));
 
-        StringBuilder hexString = new StringBuilder(2 * encodedHash.length);
-        for (byte b : encodedHash) {
-            String hex = Integer.toHexString(0xff & b);
-            if (hex.length() == 1) {
-                hexString.append('0');
-            }
-            hexString.append(hex);
-        }
-
-        return hexString.toString();
-    }
-
-    /**
-     * This method calculates the score of the QRCODE from the hash
-     * @param hash: he hexadecimal representation of the content og the QRCODE
-     * @return:  The score of the QRCODE
-     */
-    public static int calculateScore(String hash){
-
-        // Converts hash to QR score
-        char current_char;
-        int total_score = 0;
-        char prev_char = hash.charAt(0);
-        int char_multiplier = 0;
-
-        for (int i = 1; i < hash.length(); i++) {
-
-            current_char = hash.charAt(i);
-
-            if (current_char == prev_char) {
-
-                char_multiplier++;
-
-            } else {
-
-                if (char_multiplier > 0) {
-
-                    if (prev_char == '0') {
-                        total_score += (int) Math.pow(20, char_multiplier);
-
-                    } else {
-                        total_score += (int) Math.pow(Character.digit(prev_char, 16), char_multiplier);
-
-                    }
-
-                }
-
-                char_multiplier = 0;
-            }
-
-            prev_char = current_char;
-        }
-
-        return total_score;
-    }
 }
