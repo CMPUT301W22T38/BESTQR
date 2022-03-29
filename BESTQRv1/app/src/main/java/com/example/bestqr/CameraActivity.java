@@ -32,6 +32,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.bestqr.databinding.ActivityMainBinding;
 
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.LuminanceSource;
 import com.google.zxing.MultiFormatReader;
@@ -81,7 +82,7 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         com.example.bestqr.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 

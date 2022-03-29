@@ -16,6 +16,11 @@ public class BaseProfile implements Serializable {
         this.androidId = androidId;
     }
 
+    public BaseProfile(String androidId, String userName) {
+        this.androidId = androidId;
+        this.userName = userName;
+    }
+
     public BaseProfile(String androidId, String userName, String phoneNumber, String emailAddress) {
         this.androidId = androidId;
         this.userName = userName;

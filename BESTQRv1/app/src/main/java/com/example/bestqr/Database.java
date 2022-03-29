@@ -10,20 +10,32 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.example.bestqr.models.BaseProfile;
 import com.example.bestqr.models.Profile;
 import com.example.bestqr.models.QRCODE;
 import com.example.bestqr.models.TimeStamp;
 import com.example.bestqr.ui.leaderboard.LeaderboardScoreBlock;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.zxing.qrcode.encoder.QRCode;
 
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.TimeZone;
+import java.util.stream.Collectors;
 
 public class Database {
     private FirebaseDatabase database;
@@ -177,23 +189,27 @@ public class Database {
 
 
     public ArrayList<LeaderboardScoreBlock> get_all_scoring_types(){
-
         ArrayList<LeaderboardScoreBlock> result = new ArrayList<LeaderboardScoreBlock>();
 
         for (DataSnapshot dataSnapshot: GLOBAL_USERTABLE.getChildren()) {
             String androidid = dataSnapshot.getKey();
-            int highest_score = 0;
-            int total_scanned = 0;
-            int total_score = 0;
-            Profile profile = get(androidid);
-            QRCodeList list = profile.getScannedCodes();
-            if (!list.isEmpty()) {
-                highest_score = profile.getHighestScore();
-                total_scanned = profile.getNumberCodesScanned();
-                total_score = list.getTotalScore();
+            String username = dataSnapshot.child("userinfo/username").getValue().toString();
+//            BaseProfile profile = new BaseProfile(androidid, username);
+
+            int num = (int) dataSnapshot.child("history").getChildrenCount();
+            int totalscore = 0;
+            int highest = 0;
+            ArrayList<Integer> arr = new ArrayList<>();
+
+            if (num != 0) {
+                for (DataSnapshot qrcodedataSnapshot : dataSnapshot.child("history").getChildren()) {
+                    arr.add(Integer.valueOf(qrcodedataSnapshot.child("score").getValue().toString()));
+                }
+                highest = Collections.max(arr);
+                totalscore = arr.stream().collect(Collectors.summingInt(Integer::intValue));
+
             }
-            Log.d("DATABASE", "adding scoreblock to result...");
-            result.add(new LeaderboardScoreBlock(profile, highest_score, total_scanned, total_score));
+            result.add(new LeaderboardScoreBlock(androidid, username, num, totalscore, highest));
         }
         return result;
     }

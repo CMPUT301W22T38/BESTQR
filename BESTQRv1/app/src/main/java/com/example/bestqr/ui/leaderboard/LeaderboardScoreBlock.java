@@ -7,15 +7,25 @@ public class LeaderboardScoreBlock {
     private int totalNum;
     private int totalSumOfScores;
     private int rank;
-    private Profile profile;
+    private String username;
+    private String androidId;
 
-    public LeaderboardScoreBlock(Profile profile, int highestScoring, int totalNum, int totalSumOfScores){
-        this.profile = profile;
-        this.highestScoring = highestScoring;
+//    private Profile profile;
+
+//    public LeaderboardScoreBlock(Profile profile, int highestScoring, int totalNum, int totalSumOfScores){
+//        this.profile = profile;
+//        this.highestScoring = highestScoring;
+//        this.totalNum = totalNum;
+//        this.totalSumOfScores = totalSumOfScores;
+//    }
+
+    public LeaderboardScoreBlock(String androidid, String username, int totalNum, int totalsum, int highestScoring) {
+        this.androidId = androidid;
+        this.username = username;
         this.totalNum = totalNum;
-        this.totalSumOfScores = totalSumOfScores;
+        this.totalSumOfScores = totalsum;
+        this.highestScoring = highestScoring;
     }
-
 //
 //    public static Comparator<LeaderboardScoreBlock> highestScoringComparator = new Comparator<LeaderboardScoreBlock>() {
 //
@@ -46,15 +56,21 @@ public class LeaderboardScoreBlock {
 //        }
 //    };
 
-
-    public Profile getProfile() {
-        return profile;
+    public String getUsername() {
+        return username;
     }
 
-    public void setProfile(Profile profile) {
-        this.profile = profile;
-    }
+//
+//    public Profile getProfile() {
+//        return profile;
+//    }
 
+//    public void setProfile(Profile profile) {
+//        this.profile = profile;
+//    }
+    public String getAndroidId() {
+        return androidId;
+    }
     public int getHighestScoring() {
         return highestScoring;
     }
