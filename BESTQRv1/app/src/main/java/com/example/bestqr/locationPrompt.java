@@ -1,66 +1,37 @@
 package com.example.bestqr;
 
-import static androidx.constraintlayout.motion.widget.Debug.getLocation;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
-import android.os.Looper;
 import android.provider.MediaStore;
-import android.provider.Settings;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsResponse;
-import com.google.android.gms.location.LocationSettingsStatusCodes;
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.zxing.common.StringUtils;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
-
-import org.w3c.dom.Text;
-
-import java.io.Serializable;
 
 
 public class locationPrompt extends DialogFragment {
@@ -76,6 +47,7 @@ public class locationPrompt extends DialogFragment {
     private OnFragmentInteractionListener listener;
     private LocationRequest locationRequest;
     private FusedLocationProviderClient mFusedLocationClient;
+    private Location qrLocation;
 
     public static locationPrompt newInstance(Profile profile,QRCODE qrcode) {
         Bundle args = new Bundle();
@@ -127,6 +99,20 @@ public class locationPrompt extends DialogFragment {
             scores.setText("Score: "+ Integer.toString(qrcode.getScore()));
         }
 
+        // Check permission
+        if (ActivityCompat.checkSelfPermission(getContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION) ==PackageManager.PERMISSION_GRANTED){
+            // When permission is granted
+            // Call method
+            getCurrentLocation();
+
+        } else {
+            // When permission denied
+            // Request permission
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
+        }
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
@@ -140,6 +126,9 @@ public class locationPrompt extends DialogFragment {
                             startActivityForResult(intent, CAMERA_REQUEST_CODE);
                         }
                         if (storeLocation.isChecked()){
+                            getCurrentLocation();
+                            qrcode.setCodeLocation(qrLocation);
+                            Toast.makeText(getContext(), "Latitude: " + String.format("%.2f", qrcode.getCodeLocation().getLatitude()) + "\nLongitude: " + String.format("%.2f", qrcode.getCodeLocation().getLongitude()), Toast.LENGTH_LONG).show();
                         }
 
                         if (TextUtils.isEmpty(comments.getText().toString()) == false){
@@ -151,5 +140,30 @@ public class locationPrompt extends DialogFragment {
 
     }
 
+    private void getCurrentLocation() {
+        // Initialize task location
+        @SuppressLint("MissingPermission") Task<Location> task = mFusedLocationClient.getCurrentLocation(102, null);
+        task.addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                // When successful
+                if (location != null) {
+                    // Initialize lat lng
+                    qrLocation = location;
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == 44) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // When permission is granted
+                // Call method
+                getCurrentLocation();
+            }
+        }
+    }
 }
 
