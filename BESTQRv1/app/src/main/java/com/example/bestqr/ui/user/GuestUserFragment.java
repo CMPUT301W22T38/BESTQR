@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -60,11 +61,23 @@ public class GuestUserFragment extends Fragment {
         View root = binding.getRoot();
 
         Profile guestProfile = guestUserViewModel.getUserProfile();
+
         binding.toolbarGuestUserProfile.setText(guestProfile.getUserName());
 
         ListView qrCodes = binding.guestUserQrlist;
         profilelistAdapter myAdapter = new profilelistAdapter(getActivity(), guestProfile.getQrScores(), guestProfile.getQrTimestamps(), guestProfile.getQrBitmaps());
         qrCodes.setAdapter(myAdapter);
+
+        qrCodes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                userViewModel.setSelectedQrcode(guestProfile.getScannedCodes().get(i));
+                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
+                navController.navigate(R.id.action_navigation_from_user_to_qr);
+
+            }
+        });
+
 
         // onClick Listener for the Sort button on the toolbar
         // when pressed, this button displays a PopupMenu containing 3 different sorting methods
@@ -161,7 +174,6 @@ public class GuestUserFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        userViewModel.setGuestProfile(null);
         binding = null;
     }
 }
