@@ -22,7 +22,6 @@ public class QRCODE extends BaseQRCode {
     private int score;
     private Bitmap objectImage;
     private ArrayList<String> comments;
-
     private TimeStamp timestamp;
 
     public QRCODE() {

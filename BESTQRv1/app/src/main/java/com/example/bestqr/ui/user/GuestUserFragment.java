@@ -31,7 +31,6 @@ public class GuestUserFragment extends Fragment {
     private UserViewModel userViewModel;
     private GuestUserViewModel guestUserViewModel;
     private FragmentGuestUserBinding binding;
-    private Profile guestProfile;
 
     /**
      * Creates and returns the root view of the fragment

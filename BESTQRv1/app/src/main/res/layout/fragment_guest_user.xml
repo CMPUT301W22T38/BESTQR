@@ -53,7 +53,8 @@
         android:id="@+id/guest_user_qrlist"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar_guest_user" >
+        android:layout_below="@id/toolbar_guest_user"
+        android:paddingBottom="?attr/actionBarSize">
 
     </ListView>
 

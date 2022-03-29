@@ -15,7 +15,7 @@ public class BaseQRCode implements Serializable {
     }
     public BaseQRCode(String contents) {
         this.hash = QRmethods.calculateHash(contents);
-        this.bitmap = QRmethods.calculateBitmap(contents);
+        this.bitmap = QRmethods.calculateBitmap(this.hash);
     }
 
     public String getHash() {
@@ -24,6 +24,7 @@ public class BaseQRCode implements Serializable {
 
     public void setHash(String hash) {
         this.hash = hash;
+        this.bitmap = QRmethods.calculateBitmap(this.getHash());
     }
 
     public Bitmap getBitmap() {
