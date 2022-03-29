@@ -17,17 +17,13 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.bestqr.CameraActivity;
-import com.example.bestqr.Profile;
+import com.example.bestqr.models.Profile;
 import com.example.bestqr.R;
 import com.example.bestqr.UserViewModel;
 import com.example.bestqr.databinding.FragmentGuestUserBinding;
-import com.example.bestqr.databinding.FragmentUserBinding;
-import com.example.bestqr.QRCodeList;
-import com.example.bestqr.profilelistAdapter;
+import com.example.bestqr.adapters.profilelistAdapter;
 
 public class GuestUserFragment extends Fragment {
 

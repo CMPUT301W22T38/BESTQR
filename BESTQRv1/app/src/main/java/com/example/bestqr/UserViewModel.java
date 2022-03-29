@@ -1,14 +1,10 @@
 package com.example.bestqr;
 
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.bestqr.Database;
-import com.example.bestqr.Profile;
-import com.example.bestqr.QRCODE;
-import com.example.bestqr.ui.leaderboard.LeaderboardScoreBlock;
+import com.example.bestqr.models.Profile;
+import com.example.bestqr.models.QRCODE;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 

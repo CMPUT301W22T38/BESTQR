@@ -1,11 +1,10 @@
-package com.example.bestqr;
+package com.example.bestqr.models;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
 public class TimeStamp {
-
     private String timestamp;
 
     public TimeStamp () {
@@ -29,5 +28,4 @@ public class TimeStamp {
         DateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
         return DateFormat.format(new Date()) + " GMT +00:00";
     }
-
 }

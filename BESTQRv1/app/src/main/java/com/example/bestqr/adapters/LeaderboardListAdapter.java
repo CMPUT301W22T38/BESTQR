@@ -1,4 +1,4 @@
-package com.example.bestqr;
+package com.example.bestqr.adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.bestqr.R;
 import com.example.bestqr.ui.leaderboard.LeaderboardScoreBlock;
 import com.example.bestqr.ui.leaderboard.LeaderboardViewModel;
 

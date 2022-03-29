@@ -32,7 +32,7 @@ public class LeaderboardViewModel extends ViewModel {
         ArrayList<Integer> result = new ArrayList<Integer>();
         for(int i = 0; i < this.scoreBlocks.size(); i++){
             LeaderboardScoreBlock s = this.scoreBlocks.get(i);
-            if(s.getProfile().getAndroidID() == userHash){
+            if(s.getProfile().getAndroidId() == userHash){
                 result.add(getScoreCurrentSorted(i));
                 result.add(i);
             }
@@ -71,7 +71,6 @@ public class LeaderboardViewModel extends ViewModel {
      * according to the highest scoring qr code a user has scanned
      */
     public void sortScoresByHighestUnique(){
-//        Collections.sort(this.scoreBlocks, LeaderboardScoreBlock.highestScoringComparator);
         Collections.sort(this.scoreBlocks, Comparator.comparing(LeaderboardScoreBlock::getHighestScoring).reversed());
         this.sortingMethod = 1;
     }
@@ -81,8 +80,6 @@ public class LeaderboardViewModel extends ViewModel {
      * sorted to the total number of qr codes scanned by a user.
      */
     public void sortScoresByTotalScanned(){
-
-//        Collections.sort(this.scoreBlocks, LeaderboardScoreBlock.totalNumComparator);
         Collections.sort(this.scoreBlocks, Comparator.comparing(LeaderboardScoreBlock::getTotalNum).reversed());
         this.sortingMethod = 2;
     }
