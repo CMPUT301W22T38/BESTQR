@@ -63,8 +63,6 @@ public class LeaderboardFragment extends Fragment {
         binding = FragmentLeaderboardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        TextView profile_icon = binding.toolbarLeaderboardProfile;
-
         // Fetch all the scores from the database for display
         // TODO: This should be threaded.
         if(!leaderboardViewModel.scoresInitialized) {
@@ -77,6 +75,9 @@ public class LeaderboardFragment extends Fragment {
                 leaderboardViewModel.getScoreBlocks(), 0);
         binding.leaderboardList.setAdapter(myAdapter);
 
+        // Setup user profile name
+        binding.toolbarLeaderboardProfile.setText(userViewModel.getUserProfile().getUserName());
+
         /**
          * Listener for clicks on users in ArrayAdapter
          * Upon clicking on a user, navigate to lower-level GuestUserFragment
@@ -86,8 +87,15 @@ public class LeaderboardFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 LeaderboardScoreBlock clickedScore = leaderboardViewModel.getBlock(position);
                 Profile guestProfile = clickedScore.getProfile();
-                userViewModel.setGuestProfile(guestProfile);
                 NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
+
+                // If we selected current user from leaderboard list
+                if(guestProfile == userViewModel.getUserProfile()){
+                    // Navigate to Main User fragment rather than guest user fragment
+                    navController.navigate(R.id.action_navigation_leaderboard_to_navigation_user);
+                }
+
+                userViewModel.setGuestProfile(guestProfile);
                 navController.navigate(R.id.action_navigation_leaderboard_to_navigation_guest_user);
             }
         });
@@ -174,7 +182,7 @@ public class LeaderboardFragment extends Fragment {
         NavController navController = NavHostFragment.findNavController(this);
         NavigationUI.setupWithNavController(binding.toolbarLeaderboard, navController, appBarConfiguration);
 
-        //updateUserScores();
+        updateUserScores();
 		
     }
 
