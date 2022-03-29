@@ -62,13 +62,18 @@ public class LeaderboardFragment extends Fragment {
         binding = FragmentLeaderboardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        // Fetch all the scores from the database for display
-        // TODO: This should be threaded.
-        if(!leaderboardViewModel.scoresInitialized) {
-            leaderboardViewModel.updateScoreBlocks(userViewModel.getDb());
-            // Sort scores after fetching. This is the default sorting method when the fragment is created.
-            leaderboardViewModel.sortScoresByTotalSum();
-        }
+//        // Fetch all the scores from the database for display
+//        // TODO: This should be threaded.
+//        if(!leaderboardViewModel.scoresInitialized) {
+//            leaderboardViewModel.updateScoreBlocks(userViewModel.getDb());
+////             Sort scores after fetching. This is the default sorting method when the fragment is created.
+//            leaderboardViewModel.sortScoresByTotalSum();
+//        }
+
+//        Fetch all the scores from the database for display
+        leaderboardViewModel.updateScoreBlocks(userViewModel.getDb());
+        leaderboardViewModel.sortScoresByTotalSum();
+
 
         myAdapter = new LeaderboardListAdapter(getContext(), R.layout.leaderboardlist_item,
                 leaderboardViewModel.getScoreBlocks(), 0);
@@ -92,7 +97,6 @@ public class LeaderboardFragment extends Fragment {
             }
         });
 
-
         /**
          * Listener for clicks on users in ArrayAdapter
          * Upon clicking on a user, navigate to lower-level GuestUserFragment
@@ -101,17 +105,17 @@ public class LeaderboardFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 LeaderboardScoreBlock clickedScore = leaderboardViewModel.getBlock(position);
-                Profile guestProfile = clickedScore.getProfile();
-                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
-
-                // If we selected current user from leaderboard list
-                if(guestProfile == userViewModel.getUserProfile()){
-                    // Navigate to Main User fragment rather than guest user fragment
-                    navController.navigate(R.id.action_navigation_leaderboard_to_navigation_user);
-                }
-
-                userViewModel.setGuestProfile(guestProfile);
-                navController.navigate(R.id.action_navigation_leaderboard_to_navigation_guest_user);
+//                Profile guestProfile = clickedScore.getProfile();
+//                userViewModel.setGuestProfile(guestProfile);
+//                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
+//
+//                if(guestProfile == userViewModel.getUserProfile()){
+//                    // Navigate to Main User fragment rather than guest user fragment
+//                    navController.navigate(R.id.action_navigation_leaderboard_to_navigation_user);
+//                }
+//
+//                userViewModel.setGuestProfile(guestProfile);
+//                navController.navigate(R.id.action_navigation_leaderboard_to_navigation_guest_user);
             }
         });
 
@@ -198,7 +202,6 @@ public class LeaderboardFragment extends Fragment {
         NavigationUI.setupWithNavController(binding.toolbarLeaderboard, navController, appBarConfiguration);
 
         updateUserScores();
-		
     }
 
     /**
