@@ -1,6 +1,7 @@
 package com.example.bestqr;
 
 import com.example.bestqr.models.Profile;
+import com.example.bestqr.models.QRCODE;
 
 import java.util.ArrayList;
 

@@ -3,6 +3,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.example.bestqr.models.Profile;
+import com.example.bestqr.models.QRCODE;
 
 public class ProfileTest {
     private Profile mockProfile(){

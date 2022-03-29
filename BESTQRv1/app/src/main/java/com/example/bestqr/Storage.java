@@ -2,18 +2,14 @@ package com.example.bestqr;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.widget.ImageView;
 
+import com.example.bestqr.models.QRCODE;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.google.zxing.qrcode.encoder.QRCode;
 
 import java.io.ByteArrayOutputStream;
-import java.util.Base64;
 
 public class Storage {
     private FirebaseStorage storage;
@@ -37,7 +33,7 @@ public class Storage {
     }
 
     public byte[] get_bytes(QRCODE qrcode, String androidid) {
-        Bitmap bitmap = qrcode.getCode();
+        Bitmap bitmap = qrcode.getBitmap();
         String hash = qrcode.getHash();
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

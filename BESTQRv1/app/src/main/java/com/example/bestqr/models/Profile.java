@@ -3,13 +3,9 @@ package com.example.bestqr.models;
 
 import android.graphics.Bitmap;
 
-import com.example.bestqr.QRCODE;
 import com.example.bestqr.QRCodeList;
 
-import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Profile extends BaseProfile {
 
@@ -66,7 +62,7 @@ public class Profile extends BaseProfile {
      * @return the unique image QRCODE for the users profile that can be scanned by another device to log in
      */
     public Bitmap getProfileCode(){
-        return this.deviceQrCode.getCode();
+        return this.deviceQrCode.getBitmap();
     }
 
 
@@ -143,7 +139,7 @@ public class Profile extends BaseProfile {
     public ArrayList<Bitmap> getQrBitmaps(){
         qrBitmaps = new ArrayList<>();
         for (QRCODE item:scannedCodes) {
-            qrBitmaps.add(item.getCode());
+            qrBitmaps.add(item.getBitmap());
         }
         return qrBitmaps;
     }

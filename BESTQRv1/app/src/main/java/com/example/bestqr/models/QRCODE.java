@@ -1,4 +1,4 @@
-package com.example.bestqr;
+package com.example.bestqr.models;
 
 import android.graphics.Bitmap;
 import android.location.Location;
@@ -12,21 +12,15 @@ import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import java.io.Serializable;
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 
-public class QRCODE implements Serializable {
+public class QRCODE extends BaseQRCode {
     private Location codeLocation;
-    private Bitmap bitmap;
-    private String hash;
     private boolean isimported;
-    private String contents;
     private int score;
     private Bitmap objectImage;
-    static MessageDigest digest;
     private ArrayList<String> comments;
 
     private TimeStamp timestamp;
@@ -40,10 +34,9 @@ public class QRCODE implements Serializable {
      * @param contents: this is the content of the QRCODE
      */
     public QRCODE(Location codeLocation, String contents) {
-        this.contents = contents;
+        super(contents);
         this.codeLocation = codeLocation;
-        this.hash = QRmethods.calculateHash(contents);
-        this.score = QRmethods.calculateScore(hash);
+        this.score = QRmethods.calculateScore(this.getHash());
         this.timestamp = new TimeStamp();
         this.comments = new ArrayList<>();
     }
@@ -54,21 +47,12 @@ public class QRCODE implements Serializable {
      * @param contents: this is the content of the QRCODE
      */
     public QRCODE(String contents) {
-        // this enforces the privacy rule for user location
-        this.contents = contents;
-        this.codeLocation = null;
-        this.hash = QRmethods.calculateHash(contents);
-        this.score = QRmethods.calculateScore(hash);
+        super(contents);
+        this.score = QRmethods.calculateScore(this.getHash());
         this.timestamp = new TimeStamp();
         this.comments = new ArrayList<>();
     }
 
-    //test
-    public void setBitmap(Bitmap bitmap) {this.bitmap = bitmap;}
-
-    public void setHash(String hash) {
-        this.hash = hash;
-    }
 
     public void setScore(int score) {
         this.score = score;
@@ -98,31 +82,6 @@ public class QRCODE implements Serializable {
     // testing
     public String getScannedTime() {return this.timestamp.getTimeStamp();}
 
-    /**
-     * This method generates a QRCODE for the content passed in
-     * @return: A Bitmap object that contains the image of the QRCODE
-     */
-    public Bitmap getCode(){
-        MultiFormatWriter writer = new MultiFormatWriter();
-            try {
-                BitMatrix matrix = writer.encode(hash, BarcodeFormat.QR_CODE, 350, 350);
-                BarcodeEncoder encoder = new BarcodeEncoder();
-                bitmap = encoder.createBitmap(matrix);
-            } catch (WriterException e) {
-                e.printStackTrace();
-            }
-
-        return bitmap;
-
-    }
-
-    /**
-     * This method gets the hash of the QRCODE
-     * @return: A string object that contains the hash in Hexadecimal of the QRCODE
-     */
-    public String getHash(){
-        return hash;
-    }
 
     /**
      * This method returns the score of the QRCODE

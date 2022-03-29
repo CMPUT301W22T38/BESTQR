@@ -23,7 +23,7 @@ import com.example.bestqr.models.Profile;
 import com.example.bestqr.R;
 import com.example.bestqr.UserViewModel;
 import com.example.bestqr.databinding.FragmentGuestUserBinding;
-import com.example.bestqr.profilelistAdapter;
+import com.example.bestqr.adapters.profilelistAdapter;
 
 public class GuestUserFragment extends Fragment {
 

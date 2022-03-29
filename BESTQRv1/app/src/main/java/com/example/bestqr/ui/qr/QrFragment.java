@@ -3,7 +3,7 @@ package com.example.bestqr.ui.qr;
 
 import android.graphics.Bitmap;
 
-import com.example.bestqr.QRCODE;
+import com.example.bestqr.models.QRCODE;
 import com.example.bestqr.R;
 import com.example.bestqr.UserViewModel;
 
@@ -73,7 +73,7 @@ public class QrFragment extends Fragment {
         qr = userViewModel.getSelectedQrcode();
 
         if (qr != null) {
-            bitmap = qr.getCode();
+            bitmap = qr.getBitmap();
         }
 
         image = binding.imageView;

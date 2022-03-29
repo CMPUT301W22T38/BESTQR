@@ -21,7 +21,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.bestqr.CameraActivity;
-import com.example.bestqr.LeaderboardListAdapter;
+import com.example.bestqr.adapters.LeaderboardListAdapter;
 import com.example.bestqr.models.Profile;
 import com.example.bestqr.R;
 import com.example.bestqr.databinding.FragmentLeaderboardBinding;

@@ -3,6 +3,7 @@ package com.example.bestqr;
 import androidx.lifecycle.ViewModel;
 
 import com.example.bestqr.models.Profile;
+import com.example.bestqr.models.QRCODE;
 
 import java.util.Collections;
 import java.util.Comparator;

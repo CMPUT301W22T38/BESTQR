@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.bestqr.models.Profile;
+import com.example.bestqr.models.QRCODE;
 import com.example.bestqr.ui.leaderboard.LeaderboardViewModel;
 import com.example.bestqr.ui.qr.QrViewModel;
 import com.google.android.gms.location.FusedLocationProviderClient;

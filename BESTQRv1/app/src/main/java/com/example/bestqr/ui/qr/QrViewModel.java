@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.bestqr.Database;
 import com.example.bestqr.models.Profile;
-import com.example.bestqr.QRCODE;
+import com.example.bestqr.models.QRCODE;
 
 public class QrViewModel extends ViewModel {
 

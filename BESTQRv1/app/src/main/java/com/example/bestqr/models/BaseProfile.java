@@ -8,6 +8,10 @@ public class BaseProfile implements Serializable {
     private String phoneNumber;
     private String emailAddress;
 
+    public BaseProfile() {
+        //
+    }
+
     public BaseProfile(String androidId) {
         this.androidId = androidId;
     }

@@ -22,7 +22,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.bestqr.UserViewModel;
-import com.example.bestqr.profilelistAdapter;
+import com.example.bestqr.adapters.profilelistAdapter;
 import com.example.bestqr.CameraActivity;
 import com.example.bestqr.R;
 import com.example.bestqr.databinding.FragmentUserBinding;
