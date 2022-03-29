@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -77,6 +78,22 @@ public class LeaderboardFragment extends Fragment {
 
         // Setup user profile name
         binding.toolbarLeaderboardProfile.setText(userViewModel.getUserProfile().getUserName());
+
+        // Setup listener for search button clicks
+        // Opens popup window with a search interface.
+        binding.toolbarLeaderboardSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                View popupView = inflater.inflate(R.layout.search_popup, null);
+                boolean focusable = true; // lets taps outside the popup also dismiss it
+                final PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+
+                popupWindow.showAsDropDown(binding.toolbarLeaderboard);
+
+
+            }
+        });
+
 
         /**
          * Listener for clicks on users in ArrayAdapter

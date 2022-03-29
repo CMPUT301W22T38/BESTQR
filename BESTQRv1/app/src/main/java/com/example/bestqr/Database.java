@@ -199,7 +199,6 @@ public class Database {
                 total_scanned = profile.getNumberCodesScanned();
                 total_score = list.getTotalScore();
             }
-            Log.d("DATABASE", "adding scoreblock to result...");
             result.add(new LeaderboardScoreBlock(profile, highest_score, total_scanned, total_score));
         }
         return result;
