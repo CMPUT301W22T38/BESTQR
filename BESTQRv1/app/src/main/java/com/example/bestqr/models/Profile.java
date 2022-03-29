@@ -180,7 +180,7 @@ public class Profile extends BaseProfile {
     }
 
     public QRCODE getDeviceQrCode(){
-        return new QRCODE(getAndroidid());
+        return new QRCODE(getAndroidId());
     }
 
 }

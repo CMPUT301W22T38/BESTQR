@@ -23,7 +23,7 @@ public class BaseProfile implements Serializable {
      * This method returns the unique device id of the user
      * @return the unique device id of a profile
      */
-    public String getAndroidid() {
+    public String getAndroidId() {
         return androidId;
     }
 
