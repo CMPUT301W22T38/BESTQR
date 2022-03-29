@@ -10,28 +10,18 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
 import com.example.bestqr.ui.leaderboard.LeaderboardScoreBlock;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
-import java.sql.Time;
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
 import java.util.TimeZone;
 
-import javax.sql.DataSource;
 public class Database {
     private FirebaseDatabase database;
     private DatabaseReference user_ref;
@@ -58,7 +48,13 @@ public class Database {
         GLOBAL_USERNAMETABLE = new DatabaseTable(database.getReference().child("username"));
         GLOBAL_REGISTRATIONTABLE = new DatabaseTable(database.getReference().child("registeredandroidid"));
 
+
         storage = new Storage();
+    }
+
+    public static String[] get_list_of_other_players(QRCODE qrcode){
+        String other_list[] = {"user2","user15","user11"};
+        return other_list;
     }
 
     public Profile get(String androidid) {

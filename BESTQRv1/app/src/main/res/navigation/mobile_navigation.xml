@@ -21,6 +21,8 @@
         android:label=""
         tools:layout="@layout/fragment_leaderboard">
         <action
+
+
             android:id="@+id/action_navigation_leaderboard_to_navigation_guest_user"
             app:destination="@id/navigation_guest_user" />
         <action
@@ -36,6 +38,7 @@
             android:id="@+id/action_navigation_user_to_navigation_user_info"
             app:destination="@id/navigation_user_info" />
     </fragment>
+
     <fragment
         android:id="@+id/navigation_guest_user"
         android:name="com.example.bestqr.ui.user.GuestUserFragment"
@@ -64,4 +67,16 @@
         android:id="@+id/action_navigation_from_user_to_qr"
         app:destination="@+id/navigation_qr"
         app:popUpTo="@+id/navigation_user"/>
+
+
+    <fragment
+        android:id="@+id/navigation_otherplayerlist"
+        android:name="com.example.bestqr.ui.qr.QrOtherplayers"
+        android:label="other player list"
+        tools:layout="@layout/fragment_otherplayerlist"/>
+    <action
+        android:id="@+id/action_navigation_from_qr_to_otherplayerlist"
+        app:destination="@+id/navigation_otherplayerlist"
+        app:popUpTo="@+id/navigation_qr"/>
+
 </navigation>

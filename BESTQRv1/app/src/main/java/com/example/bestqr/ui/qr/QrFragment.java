@@ -16,6 +16,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -49,6 +50,7 @@ public class QrFragment extends Fragment {
     private ImageView image;
     private ImageButton commentButton;
     private ImageButton deleteButton;
+    private Button otherplayers;
     private Bitmap bitmap;
     private EditText addComments;
     private TextView allComments;
@@ -93,6 +95,7 @@ public class QrFragment extends Fragment {
 
         deleteButton = binding.toolbarUserDelete;
 
+        otherplayers = binding.otherPlayers;
         qrComments = String.join("\n",qr.getComments());
         allComments.setText(qrComments);
 
@@ -128,6 +131,20 @@ public class QrFragment extends Fragment {
                 navController.navigate(R.id.action_navigation_to_user);
             }
         });
+
+        otherplayers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
+                navController.navigate(R.id.action_navigation_from_qr_to_otherplayerlist);
+            }
+        });
+
+
+
+
+
+
 
         return root;
     }
