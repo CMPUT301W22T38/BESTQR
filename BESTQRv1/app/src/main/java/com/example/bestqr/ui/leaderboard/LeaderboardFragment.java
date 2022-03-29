@@ -105,17 +105,19 @@ public class LeaderboardFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 LeaderboardScoreBlock clickedScore = leaderboardViewModel.getBlock(position);
-//                Profile guestProfile = clickedScore.getProfile();
-//                userViewModel.setGuestProfile(guestProfile);
-//                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
-//
-//                if(guestProfile == userViewModel.getUserProfile()){
-//                    // Navigate to Main User fragment rather than guest user fragment
-//                    navController.navigate(R.id.action_navigation_leaderboard_to_navigation_user);
-//                }
-//
-//                userViewModel.setGuestProfile(guestProfile);
-//                navController.navigate(R.id.action_navigation_leaderboard_to_navigation_guest_user);
+                String guestId = clickedScore.getAndroidId();
+                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
+
+                // Check if clicked user is the current user
+                if(guestId.equals(userViewModel.getUserProfile().getAndroidId())){
+                    // Navigate to Main User fragment rather than guest user fragment
+                    navController.navigate(R.id.action_navigation_leaderboard_to_navigation_user);
+                }
+                else{
+                    Profile guestProfile = userViewModel.getDb().get(guestId);
+                    userViewModel.setGuestProfile(guestProfile);
+                    navController.navigate(R.id.action_navigation_leaderboard_to_navigation_guest_user);
+                }
             }
         });
 
