@@ -7,9 +7,9 @@
     <EditText
         android:id="@+id/search_popup_edittext"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="?attr/backgroundColor"
-        android:gravity="start"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:gravity="start|center_vertical"
         android:hint="Type a Username to Search"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/search_popup_enter"
@@ -21,6 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="?android:attr/textCheckMark"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
