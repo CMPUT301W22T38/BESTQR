@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 
 public class QRCODE extends BaseQRCode {
-    private Location codeLocation;
+    private Location codeLocation = null;
     private boolean isimported;
     private int score;
     private Bitmap objectImage;
@@ -36,6 +36,13 @@ public class QRCODE extends BaseQRCode {
         super(contents);
         this.codeLocation = codeLocation;
         this.score = QRmethods.calculateScore(this.getHash());
+        this.timestamp = new TimeStamp();
+        this.comments = new ArrayList<>();
+    }
+
+    public QRCODE(String hash, Bitmap bitmap) {
+        super(hash, bitmap);
+//        this.score = QRmethods.calculateScore(this.getHash());
         this.timestamp = new TimeStamp();
         this.comments = new ArrayList<>();
     }
@@ -59,6 +66,10 @@ public class QRCODE extends BaseQRCode {
 
     public void setTimestamp(TimeStamp timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp.setTimeStamp(timestamp);
     }
 
     public void setisImported(boolean imported) {

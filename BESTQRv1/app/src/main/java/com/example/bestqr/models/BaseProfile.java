@@ -1,12 +1,15 @@
 package com.example.bestqr.models;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
 import java.io.Serializable;
 
+@IgnoreExtraProperties
 public class BaseProfile implements Serializable {
-    private String androidId;
-    private String userName;
-    private String phoneNumber;
-    private String emailAddress;
+    private String androidId = "";
+    private String userName = "";
+    private String phoneNumber = "";
+    private String emailAddress = "";
 
     public BaseProfile() {
         //

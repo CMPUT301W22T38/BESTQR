@@ -12,27 +12,29 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 
 public class Storage {
-    private FirebaseStorage storage;
-    private StorageReference storage_ref;
 
-    public Storage() {
-        storage = FirebaseStorage.getInstance();
-        storage_ref = storage.getReference();
+    public static class ReferenceHolder {
+        public static FirebaseStorage STORAGE = FirebaseStorage.getInstance();
+        public static StorageReference STORAGE_REFERENCE = STORAGE.getReference();
     }
 
-    public void upload(QRCODE qrcode, String androidid) {
+
+    public static void upload(QRCODE qrcode, String androidid) {
         byte[] data = get_bytes(qrcode, androidid);
         upload_bytes(data, androidid, qrcode.getHash());
     }
 
-    public void upload_bytes(byte[] bytes, String androidid, String hash) {
-        StorageReference folder_ref = storage_ref.child(androidid);
+    public static void upload_bytes(byte[] bytes, String androidid, String hash) {
+        StorageReference folder_ref = ReferenceHolder.STORAGE_REFERENCE.child(androidid);
         StorageReference file_ref = folder_ref.child(hash + ".jpg");
         UploadTask task = file_ref.putBytes(bytes);
-        while (!task.isComplete()) {}
+
+        while (!task.isComplete() && !task.isSuccessful()) {}
+
+
     }
 
-    public byte[] get_bytes(QRCODE qrcode, String androidid) {
+    public static byte[] get_bytes(QRCODE qrcode, String androidid) {
         Bitmap bitmap = qrcode.getBitmap();
         String hash = qrcode.getHash();
 
@@ -43,13 +45,12 @@ public class Storage {
         return data;
     }
 
-    public Bitmap download(String androidid, String hash) {
+    public static Bitmap download(String androidid, String hash) {
         String filename = hash + ".jpg";
-        StorageReference file_ref = storage_ref.child(androidid).child(filename);
+        StorageReference file_ref = ReferenceHolder.STORAGE_REFERENCE.child(androidid).child(filename);
 
         Task<byte[]> task = file_ref.getBytes(Long.MAX_VALUE);
-
-        while (!task.isSuccessful()) {}
+        while (!task.isComplete() && !task.isSuccessful()) {}
 
         byte[] data = task.getResult();
 

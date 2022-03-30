@@ -82,9 +82,10 @@ public class UserInfoFragment extends DialogFragment {
         String phone = binding.userInfoPhoneNumber.getText().toString();
 
 
-        userProfile.setUserName(name);
-        userProfile.setEmailAddress(email);
-        userProfile.setPhoneNumber(phone);
+        userViewModel.getUserProfile().ChangeUserName(name);
+        userViewModel.getUserProfile().ChangeEmailAddress(email);
+        userViewModel.getUserProfile().ChangePhoneNumber(phone);
+
 
         userViewModel.setUserProfile(userProfile);
         NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);

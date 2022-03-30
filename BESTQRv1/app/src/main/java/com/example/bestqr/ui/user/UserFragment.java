@@ -21,6 +21,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.bestqr.ProfileViewModel;
 import com.example.bestqr.UserViewModel;
 import com.example.bestqr.adapters.profilelistAdapter;
 import com.example.bestqr.CameraActivity;
@@ -32,10 +33,11 @@ import com.example.bestqr.ui.qr.QrViewModel;
 
 public class UserFragment extends Fragment {
 
-    //    private Profile profile;
+    private Profile profile;
     private UserViewModel userViewModel;
     private FragmentUserBinding binding;
     private QrViewModel qrViewModel;
+//    private ProfileViewModel profileViewModel;
 
 
     /**
@@ -53,6 +55,8 @@ public class UserFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         // Get Activity-Owned UserViewModel (global to all fragments)
+//        profileViewModel = new ViewModelProvider(requireActivity()).get(ProfileViewModel.class);
+
         userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
         qrViewModel = new ViewModelProvider(this).get(QrViewModel.class);
 
@@ -61,9 +65,10 @@ public class UserFragment extends Fragment {
 
         Profile userProfile = userViewModel.getUserProfile();
         binding.toolbarUserProfile.setText(userProfile.getUserName());
+//        binding.toolbarUserProfile.setText(profileViewModel.getProfileMutableLiveData().getValue().getUserName());
 
         ListView qrCodes = binding.qrlist;
-        profilelistAdapter myAdapter = new profilelistAdapter(getActivity() , userProfile.getQrScores(), userProfile.getQrTimestamps(), userProfile.getQrBitmaps());
+        profilelistAdapter myAdapter = new profilelistAdapter(requireContext() , userProfile.getQrScores(), userProfile.getQrTimestamps(), userProfile.getQrBitmaps());
         qrCodes.setAdapter(myAdapter);
 
         qrCodes.setOnItemClickListener(new AdapterView.OnItemClickListener() {

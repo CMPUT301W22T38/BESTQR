@@ -24,6 +24,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.bestqr.CameraActivity;
+import com.example.bestqr.Database;
 import com.example.bestqr.adapters.LeaderboardListAdapter;
 import com.example.bestqr.models.Profile;
 import com.example.bestqr.R;
@@ -114,7 +115,7 @@ public class LeaderboardFragment extends Fragment {
                     navController.navigate(R.id.action_navigation_leaderboard_to_navigation_user);
                 }
                 else{
-                    Profile guestProfile = userViewModel.getDb().get(guestId);
+                    Profile guestProfile = Database.getUser(guestId);
                     userViewModel.setGuestProfile(guestProfile);
                     navController.navigate(R.id.action_navigation_leaderboard_to_navigation_guest_user);
                 }

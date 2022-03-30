@@ -103,14 +103,22 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         this.db = new Database();
+
+        Profile profile = Database.getUser(androidId);
+
+        profile.addNewQRCode(new QRCODE("123"));
+        profile.addNewQRCode(new QRCODE("123421"));
+
+
+
         userViewModel.setDb(this.db);
 
 //        profile = db.get(androidId);
-        profile = new Profile(androidId);
-
-        profile.addNewQRCode(new QRCODE("YES"));
-        profile.addNewQRCode(new QRCODE("YESterday"));
-        profile.addNewQRCode(new QRCODE("no"));
+//        profile = new Profile(androidId);
+//
+//        profile.addNewQRCode(new QRCODE("YES"));
+//        profile.addNewQRCode(new QRCODE("YESterday"));
+//        profile.addNewQRCode(new QRCODE("no"));
 
 //        run it once
 //        QRCODE qrcode1 = new QRCODE(androidId + "1");
