@@ -33,7 +33,14 @@ public class LeaderboardListAdapter extends ArrayAdapter<LeaderboardScoreBlock> 
     public LeaderboardListAdapter(@NonNull Context context, int resource, ArrayList<LeaderboardScoreBlock> scores, int sortingMethod) {
         super(context, resource);
         this.scores = new ArrayList<LeaderboardScoreBlock>(scores);
-        this.filteredScores = new ArrayList<LeaderboardScoreBlock>(scores);
+        this.filteredScores = new ArrayList<LeaderboardScoreBlock>();
+        // this.filteredScores = new ArrayList<LeaderboardScoreBlock>(scores);
+        // Assign "global" ranks so that we can display the correct rank value after searching
+        for(int i = 0; i < this.scores.size(); i++){
+            LeaderboardScoreBlock s = this.scores.get(i);
+            s.setRank(i);
+            this.filteredScores.add(s);
+        }
         this.context = context;
         this.scores = scores;
         this.sortingMethod = sortingMethod;
@@ -60,12 +67,6 @@ public class LeaderboardListAdapter extends ArrayAdapter<LeaderboardScoreBlock> 
         return filteredScores.size();
     }
 
-    @Override
-    public void add(LeaderboardScoreBlock object){
-        scores.add(object);
-        this.notifyDataSetChanged();
-    }
-
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -82,7 +83,7 @@ public class LeaderboardListAdapter extends ArrayAdapter<LeaderboardScoreBlock> 
         TextView scoreTextView = (TextView) listItem.findViewById(R.id.leaderboard_list_total_score);
 
         TextView rankTextView = (TextView) listItem.findViewById(R.id.leaderboard_list_rank);
-        rankTextView.setText(Integer.toString(position + 1));
+        rankTextView.setText(Integer.toString(currentScoreBlock.getRank() + 1));
 
         TextView scannednumTextView = (TextView) listItem.findViewById(R.id.leaderboard_list_scanned_number);
         scannednumTextView.setText(String.valueOf(getItem(position).getTotalNum()));

@@ -2,7 +2,6 @@ package com.example.bestqr.ui.leaderboard;
 
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -61,6 +60,7 @@ public class LeaderboardFragment extends Fragment {
     }
 
     private void cancelSearch(){
+        binding.toolbarLeaderboardSearch.setActivated(false);
         myAdapter.getFilter().filter("");
     }
 
@@ -126,12 +126,10 @@ public class LeaderboardFragment extends Fragment {
                     });
                 }
                 else{
-                    binding.toolbarLeaderboardSearch.setActivated(false);
                     cancelSearch();
                 }
             }
         });
-
 
 
         /**
@@ -141,7 +139,6 @@ public class LeaderboardFragment extends Fragment {
         binding.leaderboardList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("LeaderboardFragment", "clicked position: " + position);
                 LeaderboardScoreBlock clickedScore = myAdapter.getItem(position);
                 String guestId = clickedScore.getAndroidId();
                 NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
