@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+
 public class Database {
     public static class ReferenceHolder {
         public static FirebaseDatabase DATABASE = FirebaseDatabase.getInstance();
@@ -47,11 +48,10 @@ public class Database {
         } else {
             Register(profile);
         }
-
         return profile;
     }
-
-    public static void Register(Profile profile) {
+  
+  public static void Register(Profile profile) {
         String createdTime = TimeStamp.currentTime();
 
         profile.setUserName(getDefaultUserName());
@@ -68,7 +68,7 @@ public class Database {
         ReferenceHolder.GLOBAL_USERTABLE.child(profile.getAndroidId()).child("userinfo/phonenumber").setValue("null");
         ReferenceHolder.GLOBAL_USERTABLE.child(profile.getAndroidId()).child("userinfo/loginqrcode").setValue("null");
     }
-
+  
     public static void LoadInfo(Profile profile) {
         profile.setUserName(DatabaseMethods.getDataSnapshot(ReferenceHolder.GLOBAL_USERTABLE.child(profile.getAndroidId()).child("userinfo/username").get()).getValue().toString());
         profile.setPhoneNumber(DatabaseMethods.getDataSnapshot(ReferenceHolder.GLOBAL_USERTABLE.child(profile.getAndroidId()).child("userinfo/phonenumber").get()).getValue().toString());
@@ -250,7 +250,7 @@ public class Database {
         ArrayList<String> associatedUsers = new ArrayList<>();
 
         for (DataSnapshot data : dataSnapshot.getChildren()) {
-            associatedUsers.add(data.getKey());
+            associatedUsers.add(Database.getUser(data.getKey()).getUserName());
         }
 
         return associatedUsers;

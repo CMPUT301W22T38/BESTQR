@@ -35,16 +35,23 @@
         <entry key="..\:/Users/Evan/Desktop/CMPUT301/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_camera.xml" value="0.25" />
         <entry key="..\:/Users/Evan/Desktop/CMPUT301/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_map.xml" value="0.1" />
         <entry key="..\:/Users/Evan/Desktop/CMPUT301/BESTQR/BESTQRv1/app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1685" />
         <entry key="app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.155" />
+        <entry key="app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.1685" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.155" />
+        <entry key="app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.124" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1752786220871327" />
         <entry key="app/src/main/res/layout/fragment_camera.xml" value="0.1752786220871327" />
         <entry key="app/src/main/res/layout/fragment_guest_user.xml" value="0.225" />
         <entry key="app/src/main/res/layout/fragment_leaderboard.xml" value="0.1752786220871327" />
-        <entry key="app/src/main/res/layout/fragment_qr.xml" value="0.25815217391304346" />
+        <entry key="app/src/main/res/layout/fragment_location.xml" value="0.33106884057971014" />
+        <entry key="app/src/main/res/layout/fragment_otherplayerlist.xml" value="0.12858428955078122" />
+        <entry key="app/src/main/res/layout/fragment_qr.xml" value="0.2772585669781931" />
+        <entry key="app/src/main/res/layout/fragment_sameplayerlist.xml" value="0.15416666666666667" />
         <entry key="app/src/main/res/layout/fragment_user.xml" value="0.25815217391304346" />
         <entry key="app/src/main/res/layout/fragment_user_info.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_userqr.xml" value="0.25815217391304346" />
+        <entry key="app/src/main/res/layout/sameplayer_listview.xml" value="0.1" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.17552083333333332" />
         <entry key="app/src/main/res/menu/leaderboard_sort_menu.xml" value="0.1734375" />
         <entry key="app/src/main/res/menu/user_sort_menu.xml" value="0.17552083333333332" />
