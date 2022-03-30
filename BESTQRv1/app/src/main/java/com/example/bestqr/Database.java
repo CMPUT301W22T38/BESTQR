@@ -174,7 +174,7 @@ public class Database {
                 ReferenceHolder.GLOBAL_USERTABLE.child(androidId).child("history").child(qrcode.getHash()).child("location/latitude").setValue(qrcode.getCodeLocation().getLatitude());
             }
 
-            ReferenceHolder.GLOBAL_USERTABLE.child(androidId).child("history").child(qrcode.getHash()).child("location").setValue(qrcode.getScannedTime());
+//             ReferenceHolder.GLOBAL_USERTABLE.child(androidId).child("history").child(qrcode.getHash()).child("location").setValue(qrcode.getScannedTime());
 
 
             ReferenceHolder.GLOBAL_QRCODETABLE.child(qrcode.getHash()).child("users").child(androidId).setValue(qrcode.getScannedTime());
