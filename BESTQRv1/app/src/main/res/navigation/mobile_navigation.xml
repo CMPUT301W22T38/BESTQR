@@ -71,9 +71,9 @@
 
     <fragment
         android:id="@+id/navigation_otherplayerlist"
-        android:name="com.example.bestqr.ui.qr.QrOtherplayers"
+        android:name="com.example.bestqr.ui.qr.samePlayers"
         android:label="other player list"
-        tools:layout="@layout/fragment_otherplayerlist"/>
+        tools:layout="@layout/fragment_sameplayerlist"/>
     <action
         android:id="@+id/action_navigation_from_qr_to_otherplayerlist"
         app:destination="@+id/navigation_otherplayerlist"

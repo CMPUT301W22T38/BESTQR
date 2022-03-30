@@ -15,11 +15,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
+import com.google.firebase.database.Query;
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Queue;
 import java.util.TimeZone;
 
 public class Database {
@@ -52,9 +53,21 @@ public class Database {
         storage = new Storage();
     }
 
-    public static String[] get_list_of_other_players(QRCODE qrcode){
-        String other_list[] = {"user2","user15","user11"};
-        return other_list;
+    public ArrayList get_list_of_same_players(QRCODE qrcode){
+        ArrayList sameplayer_list = new ArrayList();
+        String hash = qrcode.getHash();
+
+        /*
+        DatabaseTable hashTable = new DatabaseTable(GLOBAL_QRCODETABLE.getRef(),hash);
+        for (DataSnapshot datasnapshot: hashTable.getChildren("users")) {
+            String sameplayer = datasnapshot.getKey();
+            sameplayer_list.add(sameplayer);
+        }
+
+        */
+        sameplayer_list.add(hash);
+
+        return sameplayer_list;
     }
 
     public Profile get(String androidid) {

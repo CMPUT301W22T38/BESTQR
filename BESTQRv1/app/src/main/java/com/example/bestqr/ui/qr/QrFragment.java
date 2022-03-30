@@ -50,7 +50,7 @@ public class QrFragment extends Fragment {
     private ImageView image;
     private ImageButton commentButton;
     private ImageButton deleteButton;
-    private Button otherplayers;
+    private Button sameplayers;
     private Bitmap bitmap;
     private EditText addComments;
     private TextView allComments;
@@ -95,7 +95,7 @@ public class QrFragment extends Fragment {
 
         deleteButton = binding.toolbarUserDelete;
 
-        otherplayers = binding.otherPlayers;
+        sameplayers = binding.samePlayers;
         qrComments = String.join("\n",qr.getComments());
         allComments.setText(qrComments);
 
@@ -132,7 +132,7 @@ public class QrFragment extends Fragment {
             }
         });
 
-        otherplayers.setOnClickListener(new View.OnClickListener() {
+        sameplayers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
