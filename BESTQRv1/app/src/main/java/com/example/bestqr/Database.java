@@ -250,7 +250,7 @@ public class Database {
         ArrayList<String> associatedUsers = new ArrayList<>();
 
         for (DataSnapshot data : dataSnapshot.getChildren()) {
-            associatedUsers.add(data.getKey());
+            associatedUsers.add(Database.getUser(data.getKey()).getUserName());
         }
 
         return associatedUsers;
