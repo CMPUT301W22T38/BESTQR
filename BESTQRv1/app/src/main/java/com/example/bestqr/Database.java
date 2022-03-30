@@ -205,7 +205,9 @@ public class Database {
 
     public static boolean ChangeUserInfo(String field, String androidId, String oldvalue, String newvalue) {
         DatabaseReference reference = ReferenceHolder.GLOBAL_USERNAMETABLE.child(newvalue);
-
+        if (newvalue == null || newvalue.equals("")) {
+            return false;
+        }
         if (field.equals("username")) {
             if (!userNameExist(newvalue)) {
                 ReferenceHolder.GLOBAL_USERNAMETABLE.child(oldvalue).removeValue();
