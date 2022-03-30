@@ -3,14 +3,10 @@ package com.example.bestqr.ui.qr;
 
 import android.graphics.Bitmap;
 
-import com.example.bestqr.QRCODE;
+import com.example.bestqr.models.QRCODE;
 import com.example.bestqr.R;
 import com.example.bestqr.UserViewModel;
-import com.example.bestqr.ui.leaderboard.LeaderboardViewModel;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.WriterException;
 
-import android.media.Image;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -22,23 +18,18 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.bestqr.Profile;
+import com.example.bestqr.models.Profile;
 import com.example.bestqr.databinding.FragmentQrBinding;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.common.BitMatrix;
-import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 public class QrFragment extends Fragment {
 
@@ -84,7 +75,7 @@ public class QrFragment extends Fragment {
         qr = userViewModel.getSelectedQrcode();
 
         if (qr != null) {
-            bitmap = qr.getCode();
+            bitmap = qr.getBitmap();
         }
 
         image = binding.imageView;

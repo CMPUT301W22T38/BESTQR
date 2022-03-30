@@ -12,27 +12,20 @@ import java.util.Comparator;
 
 public class LeaderboardViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
     private ArrayList<LeaderboardScoreBlock> scoreBlocks;
     private int sortingMethod;
     public boolean scoresInitialized;
 
     public LeaderboardViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is leaderboard fragment");
         this.scoreBlocks = new ArrayList<LeaderboardScoreBlock>();
         this.scoresInitialized = false;
-    }
-
-    public LiveData<String> getText() {
-        return mText;
     }
 
     public ArrayList<Integer> getUserScoreAndRank(String userHash){
         ArrayList<Integer> result = new ArrayList<Integer>();
         for(int i = 0; i < this.scoreBlocks.size(); i++){
             LeaderboardScoreBlock s = this.scoreBlocks.get(i);
-            if(s.getProfile().getAndroidID() == userHash){
+            if (s.getAndroidId().equals(userHash)) {
                 result.add(getScoreCurrentSorted(i));
                 result.add(i);
             }
@@ -71,7 +64,6 @@ public class LeaderboardViewModel extends ViewModel {
      * according to the highest scoring qr code a user has scanned
      */
     public void sortScoresByHighestUnique(){
-//        Collections.sort(this.scoreBlocks, LeaderboardScoreBlock.highestScoringComparator);
         Collections.sort(this.scoreBlocks, Comparator.comparing(LeaderboardScoreBlock::getHighestScoring).reversed());
         this.sortingMethod = 1;
     }
@@ -81,8 +73,6 @@ public class LeaderboardViewModel extends ViewModel {
      * sorted to the total number of qr codes scanned by a user.
      */
     public void sortScoresByTotalScanned(){
-
-//        Collections.sort(this.scoreBlocks, LeaderboardScoreBlock.totalNumComparator);
         Collections.sort(this.scoreBlocks, Comparator.comparing(LeaderboardScoreBlock::getTotalNum).reversed());
         this.sortingMethod = 2;
     }
@@ -123,5 +113,6 @@ public class LeaderboardViewModel extends ViewModel {
     public ArrayList<LeaderboardScoreBlock> getScoreBlocks(){
         return this.scoreBlocks;
     }
+
 
 }

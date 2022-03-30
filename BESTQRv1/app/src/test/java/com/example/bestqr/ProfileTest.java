@@ -2,7 +2,8 @@ package com.example.bestqr;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-import android.graphics.Bitmap;
+import com.example.bestqr.models.Profile;
+import com.example.bestqr.models.QRCODE;
 
 public class ProfileTest {
     private Profile mockProfile(){

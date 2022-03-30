@@ -1,5 +1,7 @@
 package com.example.bestqr;
 
+import com.example.bestqr.models.QRCODE;
+
 import java.util.ArrayList;
 
 public class MapQRCodes {

@@ -1,18 +1,15 @@
-package com.example.bestqr;
+package com.example.bestqr.models;
 
 
 import android.graphics.Bitmap;
 
-import java.io.Serializable;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
+import com.example.bestqr.Database;
+import com.example.bestqr.QRCodeList;
 
-public class Profile implements Serializable {
-    private String androidId;
-    private String userName;
-    private String phoneNumber;
-    private String emailAddress;
+import java.util.ArrayList;
+
+public class Profile extends BaseProfile {
+
     private QRCODE deviceQrCode;
     private int score = 0;
     private QRCodeList scannedCodes;
@@ -23,28 +20,48 @@ public class Profile implements Serializable {
 
     /**
      * This constructor is used to initialize an empty Profile object within Database.java
-     * @param android_id: android Id of the user
+     * @param androidId: android Id of the user
      */
-    public Profile(String android_id) {
-        this.androidId = android_id;
+    public Profile(String androidId) {
+        super(androidId);
         this.scannedCodes = new QRCodeList();
     }
 
-    /**
-     * This constructor initializes the information of the user's profile
-     *
-     * @param user_name : The username of the user
-     * @param deviceQrCode: The unique QRCODE for the users profile that can be scanned by another device to log in
-     * @param phoneNumber : The phone number of user
-     * @param emailAddress: The email address of the user
-     */
-    public Profile(String user_name, QRCODE deviceQrCode, String phoneNumber, String emailAddress) {
-        this.userName = user_name;
-        this.deviceQrCode = deviceQrCode;
-        this.phoneNumber = phoneNumber;
-        this.emailAddress = emailAddress;
-        this.scannedCodes = new QRCodeList();
+    public void ChangePhoneNumber(String phoneNumber) {
+        if (Database.ChangeUserInfo("phonenumber", this.getAndroidId(), this.getPhoneNumber(), phoneNumber)) {
+            super.setPhoneNumber(phoneNumber);
+        }
     }
+
+    public void ChangeUserName(String userName) {
+        if (Database.ChangeUserInfo("username", this.getAndroidId(), this.getUserName(), userName)) {
+            super.setUserName(userName);
+        }
+    }
+
+    public void ChangeEmailAddress(String emailAddress) {
+        if (Database.ChangeUserInfo("emailaddress", this.getAndroidId(), this.getEmailAddress(), emailAddress)) {
+            super.setEmailAddress(emailAddress);
+        }
+    }
+
+    //    /**
+//     * This constructor initializes the information of the user's profile
+//     *
+//     * @param user_name : The username of the user
+//     * @param deviceQrCode: The unique QRCODE for the users profile that can be scanned by another device to log in
+//     * @param phoneNumber : The phone number of user
+//     * @param emailAddress: The email address of the user
+//     */
+//    public Profile(String user_name, QRCODE deviceQrCode, String phoneNumber, String emailAddress) {
+//        this.userName = user_name;
+//        this.deviceQrCode = deviceQrCode;
+//        this.phoneNumber = phoneNumber;
+//        this.emailAddress = emailAddress;
+//        this.scannedCodes = new QRCodeList();
+//    }
+
+    // add constructors as needed
 
     public void setScannedCodes(QRCodeList qrcodes) {
         this.scannedCodes = qrcodes;
@@ -58,48 +75,15 @@ public class Profile implements Serializable {
     public QRCodeList getScannedCodes() {return  this.scannedCodes;}
 
 
-    public String getAndroidID() { return this.androidId;}
-
-    /**
-     * This class returns the unique device id for users  log in with
-     * @return the unique device id of a profile
-     */
-    public String getDeviceID(){
-        return this.deviceQrCode.getHash();
-    }
 
     /**
      * This method returns the image of QRCODE for users to log in with
      * @return the unique image QRCODE for the users profile that can be scanned by another device to log in
      */
     public Bitmap getProfileCode(){
-        return this.deviceQrCode.getCode();
+        return this.deviceQrCode.getBitmap();
     }
 
-
-    /**
-     * This method returns the username of the user
-     * @return : the username of the user
-     */
-    public String getUserName() {
-        return userName;
-    }
-
-    /**
-     * This method returns the phone number of the user
-     * @return : the phone number of the user
-     */
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    /**
-     * This method returns the email address of the user
-     * @return : the email address of the user
-     */
-    public String getEmailAddress() {
-        return emailAddress;
-    }
 
     /**
      * This method returns the total score of the user so far
@@ -133,9 +117,12 @@ public class Profile implements Serializable {
         // the hash should be stored not the image itself
         // if geolocation is allowed the it should be shown on the map
         // also add it to the owner list of qrCodes if it does not exist there
+//        this.
+        if (Database.addQRCode(this.getAndroidId(), qrCode)) {
+            this.scannedCodes.add(qrCode);
+            this.score += qrCode.getScore();
 
-        scannedCodes.add(qrCode);
-        this.score += qrCode.getScore();
+        }
     }
 
     /**
@@ -174,7 +161,7 @@ public class Profile implements Serializable {
     public ArrayList<Bitmap> getQrBitmaps(){
         qrBitmaps = new ArrayList<>();
         for (QRCODE item:scannedCodes) {
-            qrBitmaps.add(item.getCode());
+            qrBitmaps.add(item.getBitmap());
         }
         return qrBitmaps;
     }
@@ -194,7 +181,12 @@ public class Profile implements Serializable {
      * @return : integer score value
      */
     public int getHighestScore(){
-        return this.scannedCodes.getHighest().getScore();
+        if (!this.scannedCodes.isEmpty()) {
+            return this.scannedCodes.getHighest().getScore();
+        }
+        else {
+            return 0;
+        }
     }
 
     /**
@@ -210,20 +202,8 @@ public class Profile implements Serializable {
 
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
-    }
-
     public QRCODE getDeviceQrCode(){
-        return new QRCODE(getAndroidID());
+        return new QRCODE(getAndroidId());
     }
 
 }

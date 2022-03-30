@@ -7,8 +7,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,7 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.ListFragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -25,8 +24,9 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.bestqr.CameraActivity;
-import com.example.bestqr.LeaderboardListAdapter;
-import com.example.bestqr.Profile;
+import com.example.bestqr.Database;
+import com.example.bestqr.adapters.LeaderboardListAdapter;
+import com.example.bestqr.models.Profile;
 import com.example.bestqr.R;
 import com.example.bestqr.databinding.FragmentLeaderboardBinding;
 import com.example.bestqr.UserViewModel;
@@ -63,13 +63,18 @@ public class LeaderboardFragment extends Fragment {
         binding = FragmentLeaderboardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        // Fetch all the scores from the database for display
-        // TODO: This should be threaded.
-        if(!leaderboardViewModel.scoresInitialized) {
-            leaderboardViewModel.updateScoreBlocks(userViewModel.getDb());
-            // Sort scores after fetching. This is the default sorting method when the fragment is created.
-            leaderboardViewModel.sortScoresByTotalSum();
-        }
+//        // Fetch all the scores from the database for display
+//        // TODO: This should be threaded.
+//        if(!leaderboardViewModel.scoresInitialized) {
+//            leaderboardViewModel.updateScoreBlocks(userViewModel.getDb());
+////             Sort scores after fetching. This is the default sorting method when the fragment is created.
+//            leaderboardViewModel.sortScoresByTotalSum();
+//        }
+
+//        Fetch all the scores from the database for display
+        leaderboardViewModel.updateScoreBlocks(userViewModel.getDb());
+        leaderboardViewModel.sortScoresByTotalSum();
+
 
         myAdapter = new LeaderboardListAdapter(getContext(), R.layout.leaderboardlist_item,
                 leaderboardViewModel.getScoreBlocks(), 0);
@@ -77,6 +82,21 @@ public class LeaderboardFragment extends Fragment {
 
         // Setup user profile name
         binding.toolbarLeaderboardProfile.setText(userViewModel.getUserProfile().getUserName());
+
+        // Setup listener for search button clicks
+        // Opens popup window with a search interface.
+        binding.toolbarLeaderboardSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                View popupView = inflater.inflate(R.layout.search_popup, null);
+                boolean focusable = true; // lets taps outside the popup also dismiss it
+                final PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+
+                popupWindow.showAsDropDown(binding.toolbarLeaderboard);
+
+
+            }
+        });
 
         /**
          * Listener for clicks on users in ArrayAdapter
@@ -86,17 +106,19 @@ public class LeaderboardFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 LeaderboardScoreBlock clickedScore = leaderboardViewModel.getBlock(position);
-                Profile guestProfile = clickedScore.getProfile();
+                String guestId = clickedScore.getAndroidId();
                 NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
 
-                // If we selected current user from leaderboard list
-                if(guestProfile == userViewModel.getUserProfile()){
+                // Check if clicked user is the current user
+                if(guestId.equals(userViewModel.getUserProfile().getAndroidId())){
                     // Navigate to Main User fragment rather than guest user fragment
                     navController.navigate(R.id.action_navigation_leaderboard_to_navigation_user);
                 }
-
-                userViewModel.setGuestProfile(guestProfile);
-                navController.navigate(R.id.action_navigation_leaderboard_to_navigation_guest_user);
+                else{
+                    Profile guestProfile = Database.getUser(guestId);
+                    userViewModel.setGuestProfile(guestProfile);
+                    navController.navigate(R.id.action_navigation_leaderboard_to_navigation_guest_user);
+                }
             }
         });
 
@@ -183,7 +205,6 @@ public class LeaderboardFragment extends Fragment {
         NavigationUI.setupWithNavController(binding.toolbarLeaderboard, navController, appBarConfiguration);
 
         updateUserScores();
-		
     }
 
     /**

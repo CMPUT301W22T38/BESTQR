@@ -17,7 +17,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.bestqr.R;
 import com.example.bestqr.UserViewModel;
 import com.example.bestqr.databinding.FragmentUserInfoBinding;
-import com.example.bestqr.Profile;
+import com.example.bestqr.models.Profile;
 
 public class UserInfoFragment extends DialogFragment {
 
@@ -82,9 +82,10 @@ public class UserInfoFragment extends DialogFragment {
         String phone = binding.userInfoPhoneNumber.getText().toString();
 
 
-        userProfile.setUserName(name);
-        userProfile.setEmailAddress(email);
-        userProfile.setPhoneNumber(phone);
+        userViewModel.getUserProfile().ChangeUserName(name);
+        userViewModel.getUserProfile().ChangeEmailAddress(email);
+        userViewModel.getUserProfile().ChangePhoneNumber(phone);
+
 
         userViewModel.setUserProfile(userProfile);
         NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);

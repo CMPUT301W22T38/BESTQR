@@ -1,4 +1,4 @@
-package com.example.bestqr;
+package com.example.bestqr.adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.example.bestqr.R;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.example.bestqr;
+package com.example.bestqr.adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.bestqr.R;
 import com.example.bestqr.ui.leaderboard.LeaderboardScoreBlock;
 import com.example.bestqr.ui.leaderboard.LeaderboardViewModel;
 
@@ -47,7 +48,7 @@ public class LeaderboardListAdapter extends ArrayAdapter<LeaderboardScoreBlock> 
         LeaderboardScoreBlock currentScoreBlock = scores.get(position);
 
         TextView userTextView = (TextView) listItem.findViewById(R.id.leaderboard_list_username);
-        userTextView.setText(scores.get(position).getProfile().getUserName());
+        userTextView.setText(scores.get(position).getUsername());
 
         TextView scoreTextView = (TextView) listItem.findViewById(R.id.leaderboard_list_total_score);
 
