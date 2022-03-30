@@ -1,200 +1,145 @@
 package com.example.bestqr;
 
-
-// realtime db
-// https://console.firebase.google.com/project/bestqrdb/database/bestqrdb-default-rtdb/data
-// storage
-// https://console.firebase.google.com/project/bestqrdb/storage/bestqrdb.appspot.com/files
-
-import android.location.Location;
-import android.location.LocationManager;
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import android.graphics.Bitmap;
 
 import com.example.bestqr.models.BaseProfile;
 import com.example.bestqr.models.Profile;
 import com.example.bestqr.models.QRCODE;
 import com.example.bestqr.models.TimeStamp;
 import com.example.bestqr.ui.leaderboard.LeaderboardScoreBlock;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.ChildEventListener;
+import com.example.bestqr.utils.QRmethods;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.zxing.qrcode.encoder.QRCode;
+import com.google.firebase.database.Query;
 
-import java.text.SimpleDateFormat;
-
+import java.sql.Ref;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.TimeZone;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
+
 public class Database {
-    private FirebaseDatabase database;
-    private DatabaseReference user_ref;
-    private DatabaseReference username_ref;
-    private DatabaseReference global_qrcount;
+    public static class ReferenceHolder {
+        public static FirebaseDatabase DATABASE = FirebaseDatabase.getInstance();
 
-    private DatabaseTable GLOBAL_QRCODETABLE;
-    private DatabaseTable GLOBAL_REGISTRATIONTABLE;
-    private DatabaseTable GLOBAL_USERNAMETABLE;
-    private DatabaseTable GLOBAL_USERTABLE;
+        public static DatabaseReference GLOBAL_QRCODETABLE = DATABASE.getReference().child("qrcode");
+        public static DatabaseReference GLOBAL_REGISTRATIONTABLE = DATABASE.getReference().child("registeredandroidid");
+        public static DatabaseReference GLOBAL_USERNAMETABLE = DATABASE.getReference().child("username");
+        public static DatabaseReference GLOBAL_USERTABLE = DATABASE.getReference().child("user");
 
-    private Storage storage;
-
-
-
-    public Database() {
-        database = FirebaseDatabase.getInstance();
-        user_ref = database.getReference().child("user");
-        username_ref = database.getReference().child("username");
-        global_qrcount = database.getReference().child("qrcode");
-
-        GLOBAL_QRCODETABLE = new DatabaseTable(database.getReference().child("qrcode"));
-        GLOBAL_USERTABLE = new DatabaseTable(database.getReference().child("user"));
-        GLOBAL_USERNAMETABLE = new DatabaseTable(database.getReference().child("username"));
-        GLOBAL_REGISTRATIONTABLE = new DatabaseTable(database.getReference().child("registeredandroidid"));
-
-        storage = new Storage();
+        public static Storage STORAGE;
     }
 
-    public Profile get(String androidid) {
-        Profile profile = new Profile(androidid);
+    ReferenceHolder referenceHolder;
 
-        DatabaseTable user_table = new DatabaseTable(GLOBAL_USERTABLE.getRef(), androidid);
+    public static Profile getUser(String androidId) {
+        Profile profile = new Profile(androidId);
 
-        boolean registered = GLOBAL_REGISTRATIONTABLE.exists(androidid);
-        if (registered) {
-            boolean hasloginqrcode = user_table.hasChildren("userinfo", "loginqrcode");
+        if (isRegistered(androidId)) {
+            if (hasLoginQRCode(androidId)) {
 
-            if (hasloginqrcode) {
-
+            } else {
+                LoadInfo(profile);
+                LoadHistory(profile);
             }
-
-            else {
-                __get__user__(user_table, profile);
-                boolean hasqrcodes = user_table.hasChildren("history");
-
-                if (hasqrcodes) {
-                    DatabaseTable QRListTable = new DatabaseTable(user_table, "history");
-                    QRCodeList qrcodelist = get_qrlist(QRListTable);
-                    profile.setScannedCodes(qrcodelist);
-                }
-            }
+        } else {
+            Register(profile);
         }
-        else {
-            String INITIAL_USERNAME = get_default_username();
-            profile.setUserName(INITIAL_USERNAME);
-
-            TimeStamp timestamp = new TimeStamp();
-            GLOBAL_REGISTRATIONTABLE.add(androidid, timestamp.getTimeStamp());
-            GLOBAL_USERNAMETABLE.add(INITIAL_USERNAME, androidid);
-
-            add_user(user_table, INITIAL_USERNAME, timestamp);
-        }
-
         return profile;
     }
+  
+  public static void Register(Profile profile) {
+        String createdTime = TimeStamp.currentTime();
 
-    public void add_user(DatabaseTable usertable, String username, TimeStamp timestamp) {
-        usertable.add("createdAt", timestamp.getTimeStamp());
-        usertable.add("history", "null");
-        usertable.add("userinfo", "phonenumber", "null");
-        usertable.add("userinfo", "emailaddress", "null");
-        usertable.add("userinfo", "loginqrcode", "null");
-        usertable.add("userinfo", "username", username);
+        profile.setUserName(getDefaultUserName());
+        profile.setPhoneNumber("null");
+        profile.setEmailAddress("null");
+
+        ReferenceHolder.GLOBAL_REGISTRATIONTABLE.child(profile.getAndroidId()).setValue(createdTime);
+        ReferenceHolder.GLOBAL_USERNAMETABLE.child(profile.getUserName()).setValue(profile.getAndroidId());
+
+        ReferenceHolder.GLOBAL_USERTABLE.child(profile.getAndroidId()).child("createdAt").setValue(createdTime);
+        ReferenceHolder.GLOBAL_USERTABLE.child(profile.getAndroidId()).child("history").setValue("null");
+        ReferenceHolder.GLOBAL_USERTABLE.child(profile.getAndroidId()).child("userinfo/username").setValue(profile.getUserName());
+        ReferenceHolder.GLOBAL_USERTABLE.child(profile.getAndroidId()).child("userinfo/emailaddress").setValue("null");
+        ReferenceHolder.GLOBAL_USERTABLE.child(profile.getAndroidId()).child("userinfo/phonenumber").setValue("null");
+        ReferenceHolder.GLOBAL_USERTABLE.child(profile.getAndroidId()).child("userinfo/loginqrcode").setValue("null");
+    }
+  
+    public static void LoadInfo(Profile profile) {
+        profile.setUserName(DatabaseMethods.getDataSnapshot(ReferenceHolder.GLOBAL_USERTABLE.child(profile.getAndroidId()).child("userinfo/username").get()).getValue().toString());
+        profile.setPhoneNumber(DatabaseMethods.getDataSnapshot(ReferenceHolder.GLOBAL_USERTABLE.child(profile.getAndroidId()).child("userinfo/phonenumber").get()).getValue().toString());
+        profile.setEmailAddress(DatabaseMethods.getDataSnapshot(ReferenceHolder.GLOBAL_USERTABLE.child(profile.getAndroidId()).child("userinfo/emailaddress").get()).getValue().toString());
     }
 
-    public void __get__user__(DatabaseTable usertable, Profile profile) {
-        profile.setUserName(usertable.get("userinfo", "username"));
-        profile.setEmailAddress(usertable.get("userinfo", "emailaddress"));
-        profile.setPhoneNumber(usertable.get("userinfo", "phonenumber"));
-    }
+    public static void LoadHistory(Profile profile) {
+        QRCodeList qrCodeList = null;
+        if (hasHistory(profile.getAndroidId())) {
+            DatabaseReference reference = ReferenceHolder.GLOBAL_USERTABLE.child(profile.getAndroidId()).child("history");
 
-    public QRCodeList get_qrlist(DatabaseTable qrlisttable) {
-        QRCodeList qrcodelist = new QRCodeList();
+            qrCodeList = new QRCodeList();
+            for (DataSnapshot dataSnapshot : DatabaseMethods.getDataSnapshot(reference.get()).getChildren()) {
+                String key = dataSnapshot.getKey();
+                Bitmap bitmap = Storage.download(profile.getAndroidId(), key);
+                QRCODE qrcode = new QRCODE(key, bitmap);
 
-        for (DataSnapshot datasnapshot: qrlisttable.getChildren()) {
-            String hash = datasnapshot.getKey();
-            DatabaseTable qrcodetable = new DatabaseTable(qrlisttable, hash);
-            qrcodelist.add(get_qrcode(qrcodetable, hash));
-        }
+                qrcode.setTimestamp(dataSnapshot.child("createdat").getValue().toString());
+                qrcode.setScore(Integer.valueOf(dataSnapshot.child("score").getValue().toString()));
+                qrCodeList.add(qrcode);
 
-        return qrcodelist;
-    }
-
-    public QRCODE get_qrcode(DatabaseTable qrcodetable, String hash) {
-        QRCODE qrcode = new QRCODE();
-        qrcode.setHash(hash);
-        TimeStamp timestamp = new TimeStamp();
-        timestamp.setTimeStamp(qrcodetable.get("createdat"));
-        qrcode.setTimestamp(timestamp);
-        qrcode.setisImported(Boolean.valueOf(qrcodetable.get("imported")));
-
-        Location location = null;
-        if (qrcodetable.hasChildren("location")) {
-            location = new Location(LocationManager.GPS_PROVIDER);
-            location.setLongitude(Double.valueOf(qrcodetable.get("location", "longitude")));
-            location.setLatitude(Double.valueOf(qrcodetable.get("location", "latitude")));
-            qrcode.setCodeLocation(location);
-        }
-        qrcode.setScore(Integer.valueOf(qrcodetable.get("score")));
-
-        return qrcode;
-    }
-
-//    public void add_qrcode(Profile profile, QRCODE qrcode) {
-//
-//    }
-
-    public void add_qrcode(String username, QRCODE qrcode) {
-        String androidid = GLOBAL_USERNAMETABLE.get(username);
-        DatabaseTable user_table = new DatabaseTable(GLOBAL_USERTABLE, androidid);
-        DatabaseTable QRListTable = new DatabaseTable(user_table, "history");
-
-        String hash = qrcode.getHash();
-        if (!QRListTable.exists(hash)) {
-            TimeStamp timestamp = new TimeStamp();
-            QRListTable.add(hash, "createdat", timestamp.getTimeStamp());
-            QRListTable.add(hash, "imported", String.valueOf(qrcode.getisImported()));
-            QRListTable.add(hash, "score", String.valueOf(qrcode.getScore()));
-            QRListTable.add(hash, "location", "null");
-
-            if (qrcode.getCodeLocation() != null) {
-                QRListTable.add(hash, "location", "longitude", String.valueOf(qrcode.getCodeLocation().getLongitude()));
-                QRListTable.add(hash, "location", "latitude", String.valueOf(qrcode.getCodeLocation().getLatitude()));
             }
-
-            if (GLOBAL_QRCODETABLE.exists(hash)) {
-                int total = Integer.valueOf(GLOBAL_QRCODETABLE.get(hash, "count"));
-                GLOBAL_QRCODETABLE.add(hash, "count", String.valueOf(total + 1));
-            }
-            else {
-                GLOBAL_QRCODETABLE.add(hash, "count", "1");
-            }
-            GLOBAL_QRCODETABLE.add(hash, "users", androidid, timestamp.getTimeStamp());
-
-            storage.upload(qrcode, androidid);
+            profile.setScannedCodes(qrCodeList);
         }
-
     }
 
+    public static boolean hasHistory(String androidId) {
+        DatabaseReference reference = ReferenceHolder.GLOBAL_USERTABLE.child(androidId).child("history");
+        DataSnapshot dataSnapshot = DatabaseMethods.getDataSnapshot(reference.get());
 
-    public ArrayList<LeaderboardScoreBlock> get_all_scoring_types(){
+        return dataSnapshot.getValue().equals("null") ? false : true;
+    }
+
+    public static boolean isRegistered(String androidId) {
+        DatabaseReference reference = ReferenceHolder.GLOBAL_REGISTRATIONTABLE.child(androidId);
+        DataSnapshot dataSnapshot = DatabaseMethods.getDataSnapshot(reference.get());
+
+        return (dataSnapshot.exists()) ? true : false;
+    }
+
+    public static boolean hasLoginQRCode(String androidId) {
+        DatabaseReference reference = ReferenceHolder.GLOBAL_USERTABLE.child(androidId).child("userinfo/loginqrcode");
+        DataSnapshot dataSnapshot = DatabaseMethods.getDataSnapshot(reference.get());
+
+        return dataSnapshot.getValue().equals("null") ? false : true;
+    }
+
+    public static int getTotalUserCount() {
+        DataSnapshot dataSnapshot = DatabaseMethods.getDataSnapshot(ReferenceHolder.GLOBAL_REGISTRATIONTABLE.get());
+        return (int) dataSnapshot.getChildrenCount();
+    }
+
+    public static String getDefaultUserName() {
+        String username = "user" + String.valueOf(getTotalUserCount());
+
+        int i = 0;
+        while (userNameExist(username)) {
+            username = "user" + String.valueOf(getTotalUserCount() + i);
+            i++;
+        }
+        return username;
+    }
+
+    public static ArrayList<LeaderboardScoreBlock> get_all_scoring_types() {
         ArrayList<LeaderboardScoreBlock> result = new ArrayList<LeaderboardScoreBlock>();
 
-        for (DataSnapshot dataSnapshot: GLOBAL_USERTABLE.getChildren()) {
-            String androidid = dataSnapshot.getKey();
+        for (DataSnapshot dataSnapshot : DatabaseMethods.getDataSnapshot(ReferenceHolder.GLOBAL_USERTABLE.get()).getChildren()) {
+            String androidId = dataSnapshot.getKey();
+
             String username = dataSnapshot.child("userinfo/username").getValue().toString();
-//            BaseProfile profile = new BaseProfile(androidid, username);
+            //            BaseProfile profile = new BaseProfile(androidid, username);
 
             int num = (int) dataSnapshot.child("history").getChildrenCount();
             int totalscore = 0;
@@ -209,315 +154,106 @@ public class Database {
                 totalscore = arr.stream().collect(Collectors.summingInt(Integer::intValue));
 
             }
-            result.add(new LeaderboardScoreBlock(androidid, username, num, totalscore, highest));
+            result.add(new LeaderboardScoreBlock(androidId, username, num, totalscore, highest));
         }
         return result;
     }
 
+    public static boolean addQRCode(String androidId, QRCODE qrcode) {
+        // double checking //
+        if (!QRCodeAlreadyExist(androidId, qrcode.getHash())) {
+            ReferenceHolder.GLOBAL_USERTABLE.child(androidId).child("history").child(qrcode.getHash()).child("createdat").setValue(qrcode.getScannedTime());
+            ReferenceHolder.GLOBAL_USERTABLE.child(androidId).child("history").child(qrcode.getHash()).child("score").setValue(qrcode.getScore());
 
-//
-//
-//
-//    public DatabaseReference get_userref(String androidid) {
-//        return this.user_ref.child(androidid);
-//    }
-//
-//    public DatabaseReference get_userinfo_ref(String androidid) {
-//        return get_userref(androidid).child("userinfo");
-//    }
-//
-//    public DatabaseReference get_history_ref(String androidid) {
-//        return get_userref(androidid).child("history");
-//    }
-//
-//    public Profile get_user(String androidid) {
-//        Profile profile = new Profile(androidid);
-//
-//        DatabaseReference currentuser_ref = user_ref.child(androidid);
-//        DatabaseReference userinfo_ref = currentuser_ref.child("userinfo");
-//        DatabaseReference history_ref = currentuser_ref.child("history");
-//
-//        DataSnapshot history_data = get_children(currentuser_ref, "history");
-//
-//        if (user_exists(androidid)) {
-//            DataSnapshot loginqrcode = get_children(userinfo_ref, "loginqrcodee");
-//
-//            if (loginqrcode.getChildrenCount() == 0) {
-//                profile.setUserName(get_child_value(userinfo_ref, "username"));
-//                profile.setEmailAddress(get_child_value(userinfo_ref, "emailaddress"));
-//                profile.setPhoneNumber(get_child_value(userinfo_ref, "phonenumber"));
-//                profile.setScannedCodes(get_qr_list(androidid, history_data));
-//
-//            }
-//
-//        }
-//        else {
-//            add_child(currentuser_ref, "createdAt", get_current_time());
-//            add_child(userinfo_ref, "username", get_default_username());
-//            profile.setUserName(get_default_username());
-//            add_child(userinfo_ref, "phonenumber", "null");
-//            add_child(userinfo_ref, "emailaddress", "null");
-//            add_child(userinfo_ref, "loginqrcode", "null");
-//            history_ref.setValue("null");
-//
-//            add_child(username_ref, profile.getUserName(), profile.getAndroidID());
-//        }
-//        return profile;
-//    }
+            ReferenceHolder.GLOBAL_USERTABLE.child(androidId).child("history").child(qrcode.getHash()).child("imported").setValue(qrcode.getisImported());
 
-//    public boolean update_userinfo(String androidid, String key, String value) {
-//        DatabaseReference ref = user_ref.child(androidid).child("userinfo");
-//
-//        if (user_exists(androidid) == true) {
-//            if (key.equals("username")) {
-//
-//            }
-//            if (key.equals("emailaddress") || key.equals("phonenumber") || key.equals("username")) {
-//                ref.child(key).setValue(value);
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
+            if (qrcode.getCodeLocation() == null) {
+                ReferenceHolder.GLOBAL_USERTABLE.child(androidId).child("history").child(qrcode.getHash()).child("location").setValue("null");
+            } else {
+                ReferenceHolder.GLOBAL_USERTABLE.child(androidId).child("history").child(qrcode.getHash()).child("location/longitude").setValue(qrcode.getCodeLocation().getLongitude());
+                ReferenceHolder.GLOBAL_USERTABLE.child(androidId).child("history").child(qrcode.getHash()).child("location/latitude").setValue(qrcode.getCodeLocation().getLatitude());
+            }
 
-    /**
-     * Function for getting the QR codes for all users, and calculating the relevant scores associated.
-     * Used by the Leaderboard tab.
-     * @return : A list of LeaderboardScoreBlock objects, which each hold scoring types for a specific user
-     */
-//    public ArrayList<LeaderboardScoreBlock> get_all_scoring_types(){
-//        // Object to hold the various score types
-//        ArrayList<LeaderboardScoreBlock> result = new ArrayList<LeaderboardScoreBlock>();
-//        // Get all users from database
-//        DataSnapshot users = this.get_children(database.getReference(), "user");
-//        if(users.hasChildren()){
-//            Iterable<DataSnapshot> children = users.getChildren();
-//            for(DataSnapshot child : children){
-//                // TODO: This currently fetches the user's hash
-//                // Once the database has userinfo for all users this should be updated to
-//                // actually fetch the username.
-//                String username = child.getKey();
-//                DataSnapshot qr_codes = child.child("history");
-//                // Get total amount of qr codes a user has scanned. Cast from long
-//                int totalScanned = (int)qr_codes.getChildrenCount();
-//                int max = 0;
-//                int totalScore = 0;
-//                Iterable<DataSnapshot> qr_codes_iterable = qr_codes.getChildren();
-//                for(DataSnapshot qr : qr_codes_iterable){
-//                    DataSnapshot score = qr.child("score");
-//                    int qrscore = 1;
-////                    int qrscore = Integer.valueOf((String) score.getValue());
-////                    score.getValue();
-//                    if(qrscore > max) {
-//                        max = qrscore;
-//                    }
-//                    totalScore += qrscore;
-//                    }
-//                result.add(new LeaderboardScoreBlock(username, username, max, totalScanned, totalScore));
-//                }
-//            }
-//        return result;
+//             ReferenceHolder.GLOBAL_USERTABLE.child(androidId).child("history").child(qrcode.getHash()).child("location").setValue(qrcode.getScannedTime());
+
+
+            ReferenceHolder.GLOBAL_QRCODETABLE.child(qrcode.getHash()).child("users").child(androidId).setValue(qrcode.getScannedTime());
+            updateAssociatedUserCount(qrcode.getHash());
+//            ReferenceHolder.GLOBAL_QRCODETABLE.child(qrcode.getHash()).child("count").setValue(getAssociatedUserCount(qrcode.getHash()) + 1);
+
+            Storage.upload(qrcode, androidId);
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean QRCodeAlreadyExist(String androidId, String hash) {
+        DatabaseReference reference = ReferenceHolder.GLOBAL_USERTABLE.child(androidId).child("history").child(hash);
+        DataSnapshot dataSnapshot = DatabaseMethods.getDataSnapshot(reference.get());
+
+
+        return (dataSnapshot.exists()) ? true : false;
+    }
+
+    public static void updateAssociatedUserCount(String hash) {
+        DatabaseReference reference = ReferenceHolder.GLOBAL_QRCODETABLE.child(hash).child("users");
+        DataSnapshot dataSnapshot = DatabaseMethods.getDataSnapshot(reference.get());
+
+        ReferenceHolder.GLOBAL_QRCODETABLE.child(hash).child("count").setValue(dataSnapshot.getChildrenCount());
+//        reference.setValue(Integer.valueOf(dataSnapshot.getValue().toString()) + 1);
+    }
+
+    public static boolean ChangeUserInfo(String field, String androidId, String oldvalue, String newvalue) {
+        DatabaseReference reference = ReferenceHolder.GLOBAL_USERNAMETABLE.child(newvalue);
+        if (newvalue == null || newvalue.equals("")) {
+            return false;
+        }
+        if (field.equals("username")) {
+            if (!userNameExist(newvalue)) {
+                ReferenceHolder.GLOBAL_USERNAMETABLE.child(oldvalue).removeValue();
+                reference.setValue(androidId);
+            } else {
+                return false;
+            }
+        }
+
+        ReferenceHolder.GLOBAL_USERTABLE.child(androidId).child("userinfo").child(field).setValue(newvalue);
+
+        return true;
+    }
+
+    public static boolean userNameExist(String value) {
+        DatabaseReference reference = ReferenceHolder.GLOBAL_USERNAMETABLE.child(value);
+        DataSnapshot dataSnapshot = DatabaseMethods.getDataSnapshot(reference.get());
+
+        return dataSnapshot.exists() ? true : false;
+    }
+
+
+//    public static int getAssociatedUserCount(String hash) {
+//        DatabaseReference reference = ReferenceHolder.GLOBAL_USERTABLE.child(hash).child("users");
+//        DataSnapshot dataSnapshot = DatabaseMethods.getDataSnapshot(reference.get());
+//
+//        return (int) dataSnapshot.getChildrenCount();
 //    }
 
-//    public QRCodeList get_qr_list(String androidid, DataSnapshot data) {
-//        QRCodeList qrlist = new QRCodeList();
-//        if (data.getChildrenCount() > 0 ) {
-//            data.getChildren().forEach((d) -> {
-//                QRCODE qrcode = get_qrcode(androidid, d.getKey().toString());
-//                qrlist.add(qrcode);
-//            });
-//        }
-//        return qrlist;
-//    }
+//    public static boolean hasAssociatedUsers(String hash) {
+//        DatabaseReference reference = ReferenceHolder.GLOBAL_USERTABLE.child(hash).child("users");
+//        DataSnapshot dataSnapshot = DatabaseMethods.getDataSnapshot(reference.get());
 //
-//    public QRCODE get_qrcode(String androidid, String hash) {
-//        QRCODE qrcode = new QRCODE();
-//
-//        DatabaseReference history_ref = user_ref.child(androidid).child("history");
-//        DataSnapshot qrdata = get_children(history_ref, hash);
-//        DatabaseReference qr_ref = qrdata.getRef();
-//
-//        if (user_exists(androidid)) {
-//            if (qrdata.exists()) {
-//                qrcode.setHash(qrdata.getKey());
-//                qrcode.setisImported(Boolean.valueOf(get_child_value(qr_ref, "imported")));
-//
-//                if (!get_child_value(qr_ref, "location").equals("null")) {
-//                    DatabaseReference location_ref = get_children(qr_ref, "location").getRef();
-//
-//                    Location location = new Location(LocationManager.GPS_PROVIDER);
-//                    location.setLongitude(Double.valueOf(get_child_value(location_ref, "Longitude")));
-//                    location.setLatitude(Double.valueOf(get_child_value(location_ref, "Latitude")));
-//                    qrcode.setCodeLocation(location);
-//                } else {
-//                    qrcode.setCodeLocation(null);
-//                }
-//                qrcode.setScore(Integer.valueOf(get_child_value(qr_ref, "score")));
-//            }
-//        }
-//        return qrcode;
-//    }
-//
-//    public void add_qrcode(String androidid, QRCODE qrcode) {
-//        String hash = qrcode.getHash();
-//
-//        DatabaseReference history_ref = user_ref.child(androidid).child("history");
-//        DataSnapshot qrdata = get_children(history_ref, hash);
-//        DatabaseReference qr_ref = qrdata.getRef();
-//
-//        if (user_exists(androidid)) {
-//            if (!qrdata.exists()) {
-//                add_child(history_ref, hash, "null");
-//
-//                add_child(qr_ref, "imported", String.valueOf(qrcode.getisImported()));
-//                add_child(qr_ref, "score", String.valueOf(qrcode.getScore()));
-//                add_child(qr_ref, "location", "null");
-//
-//
-//                DatabaseReference location_ref = qr_ref.child("location");
-//                if (qrcode.getCodeLocation() != null) {
-//                    add_child(location_ref, "Longitude", String.valueOf(qrcode.getCodeLocation().getLongitude()));
-//                    add_child(location_ref, "Latitude", String.valueOf(qrcode.getCodeLocation().getLatitude()));
-//                }
-//
-//                add_child(qr_ref, "createdat", get_current_time());
-//
-//                DataSnapshot entry = get_children(global_qrcount, hash);
-//                DataSnapshot users = get_children(entry, "users");
-//                if (entry.getChildrenCount() == 0) {
-//                    add_child(entry, "count", "1");
-//                    add_child(users, androidid, "1");
-//                }
-//                else {
-//                    add_child(users, androidid, "1");
-//                    int count = Integer.valueOf(get_child_value(entry, "count"));
-//
-//                    add_child(entry, "count", String.valueOf(count + 1));
-//                }
-//
-//            }
-//
-//        }
+//        return (dataSnapshot.exists()) ? true : false;
 //    }
 
+    public static ArrayList<String> getAssociatedUsers(String hash) {
+        DatabaseReference reference = ReferenceHolder.GLOBAL_QRCODETABLE.child(hash).child("users");
+        DataSnapshot dataSnapshot = DatabaseMethods.getDataSnapshot(reference.get());
+        ArrayList<String> associatedUsers = new ArrayList<>();
 
-    private Boolean user_exists(String androidid) {
-        DataSnapshot data = get_children(user_ref, androidid);
+        for (DataSnapshot data : dataSnapshot.getChildren()) {
+            associatedUsers.add(Database.getUser(data.getKey()).getUserName());
+        }
 
-        return (data.exists()) ? true : false;
+        return associatedUsers;
     }
 
-    private DataSnapshot get_children(DatabaseReference reference, String key) {
-        DataSnapshot data = null;
-
-        Task<DataSnapshot> task = reference.child(key).get();
-
-        wait(task);
-
-        data = task.getResult();
-
-        return data;
-    }
-
-    private void wait(Task<DataSnapshot> task) {
-        while (!task.isComplete()) {};
-    }
-
-    private DataSnapshot get_children(DataSnapshot reference, String key) {
-        return get_children(reference.getRef(), key);
-    }
-
-    private String get_child_value(DatabaseReference reference, String key) {
-        DataSnapshot data = get_children(reference, key);
-        String value = data.getValue().toString();
-        return value;
-    }
-
-    private String get_child_value(DataSnapshot reference, String key) {
-        return get_child_value(reference.getRef(), key);
-    }
-
-    private void add_child(DatabaseReference reference, String key, String value) {
-        reference.child(key).setValue(value);
-    }
-
-    private void add_child(DataSnapshot reference, String key, String value) {
-        add_child(reference.getRef(), key, value);
-    }
-
-    // current time //
-    static public String get_current_time() {
-        SimpleDateFormat DateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        DateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-
-        String string = DateFormat.format(new Date()) + " GMT +00:00";
-        return string;
-    }
-
-    private String get_default_username() {
-        String string = "user" + String.valueOf(get_usercount() + 1);
-        return string;
-    }
-
-    private int get_usercount() {
-        return GLOBAL_REGISTRATIONTABLE.getChildrenCount();
-//        GLOBAL_USERNAMETABLE
-//        GLOBAL_USERNAMETABLE.getChildren()
-//        System.out.println(GLOBAL_USERNAMETABLE.getChildren())
-//
-//        DataSnapshot data = null;
-//        Task<DataSnapshot> task = username_ref.get();
-//
-//        while (!task.isComplete() && !task.isSuccessful()) {}
-//        data = task.getResult();
-//        return (int) data.getChildrenCount();
-    }
 }
-
-//    private String get_child_value(DatabaseReference reference, String key) {
-//        String str = null;
-//
-//        Task<DataSnapshot> task = reference.child(key).get();
-//
-//        while (!task.isComplete()) {}
-//
-//        if (task.isSuccessful() && task.isComplete()) {
-//
-//            DataSnapshot data = task.getResult();
-//            if (data.exists() && data.getChildrenCount() == 0) {
-//                str = data.toString();
-//            }
-//        }
-//        return str;
-//    }
-//
-//    private DataSnapshot get_children(DatabaseReference reference, String key) {
-//        DataSnapshot data = null;
-//
-//        Task<DataSnapshot> task = reference.child(key).get();
-//
-//        while (!task.isComplete()) {}
-//
-//        if (task.isSuccessful() && task.isComplete()) {
-//            data = task.getResult();
-//            if (!data.exists() || data.getChildrenCount() == 0) {
-//                data = null;
-//            }
-//        }
-//        return data;
-//    }
-
-
-
-
-
-
-//    private String get_child_value(DatabaseReference reference, String key) {
-//        DataSnapshot data = get_children(reference, key);
-//        String value = data.getValue().toString();
-//        return value;
-//    }
-//
-//    private String get_child_value(DataSnapshot reference, String key) {
-//        return get_child_value(reference.getRef(), key);
-//    }

@@ -1,29 +1,41 @@
-package com.example.bestqr.ui.user;
+package com.example.bestqr.ui.qr;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.bestqr.Database;
+import com.example.bestqr.models.Profile;
 import com.example.bestqr.R;
 import com.example.bestqr.UserViewModel;
-import com.example.bestqr.databinding.FragmentUserInfoBinding;
-import com.example.bestqr.models.Profile;
+import com.example.bestqr.databinding.FragmentSameplayerlistBinding;
+import com.example.bestqr.adapters.profilelistAdapter;
+import com.example.bestqr.models.QRCODE;
+import com.example.bestqr.Database;
+import androidx.fragment.app.Fragment;
 
-public class UserInfoFragment extends DialogFragment {
+import java.util.ArrayList;
 
-    private FragmentUserInfoBinding binding;
+public class samePlayers extends Fragment {
+    //    private Profile profile;
     private UserViewModel userViewModel;
-    private Profile userProfile;
+    private FragmentSameplayerlistBinding binding;
 
     /**
      * Creates and returns the root view of the fragment
@@ -36,16 +48,26 @@ public class UserInfoFragment extends DialogFragment {
      * @return root
      *
      */
-    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
-        binding = FragmentUserInfoBinding.inflate(inflater, container, false);
+
+        binding = FragmentSameplayerlistBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
+        QRCODE qr = userViewModel.getSelectedQrcode();
+
+        ArrayList sameplayer_list = Database.getAssociatedUsers(qr.getHash());
+
+        ListView sameplayers = binding.sameplayerlist;
+        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(getActivity(),R.layout.sameplayer_listview,R.id.sameplayer_textview,sameplayer_list);
+        sameplayers.setAdapter(myAdapter);
         return root;
     }
+
+
+
 
     /**
      *
@@ -62,14 +84,15 @@ public class UserInfoFragment extends DialogFragment {
         // As this destination is not top-level, we don't need to pass an AppBarConfiguration
         // which allows the back button to appear.
         NavController navController = NavHostFragment.findNavController(this);
-        NavigationUI.setupWithNavController(binding.toolbarUserInfo, navController);
+        NavigationUI.setupWithNavController(binding.toolbarPlayerlist, navController);
+    }
 
-        // TEMP: Add User's info to the textboxes
-        // TODO: Integrate firebase
-        userProfile = userViewModel.getUserProfile();
-        binding.userInfoUsername.setText(userProfile.getUserName());
-        binding.userInfoEmail.setText(userProfile.getEmailAddress());
-        binding.userInfoPhoneNumber.setText(userProfile.getPhoneNumber());
+    /**
+     * Resumes upon returning to the fragment
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     /**
@@ -77,22 +100,7 @@ public class UserInfoFragment extends DialogFragment {
      */
     @Override
     public void onDestroyView() {
-        String name = binding.userInfoUsername.getText().toString();
-        String email = binding.userInfoEmail.getText().toString();
-        String phone = binding.userInfoPhoneNumber.getText().toString();
-
-
-        userViewModel.getUserProfile().ChangeUserName(name);
-        userViewModel.getUserProfile().ChangeEmailAddress(email);
-        userViewModel.getUserProfile().ChangePhoneNumber(phone);
-
-
-        userViewModel.setUserProfile(userProfile);
-        NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
-        navController.navigate(R.id.action_navigation_to_user);
         super.onDestroyView();
         binding = null;
     }
-
-
 }

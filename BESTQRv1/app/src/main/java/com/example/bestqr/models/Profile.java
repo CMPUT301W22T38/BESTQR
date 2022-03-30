@@ -3,6 +3,7 @@ package com.example.bestqr.models;
 
 import android.graphics.Bitmap;
 
+import com.example.bestqr.Database;
 import com.example.bestqr.QRCodeList;
 
 import java.util.ArrayList;
@@ -26,7 +27,25 @@ public class Profile extends BaseProfile {
         this.scannedCodes = new QRCodeList();
     }
 
-//    /**
+    public void ChangePhoneNumber(String phoneNumber) {
+        if (Database.ChangeUserInfo("phonenumber", this.getAndroidId(), this.getPhoneNumber(), phoneNumber)) {
+            super.setPhoneNumber(phoneNumber);
+        }
+    }
+
+    public void ChangeUserName(String userName) {
+        if (Database.ChangeUserInfo("username", this.getAndroidId(), this.getUserName(), userName)) {
+            super.setUserName(userName);
+        }
+    }
+
+    public void ChangeEmailAddress(String emailAddress) {
+        if (Database.ChangeUserInfo("emailaddress", this.getAndroidId(), this.getEmailAddress(), emailAddress)) {
+            super.setEmailAddress(emailAddress);
+        }
+    }
+
+    //    /**
 //     * This constructor initializes the information of the user's profile
 //     *
 //     * @param user_name : The username of the user
@@ -98,9 +117,12 @@ public class Profile extends BaseProfile {
         // the hash should be stored not the image itself
         // if geolocation is allowed the it should be shown on the map
         // also add it to the owner list of qrCodes if it does not exist there
+//        this.
+        if (Database.addQRCode(this.getAndroidId(), qrCode)) {
+            this.scannedCodes.add(qrCode);
+            this.score += qrCode.getScore();
 
-        scannedCodes.add(qrCode);
-        this.score += qrCode.getScore();
+        }
     }
 
     /**
@@ -159,7 +181,12 @@ public class Profile extends BaseProfile {
      * @return : integer score value
      */
     public int getHighestScore(){
-        return this.scannedCodes.getHighest().getScore();
+        if (!this.scannedCodes.isEmpty()) {
+            return this.scannedCodes.getHighest().getScore();
+        }
+        else {
+            return 0;
+        }
     }
 
     /**
