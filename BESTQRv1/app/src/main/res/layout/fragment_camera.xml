@@ -63,4 +63,20 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="519dp" />
 
+    <Button
+        android:id="@+id/EnterProfileButton"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="134dp"
+        android:layout_marginBottom="373dp"
+        android:onClick="EnterProfileButton"
+        android:text="ENTER PROFILE"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="519dp" />
+
 </RelativeLayout>

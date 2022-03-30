@@ -55,10 +55,9 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
     private static final int PICK_IMAGE = 1;
     private QRCODE qr;
     private String contents;
-    private FusedLocationProviderClient mFusedLocationClient;
-
+    private boolean toEnter;
     private Profile profile;
-    private int score = 0;
+    private int score;
 
     private static final String TAG = "CameraActivity";
 
@@ -101,11 +100,11 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         leaderboardViewModel = new ViewModelProvider(this).get(LeaderboardViewModel.class);
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         this.db = new Database();
 
-        Profile profile = Database.getUser(androidId);
+        profile = Database.getUser(androidId);
+
 
         profile.addNewQRCode(new QRCODE("123"));
         profile.addNewQRCode(new QRCODE("123421"));
@@ -179,6 +178,19 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
     }
 
 
+    public void EnterProfileButton(View v) {
+        //initialize intent integrator
+        IntentIntegrator intentIntegrator = new IntentIntegrator(CameraActivity.this);
+        //locked orientation
+        intentIntegrator.setOrientationLocked(true);
+        //Set capture activity
+        intentIntegrator.setCaptureActivity(Capture.class);
+        //Initiate scan
+        intentIntegrator.initiateScan();
+        toEnter = true;
+    }
+
+
     public void openGallery(View v) {
         Intent photoPickerIntent = new Intent();
         photoPickerIntent.setType("image/*");
@@ -243,17 +255,41 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
             if (intentResult.getContents() != null) {
                 //When result content is not null
                 // Create new QR object
-                contents = intentResult.getContents();
-                qr = new QRCODE(contents);
-                score = qr.getScore();
-                locationPrompt.newInstance(profile, qr).show(getSupportFragmentManager(), "NEW QRCODE");
+                contents = intentResult.getContents().toString();
+
+
+                if (toEnter == true) {
+                    try {
+                        if (Database.isRegistered(contents)) {
+                            profile = Database.getUser(contents);
+                            userViewModel.setUserProfile(profile);
+                            Toast.makeText(this, "Welcome to the Profile of " + profile.getUserName(), Toast.LENGTH_SHORT).show();
+                            toEnter = false;
+                        } else {
+                            Toast.makeText(this, "Unsuccessful. Invalid CODE", Toast.LENGTH_SHORT).show();
+                            toEnter = false;
+                        }
+                    } catch (Exception exception) {
+                        Toast.makeText(this, "Unsuccessful. Invalid CODE", Toast.LENGTH_SHORT).show();
+                        toEnter = false;
+                    }
 
             } else {
+                if (intentResult.getContents() != null){
+                qr = new QRCODE(contents);
+//                    Toast.makeText(this, contents + "", Toast.LENGTH_SHORT).show();
+                score = qr.getScore();
+                locationPrompt.newInstance(profile, qr).show(getSupportFragmentManager(), "NEW QRCODE");
+//                }
+
+             }  else{
                 //When result content is null
                 //Display toast
                 Toast.makeText(getApplicationContext()
                         , "sorry, nothing is scanned", Toast.LENGTH_SHORT)
                         .show();
+            }
+        }
             }
         } else if (requestCode == 2) {
             if (resultCode == Activity.RESULT_OK) {
