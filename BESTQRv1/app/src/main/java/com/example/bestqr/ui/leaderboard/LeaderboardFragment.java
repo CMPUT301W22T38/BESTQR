@@ -2,6 +2,7 @@ package com.example.bestqr.ui.leaderboard;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -53,9 +54,13 @@ public class LeaderboardFragment extends Fragment {
      */
 
     private void doSearch(EditText searchText, PopupWindow popupWindow){
-        // EditText searchField = popupView.findViewById(R.id.search_popup_edittext);
+        binding.toolbarLeaderboardSearch.setActivated(true);
         myAdapter.getFilter().filter(searchText.getText());
         popupWindow.dismiss();
+    }
+
+    private void cancelSearch(){
+        myAdapter.getFilter().filter("");
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -94,28 +99,35 @@ public class LeaderboardFragment extends Fragment {
         binding.toolbarLeaderboardSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                View popupView = inflater.inflate(R.layout.search_popup, null);
-                boolean focusable = true; // lets taps outside the popup also dismiss it
-                ImageButton enterButton = popupView.findViewById(R.id.search_popup_enter);
-                EditText searchField = popupView.findViewById(R.id.search_popup_edittext);
+                // Make sure there isn't a current search.
+                // Active = "cancel" icon is showing
+                if(!binding.toolbarLeaderboardSearch.isActivated()) {
+                    View popupView = inflater.inflate(R.layout.search_popup, null);
+                    boolean focusable = true; // lets taps outside the popup also dismiss it
+                    ImageButton enterButton = popupView.findViewById(R.id.search_popup_enter);
+                    EditText searchField = popupView.findViewById(R.id.search_popup_edittext);
 
-                final PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
-                popupWindow.showAsDropDown(binding.toolbarLeaderboard);
-                searchField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                    @Override
-                    public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                        doSearch(searchField, popupWindow);
-                        return true;
-                    }
-                });
+                    final PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+                    popupWindow.showAsDropDown(binding.toolbarLeaderboard);
+                    searchField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                        @Override
+                        public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                            doSearch(searchField, popupWindow);
+                            return true;
+                        }
+                    });
 
-                enterButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        doSearch(searchField, popupWindow);
-                    }
-                });
-
+                    enterButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            doSearch(searchField, popupWindow);
+                        }
+                    });
+                }
+                else{
+                    binding.toolbarLeaderboardSearch.setActivated(false);
+                    cancelSearch();
+                }
             }
         });
 
@@ -128,7 +140,8 @@ public class LeaderboardFragment extends Fragment {
         binding.leaderboardList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                LeaderboardScoreBlock clickedScore = leaderboardViewModel.getBlock(position);
+                Log.d("LeaderboardFragment", "clicked position: " + position);
+                LeaderboardScoreBlock clickedScore = myAdapter.getItem(position);
                 String guestId = clickedScore.getAndroidId();
                 NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
 

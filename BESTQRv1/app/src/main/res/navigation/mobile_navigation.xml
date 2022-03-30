@@ -25,7 +25,8 @@
             app:destination="@id/navigation_guest_user" />
         <action
             android:id="@+id/action_navigation_leaderboard_to_navigation_user"
-            app:destination="@id/navigation_user" />
+            app:destination="@+id/navigation_user"
+            app:popUpTo="@+id/navigation_home"/>
     </fragment>
     <fragment
         android:id="@+id/navigation_user"

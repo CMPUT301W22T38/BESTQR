@@ -95,6 +95,7 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
         // This should be in th login activity
         // get unique device id
         @SuppressLint("HardwareIds") String androidId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+
         // test identification of user ideally info will be taken in the signup activity and stored in firebase
         QRCODE userIdentification = new QRCODE(androidId);
 
