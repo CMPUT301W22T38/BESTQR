@@ -2,11 +2,14 @@ package com.example.bestqr.ui.leaderboard;
 
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -49,6 +52,11 @@ public class LeaderboardFragment extends Fragment {
      *
      */
 
+    private void doSearch(EditText searchText, PopupWindow popupWindow){
+        // EditText searchField = popupView.findViewById(R.id.search_popup_edittext);
+        myAdapter.getFilter().filter(searchText.getText());
+        popupWindow.dismiss();
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -74,7 +82,6 @@ public class LeaderboardFragment extends Fragment {
         leaderboardViewModel.updateScoreBlocks(userViewModel.getDb());
         leaderboardViewModel.sortScoresByTotalSum();
 
-
         myAdapter = new LeaderboardListAdapter(getContext(), R.layout.leaderboardlist_item,
                 leaderboardViewModel.getScoreBlocks(), 0);
         binding.leaderboardList.setAdapter(myAdapter);
@@ -89,13 +96,30 @@ public class LeaderboardFragment extends Fragment {
             public void onClick(View view) {
                 View popupView = inflater.inflate(R.layout.search_popup, null);
                 boolean focusable = true; // lets taps outside the popup also dismiss it
-                final PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+                ImageButton enterButton = popupView.findViewById(R.id.search_popup_enter);
+                EditText searchField = popupView.findViewById(R.id.search_popup_edittext);
 
+                final PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
                 popupWindow.showAsDropDown(binding.toolbarLeaderboard);
+                searchField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                        doSearch(searchField, popupWindow);
+                        return true;
+                    }
+                });
 
+                enterButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        doSearch(searchField, popupWindow);
+                    }
+                });
 
             }
         });
+
+
 
         /**
          * Listener for clicks on users in ArrayAdapter
