@@ -270,7 +270,9 @@ public class Database{
         ArrayList<String> associatedUsers = new ArrayList<>();
 
         for (DataSnapshot data : dataSnapshot.getChildren()) {
-            associatedUsers.add(Database.getUser(data.getKey()).getUserName());
+            DatabaseReference username_reference = ReferenceHolder.GLOBAL_USERTABLE.child(data.getKey()).child("userinfo/username");
+            String username = DatabaseMethods.getDataSnapshot(username_reference.get()).getValue().toString();
+            associatedUsers.add(username);
         }
 
         return associatedUsers;
