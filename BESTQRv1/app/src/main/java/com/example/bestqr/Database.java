@@ -192,7 +192,13 @@ public class Database{
     public static boolean removeQrCode(String androidId, QRCODE qrcode){
         if (QRCodeAlreadyExist(androidId, qrcode.getHash())) {
             ReferenceHolder.GLOBAL_USERTABLE.child(androidId).child("history").child(qrcode.getHash()).removeValue();
+
+            ReferenceHolder.GLOBAL_QRCODETABLE.child(qrcode.getHash()).child("users").child(androidId).removeValue();
             updateAssociatedUserCount(qrcode.getHash());
+//            int count =
+//            ReferenceHolder.GLOBAL_QRCODETABLE.child(qrcode.getHash()).child("count").setValue()
+
+
             return true;
         }
         return false;
