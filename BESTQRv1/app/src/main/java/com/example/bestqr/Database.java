@@ -1,6 +1,7 @@
 package com.example.bestqr;
 
 import android.graphics.Bitmap;
+import android.provider.ContactsContract;
 import android.provider.SearchRecentSuggestions;
 
 import com.example.bestqr.models.BaseProfile;
@@ -195,9 +196,6 @@ public class Database{
 
             ReferenceHolder.GLOBAL_QRCODETABLE.child(qrcode.getHash()).child("users").child(androidId).removeValue();
             updateAssociatedUserCount(qrcode.getHash());
-//            int count =
-//            ReferenceHolder.GLOBAL_QRCODETABLE.child(qrcode.getHash()).child("count").setValue()
-
 
             return true;
         }
@@ -276,6 +274,40 @@ public class Database{
         }
 
         return associatedUsers;
+    }
+
+
+    public static void deletePlayer(Profile profile){
+        if (isRegistered(profile.getAndroidId())){
+            ReferenceHolder.GLOBAL_USERTABLE.child(profile.getAndroidId()).removeValue();
+            ReferenceHolder.GLOBAL_USERNAMETABLE.child(profile.getUserName()).removeValue();
+            ReferenceHolder.GLOBAL_REGISTRATIONTABLE.child(profile.getAndroidId()).removeValue();
+            for (QRCODE item: profile.getScannedCodes()) {
+                ReferenceHolder.GLOBAL_QRCODETABLE.child(item.getHash()).child("users").child(profile.getAndroidId()).removeValue();
+                updateAssociatedUserCount(item.getHash());
+            }
+
+        }
+    }
+
+    public static void removeAllQRCode(QRCODE qrcode){
+        // add is count = 1 remoce qrcode from regsitered
+//        DatabaseReference reference = ReferenceHolder.GLOBAL_QRCODETABLE.child(qrcode.getHash());
+//        DataSnapshot dataSnapshot = DatabaseMethods.getDataSnapshot(reference.get());
+//        ArrayList<String> qrUsers = getAssociatedUsers(qrcode.getHash());
+
+
+        DatabaseReference reference = ReferenceHolder.GLOBAL_QRCODETABLE.child(qrcode.getHash()).child("users");
+        DataSnapshot dataSnapshot = DatabaseMethods.getDataSnapshot(reference.get());
+
+        for (DataSnapshot data : dataSnapshot.getChildren()) {
+            removeQrCode(Database.getUser(data.getKey()).getAndroidId(), qrcode);
+//            ReferenceHolder.GLOBAL_USERTABLE.child(Database.getUser(data.getKey()).getAndroidId()).child("history").child(qrcode.getHash()).removeValue();
+        }
+
+        ReferenceHolder.GLOBAL_QRCODETABLE.child(qrcode.getHash()).removeValue();
+
+
     }
 
 }

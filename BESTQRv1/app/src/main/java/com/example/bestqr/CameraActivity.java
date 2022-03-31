@@ -60,6 +60,7 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
     private String contents;
     private boolean toEnter;
     private Profile profile;
+    private Owner owner;
     private int score;
 
     private static final String TAG = "CameraActivity";
@@ -100,7 +101,7 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
 
         // test identification of user ideally info will be taken in the signup activity and stored in firebase
         QRCODE userIdentification = new QRCODE(androidId);
-
+        owner = new Owner();
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         leaderboardViewModel = new ViewModelProvider(this).get(LeaderboardViewModel.class);
 
@@ -194,6 +195,7 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
 
 
     public void openGallery(View v) {
+//        owner.removeQrCode(profile.getScannedCodes().get(1));
         Intent photoPickerIntent = new Intent();
         photoPickerIntent.setType("image/*");
         photoPickerIntent.setAction(Intent.ACTION_GET_CONTENT);
