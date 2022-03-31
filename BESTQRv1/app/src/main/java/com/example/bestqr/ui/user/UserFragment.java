@@ -1,5 +1,6 @@
 package com.example.bestqr.ui.user;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -30,10 +31,14 @@ import com.example.bestqr.databinding.FragmentUserBinding;
 
 import com.example.bestqr.models.Profile;
 import com.example.bestqr.ui.qr.QrViewModel;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 public class UserFragment extends Fragment {
 
-    private Profile profile;
     private UserViewModel userViewModel;
     private FragmentUserBinding binding;
     private QrViewModel qrViewModel;
@@ -82,12 +87,11 @@ public class UserFragment extends Fragment {
         });
 
         // onClick Listener for the QR button on the toolbar
-        // This button navigates to QrFragment, which displays a list of the user's QR codes
+        // This button navigates to QrFragment, which displays the Profile's unique QRCODE
         ImageButton qr_button = binding.toolbarUserQr;
         qr_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "set", Toast.LENGTH_SHORT).show();
                 userViewModel.setSelectedQrcode(userProfile.getDeviceQrCode());
                 NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
                 navController.navigate(R.id.action_navigation_from_user_to_qr);

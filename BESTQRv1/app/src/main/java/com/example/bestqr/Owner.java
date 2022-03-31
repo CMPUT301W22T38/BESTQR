@@ -3,9 +3,10 @@ package com.example.bestqr;
 import com.example.bestqr.models.Profile;
 import com.example.bestqr.models.QRCODE;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Owner {
+public class Owner implements Serializable {
     public ArrayList<Profile> allPlayers;
     public ArrayList<QRCODE> allStoredQrCodes;
 

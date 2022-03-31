@@ -21,9 +21,10 @@ import com.example.bestqr.R;
 import com.example.bestqr.ui.leaderboard.LeaderboardScoreBlock;
 import com.example.bestqr.ui.leaderboard.LeaderboardViewModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class LeaderboardListAdapter extends ArrayAdapter<LeaderboardScoreBlock> implements Filterable {
+public class LeaderboardListAdapter extends ArrayAdapter<LeaderboardScoreBlock> implements Filterable, Serializable {
     private ArrayList<LeaderboardScoreBlock> scores;
     private ArrayList<LeaderboardScoreBlock> filteredScores;
     private Context context;

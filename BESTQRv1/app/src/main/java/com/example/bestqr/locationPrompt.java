@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -34,8 +35,10 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
+import java.io.Serializable;
 
-public class locationPrompt extends DialogFragment {
+
+public class locationPrompt extends DialogFragment{
 
     public static final int CAMERA_REQUEST_CODE = 1890;
     private CheckBox storeImage;
@@ -50,10 +53,8 @@ public class locationPrompt extends DialogFragment {
     private FusedLocationProviderClient mFusedLocationClient;
     private Location qrLocation;
 
-    public static locationPrompt newInstance(Profile profile,QRCODE qrcode) {
+    public static locationPrompt newInstance() {
         Bundle args = new Bundle();
-        args.putSerializable("profile", profile);
-        args.putSerializable("qr", qrcode);
 
         locationPrompt fragment = new locationPrompt();
         fragment.setArguments(args);
@@ -61,7 +62,7 @@ public class locationPrompt extends DialogFragment {
     }
 
     public interface OnFragmentInteractionListener {
-        void onOkPressed(Profile profile,QRCODE qrcode);
+        void onOkPressed();
     }
 
 
@@ -86,19 +87,21 @@ public class locationPrompt extends DialogFragment {
         locationRequest.setInterval(5000);
         locationRequest.setFastestInterval(2000);
 
+        UserViewModel userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
+        profile = userViewModel.getUserProfile();
+
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
         storeImage = view.findViewById(R.id.storeImage);
         storeLocation = view.findViewById(R.id.storeLocation);
         comments = view.findViewById(R.id.comments);
         qrImage = view.findViewById(R.id.ObjectImage);
         scores = view.findViewById(R.id.scoreText);
-        Bundle args = getArguments();
-        if (args != null) {
-            profile = (Profile) args.getSerializable("profile");
-            qrcode = (QRCODE) args.getSerializable("qr");
-            qrImage.setImageBitmap(qrcode.getBitmap());
-            scores.setText("Score: "+ Integer.toString(qrcode.getScore()));
-        }
+
+
+        qrcode = userViewModel.getSelectedQrcode();
+        qrImage.setImageBitmap(qrcode.getBitmap());
+        scores.setText("Score: "+ Integer.toString(qrcode.getScore()));
+
 
         // Check permission
         if (ActivityCompat.checkSelfPermission(getContext(),
