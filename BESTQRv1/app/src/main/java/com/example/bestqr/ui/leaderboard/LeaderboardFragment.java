@@ -41,18 +41,13 @@ public class LeaderboardFragment extends Fragment {
     private UserViewModel userViewModel;
     private LeaderboardListAdapter myAdapter;
 
-    /**
-     * Creates and returns the root view of the fragment
-     * @param inflater
-     *      Instantiates a layout file into the view
-     * @param container
-     *      Defines structure from the view
-     * @param savedInstanceState
-     *      Contains data of fragment's previous activity
-     * @return root
-     *
-     */
 
+    /**
+     * This method initializes a search on the listAdapter,
+     * and changes the ui elements accordingly.
+     * @param searchText : The EditText, where users input a username to search.
+     * @param popupWindow : The search popupWindow. Contains EditText, and confirmation button.
+     */
     private void doSearch(EditText searchText, PopupWindow popupWindow){
         binding.toolbarLeaderboardSearch.setActivated(true);
         myAdapter.getFilter().filter(searchText.getText());
@@ -64,6 +59,17 @@ public class LeaderboardFragment extends Fragment {
         myAdapter.getFilter().filter("");
     }
 
+    /**
+     * Creates and returns the root view of the fragment
+     * @param inflater
+     *      Instantiates a layout file into the view
+     * @param container
+     *      Defines structure from the view
+     * @param savedInstanceState
+     *      Contains data of fragment's previous activity
+     * @return root
+     *
+     */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         leaderboardViewModel =
@@ -97,6 +103,8 @@ public class LeaderboardFragment extends Fragment {
 
         // Setup listener for search button clicks
         // Opens popup window with a search interface.
+        // Toggles between the search icon, and a large "X" depending on whether the
+        // listView is currently filtered by the search term, or not.
         binding.toolbarLeaderboardSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,9 +115,14 @@ public class LeaderboardFragment extends Fragment {
                     boolean focusable = true; // lets taps outside the popup also dismiss it
                     ImageButton enterButton = popupView.findViewById(R.id.search_popup_enter);
                     EditText searchField = popupView.findViewById(R.id.search_popup_edittext);
-
+                    // Set width to parent's width (Phone screen width), and height to wrap content.
                     final PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+                    // Have popupWindow appear below the toolbar.
                     popupWindow.showAsDropDown(binding.toolbarLeaderboard);
+                    // Below, we have two ways of confirming the search terms
+                    // Either the checkmark button next to the editText, or the enter button on the keyboard
+
+                    // Listener for the enter button on the keyboard. (Setup as a "search" button in layout)
                     searchField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                         @Override
                         public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
@@ -117,7 +130,7 @@ public class LeaderboardFragment extends Fragment {
                             return true;
                         }
                     });
-
+                    // Listener for the checkmark button next to the EditText
                     enterButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -126,6 +139,8 @@ public class LeaderboardFragment extends Fragment {
                     });
                 }
                 else{
+                    // If the previous search is still active, the search button will appear as a large "X"
+                    // Pressing this button will toggle back to showing all users
                     cancelSearch();
                 }
             }
@@ -155,11 +170,6 @@ public class LeaderboardFragment extends Fragment {
                 }
             }
         });
-
-        // TODO: Implement putting user scores into highlighted bar
-        // ArrayList<Integer> scoreRank = leaderboardViewModel.getUserScoreAndRank(userViewModel.getUserProfile().getDeviceID());
-        // binding.leaderboardUserBlockValue.setText(scoreRank.get(0));
-        // binding.leaderboardUserBlockRank.setText(scoreRank.get(1));
 
         /**
          * OnClick Listener for the Sort button
@@ -264,7 +274,7 @@ public class LeaderboardFragment extends Fragment {
         binding = null;
     }
 
-    /*
+    /* possible skeleton code for threaded operation.
     class FetchAndSort implements Runnable {
         LeaderboardViewModel leaderboardViewModel;
         Database db;
