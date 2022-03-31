@@ -189,6 +189,18 @@ public class Database{
         return false;
     }
 
+    public static boolean removeQrCode(String androidId, QRCODE qrcode){
+        if (QRCodeAlreadyExist(androidId, qrcode.getHash())) {
+            ReferenceHolder.GLOBAL_USERTABLE.child(androidId).child("history").child(qrcode.getHash()).removeValue();
+            updateAssociatedUserCount(qrcode.getHash());
+            return true;
+        }
+        return false;
+
+    }
+
+
+
     public static boolean QRCodeAlreadyExist(String androidId, String hash) {
         DatabaseReference reference = ReferenceHolder.GLOBAL_USERTABLE.child(androidId).child("history").child(hash);
         DataSnapshot dataSnapshot = DatabaseMethods.getDataSnapshot(reference.get());
