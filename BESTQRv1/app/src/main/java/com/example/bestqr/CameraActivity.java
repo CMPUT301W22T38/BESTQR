@@ -195,7 +195,6 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
 
 
     public void openGallery(View v) {
-//        owner.removeQrCode(profile.getScannedCodes().get(1));
         Intent photoPickerIntent = new Intent();
         photoPickerIntent.setType("image/*");
         photoPickerIntent.setAction(Intent.ACTION_GET_CONTENT);

@@ -291,21 +291,18 @@ public class Database{
     }
 
     public static void removeAllQRCode(QRCODE qrcode){
-        // add is count = 1 remoce qrcode from regsitered
-//        DatabaseReference reference = ReferenceHolder.GLOBAL_QRCODETABLE.child(qrcode.getHash());
-//        DataSnapshot dataSnapshot = DatabaseMethods.getDataSnapshot(reference.get());
-//        ArrayList<String> qrUsers = getAssociatedUsers(qrcode.getHash());
-
-
         DatabaseReference reference = ReferenceHolder.GLOBAL_QRCODETABLE.child(qrcode.getHash()).child("users");
         DataSnapshot dataSnapshot = DatabaseMethods.getDataSnapshot(reference.get());
 
         for (DataSnapshot data : dataSnapshot.getChildren()) {
             removeQrCode(Database.getUser(data.getKey()).getAndroidId(), qrcode);
-//            ReferenceHolder.GLOBAL_USERTABLE.child(Database.getUser(data.getKey()).getAndroidId()).child("history").child(qrcode.getHash()).removeValue();
+        }
+        try{
+        ReferenceHolder.GLOBAL_QRCODETABLE.child(qrcode.getHash()).removeValue();
+        }catch (Exception e){
+
         }
 
-        ReferenceHolder.GLOBAL_QRCODETABLE.child(qrcode.getHash()).removeValue();
 
 
     }
