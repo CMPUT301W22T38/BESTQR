@@ -151,12 +151,6 @@ public class QrFragment extends Fragment {
             }
         });
 
-
-
-
-
-
-
         return root;
     }
 

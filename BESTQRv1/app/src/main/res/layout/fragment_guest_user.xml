@@ -33,16 +33,35 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <Button
+                android:id="@+id/toolbar_guest_user_owner_delete"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center|center_vertical"
+                android:includeFontPadding="false"
+                android:visibility="gone"
+                android:paddingLeft="0dp"
+                android:paddingTop="6dp"
+                android:paddingRight="0dp"
+                android:text="[Owner]\nDelete\nUser"
+                android:textColor="?android:attr/textColorSecondary"
+                android:textSize="8dp"
+                android:textStyle="bold"
+                app:layout_constraintDimensionRatio="4:5"
+                app:layout_constraintEnd_toStartOf="@+id/toolbar_guest_user_sort"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
                 android:id="@+id/toolbar_guest_user_sort"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@null"
                 android:src="@android:drawable/ic_menu_sort_by_size"
+                android:layout_marginEnd="8dp"
                 app:layout_constraintDimensionRatio="4:5"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                style="?android:attr/borderlessButtonStyle"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
