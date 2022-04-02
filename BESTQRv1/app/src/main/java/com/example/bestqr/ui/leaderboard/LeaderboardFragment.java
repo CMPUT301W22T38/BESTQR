@@ -90,7 +90,7 @@ public class LeaderboardFragment extends Fragment {
 //            leaderboardViewModel.sortScoresByTotalSum();
 //        }
 
-//        Fetch all the scores from the database for display
+        // Fetch all the scores from the database for display
         leaderboardViewModel.updateScoreBlocks(userViewModel.getDb());
         leaderboardViewModel.sortScoresByTotalSum();
 

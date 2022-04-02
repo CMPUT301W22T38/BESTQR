@@ -8,14 +8,15 @@
         <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/activity_main.xml" value="0.25076923076923074" />
         <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/dialog_userinfo.xml" value="0.2552083333333333" />
         <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_camera.xml" value="0.33055555555555555" />
-        <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_guest_user.xml" value="0.3406720741599073" />
+        <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_guest_user.xml" value="0.5086505190311419" />
         <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_leaderboard.xml" value="0.264" />
         <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_leaderboard_main.xml" value="0.25" />
         <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_leaderboard_qr.xml" value="0.49377593360995853" />
         <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_leaderboard_user.xml" value="0.22" />
         <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_map.xml" value="0.33055555555555555" />
         <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_qr.xml" value="0.264" />
-        <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_user.xml" value="0.5086505190311419" />
+        <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_sameplayerlist.xml" value="0.24635416666666668" />
+        <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_user.xml" value="0.264" />
         <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/fragment_user_info.xml" value="0.2552083333333333" />
         <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/leaderboardlist_item.xml" value="0.2552083333333333" />
         <entry key="..\:/Documents/Github/BESTQR/BESTQRv1/app/src/main/res/layout/non_member_profile.xml" value="0.2546875" />
