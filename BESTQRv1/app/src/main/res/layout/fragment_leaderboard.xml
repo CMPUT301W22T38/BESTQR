@@ -48,23 +48,24 @@
             <ImageButton
                 android:id="@+id/toolbar_leaderboard_search"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:minHeight="0dp"
-                android:minWidth="0dp"
+                android:layout_height="0dp"
+                android:background="@null"
+                android:paddingLeft="0dp"
+                android:paddingTop="0dp"
+                android:paddingRight="0dp"
+                android:paddingBottom="0dp"
                 android:src="@drawable/toggle_selector"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="4:5"
                 app:layout_constraintEnd_toStartOf="@+id/toolbar_leaderboard_global"
-                app:layout_constraintTop_toTopOf="parent"
-                style="?android:attr/borderlessButtonStyle"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
 
             <ToggleButton
                 android:id="@+id/toolbar_leaderboard_global"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:minHeight="0dp"
-                android:minWidth="0dp"
+                android:background="@null"
                 android:drawableTop="@android:drawable/ic_menu_mapmode"
                 android:gravity="center|top"
                 android:includeFontPadding="false"
@@ -78,25 +79,24 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="w,4:5"
                 app:layout_constraintEnd_toStartOf="@+id/toolbar_leaderboard_sort"
-                app:layout_constraintTop_toTopOf="parent"
-                style="?android:attr/borderlessButtonStyle"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
                 android:id="@+id/toolbar_leaderboard_sort"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:minHeight="0dp"
-                android:minWidth="0dp"
                 android:layout_marginEnd="8dp"
+                android:background="@null"
                 android:src="@android:drawable/ic_menu_sort_by_size"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="4:5"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                style="?android:attr/borderlessButtonStyle"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>
+
+
 
     <TextView
         android:id="@+id/leaderboard_list_label_rank"
@@ -107,6 +107,10 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar_leaderboard"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/leaderboard_guideline1" />
+
+
+
+
 
     <TextView
         android:id="@+id/leaderboard_list_label_user"

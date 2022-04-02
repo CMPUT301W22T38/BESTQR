@@ -143,25 +143,8 @@ public class UserFragment extends Fragment {
             }
         });
 
-        // onClick Listener for the Delete Button on the toolbar
-        // when pressed, the current user will be deleted, ideally after showing a confirmation dialog.
-        ImageButton delete_button = binding.toolbarUserDelete;
-        delete_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO: Delete current user from Database, and navigate to some "create new user" page.
-
-                userViewModel.setUserProfile(null);
-                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
-                // navController.navigate(TODO: CREATE NEW USER PAGE, NAVIGATE TO IT HERE);
-            }
-        });
-
-
         return root;
     }
-
-
 
     /**
      *

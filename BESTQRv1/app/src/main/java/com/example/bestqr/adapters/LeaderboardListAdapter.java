@@ -26,7 +26,6 @@ import java.util.ArrayList;
 
 public class LeaderboardListAdapter extends ArrayAdapter<LeaderboardScoreBlock> implements Filterable, Serializable {
     private ArrayList<LeaderboardScoreBlock> scores;
-    // List that changes depending on which usernames match a given search term.
     private ArrayList<LeaderboardScoreBlock> filteredScores;
     private Context context;
     int sortingMethod;
@@ -82,13 +81,13 @@ public class LeaderboardListAdapter extends ArrayAdapter<LeaderboardScoreBlock> 
         TextView userTextView = (TextView) listItem.findViewById(R.id.leaderboard_list_username);
         userTextView.setText(getItem(position).getUsername());
 
+        TextView scoreTextView = (TextView) listItem.findViewById(R.id.leaderboard_list_total_score);
+
         TextView rankTextView = (TextView) listItem.findViewById(R.id.leaderboard_list_rank);
         rankTextView.setText(Integer.toString(currentScoreBlock.getRank() + 1));
 
         TextView scannednumTextView = (TextView) listItem.findViewById(R.id.leaderboard_list_scanned_number);
         scannednumTextView.setText(String.valueOf(getItem(position).getTotalNum()));
-
-        TextView scoreTextView = (TextView) listItem.findViewById(R.id.leaderboard_list_total_score);
 
         switch (this.sortingMethod) {
             case 0:
@@ -136,16 +135,17 @@ public class LeaderboardListAdapter extends ArrayAdapter<LeaderboardScoreBlock> 
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
             FilterResults results = new FilterResults();
-            // If search term is empty, then simply copy full array to filtered array.
             if (charSequence == null || charSequence.length() == 0) {
+                Log.d("ListAdapter", "Null Search String provided");
                 ArrayList<LeaderboardScoreBlock> list = new ArrayList<LeaderboardScoreBlock>(scores);
                 results.values = list;
                 results.count = list.size();
             } else {
                 ArrayList<LeaderboardScoreBlock> newValues = new ArrayList<LeaderboardScoreBlock>();
-                // Iterate through all scoreBlocks, adding them if their username matches the search term.
+                Log.d("ListAdapter", "Search str: " + charSequence);
                 for (LeaderboardScoreBlock s : scores) {
                     if (s.getUsername().contains(charSequence)) {
+                        Log.d("ListAdapter", "username match: " + s.getUsername());
                         newValues.add(s);
                     }
                     results.values = newValues;

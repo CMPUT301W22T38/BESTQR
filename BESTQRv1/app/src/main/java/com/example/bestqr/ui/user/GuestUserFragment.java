@@ -6,7 +6,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -107,25 +106,7 @@ public class GuestUserFragment extends Fragment {
             }
         });
 
-
-        Button delete_button = binding.toolbarGuestUserOwnerDelete;
-        // TODO: only show delete button if current user is an "owner"
-        // delete_button.setVisibility(View.VISIBLE);
-        // Delete button for other users is otherwise set to be invisible and unclickable.
-        delete_button.setVisibility(View.GONE);
-
-        delete_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO: remove user from the database, update app's user list
-
-                userViewModel.setGuestProfile(null);
-                // Navigate back to parent fragment
-                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
-                navController.navigateUp();
-            }
-        });
-
+        // TODO: add delete button accessible only by owner.
 
 //        ImageButton delete_button = binding.toolbarUserDelete;
 //        delete_button.setOnClickListener(new View.OnClickListener() {

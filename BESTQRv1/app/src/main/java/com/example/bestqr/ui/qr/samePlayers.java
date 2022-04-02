@@ -67,6 +67,8 @@ public class samePlayers extends Fragment {
     }
 
 
+
+
     /**
      *
      * Continues initialization of the fragment, called after onCreateView
