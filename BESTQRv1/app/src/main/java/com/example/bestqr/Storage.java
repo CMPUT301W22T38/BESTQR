@@ -18,7 +18,6 @@ public class Storage  {
         public static StorageReference STORAGE_REFERENCE = STORAGE.getReference();
     }
 
-
     public static void upload(QRCODE qrcode, String androidid) {
         byte[] data = get_bytes(qrcode, androidid);
         upload_bytes(data, androidid, qrcode.getHash());
@@ -30,8 +29,6 @@ public class Storage  {
         UploadTask task = file_ref.putBytes(bytes);
 
         while (!task.isComplete() && !task.isSuccessful()) {}
-
-
     }
 
     public static byte[] get_bytes(QRCODE qrcode, String androidid) {
@@ -41,6 +38,7 @@ public class Storage  {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
+
 
         return data;
     }

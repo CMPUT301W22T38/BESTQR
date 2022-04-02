@@ -5,6 +5,7 @@ import android.provider.ContactsContract;
 import android.provider.SearchRecentSuggestions;
 
 import com.example.bestqr.models.BaseProfile;
+import com.example.bestqr.models.Location;
 import com.example.bestqr.models.Profile;
 import com.example.bestqr.models.QRCODE;
 import com.example.bestqr.models.TimeStamp;
@@ -84,20 +85,29 @@ public class Database{
 
     public static void LoadHistory(Profile profile) {
         QRCodeList qrCodeList = null;
-        if (hasHistory(profile.getAndroidId())) {
-            DatabaseReference reference = ReferenceHolder.GLOBAL_HISTORYTABLE.child(profile.getAndroidId());
-
+        String androidId = profile.getAndroidId();
+        if (hasHistory(androidId)) {
             qrCodeList = new QRCodeList();
+
+            DatabaseReference reference = ReferenceHolder.GLOBAL_HISTORYTABLE.child(androidId);
+
             for (DataSnapshot dataSnapshot : DatabaseMethods.getDataSnapshot(reference.get()).getChildren()) {
                 String key = dataSnapshot.getKey();
 
-                Bitmap bitmap = Storage.download(profile.getAndroidId(), key);
+                Bitmap bitmap = Storage.download(androidId, key);
                 QRCODE qrcode = new QRCODE(key, bitmap);
-
                 qrcode.setTimestamp(dataSnapshot.child("createdat").getValue().toString());
                 qrcode.setScore(Integer.valueOf(dataSnapshot.child("score").getValue().toString()));
-                qrCodeList.add(qrcode);
 
+                DataSnapshot locationsnapshot = dataSnapshot.child("location");
+
+                if (!locationsnapshot.getValue().toString().equals("null")) {
+                    double latitude = Double.valueOf(locationsnapshot.child("coordinates/latitude").getValue().toString());
+                    double longitude = Double.valueOf(locationsnapshot.child("coordinates/longitude").getValue().toString());
+
+                    qrcode.setCodeLocation(new Location(latitude, longitude));
+                }
+                qrCodeList.add(qrcode);
             }
             profile.setScannedCodes(qrCodeList);
         }
@@ -178,8 +188,7 @@ public class Database{
             ReferenceHolder.GLOBAL_HISTORYTABLE.child(androidId).child(qrcode.getHash()).child("location").setValue("null");
 
             if (qrcode.getCodeLocation() != null) {
-                ReferenceHolder.GLOBAL_HISTORYTABLE.child(androidId).child(qrcode.getHash()).child("location/longitude").setValue(qrcode.getCodeLocation().getLongitude());
-                ReferenceHolder.GLOBAL_HISTORYTABLE.child(androidId).child(qrcode.getHash()).child("location/latitude").setValue(qrcode.getCodeLocation().getLatitude());
+                ReferenceHolder.GLOBAL_HISTORYTABLE.child(androidId).child(qrcode.getHash()).child("location").setValue(qrcode.getCodeLocation().toMap());
             }
 
             ReferenceHolder.GLOBAL_QRCODETABLE.child(qrcode.getHash()).child("users").child(androidId).setValue(qrcode.getScannedTime());
@@ -275,6 +284,8 @@ public class Database{
 
         return associatedUsers;
     }
+
+
 
 
     public static void deletePlayer(Profile profile){
