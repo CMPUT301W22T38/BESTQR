@@ -6,7 +6,7 @@ import com.example.bestqr.utils.QRmethods;
 
 import java.io.Serializable;
 
-public class BaseQRCode implements Serializable {
+public class BaseQRCode{
     private String hash;
     private Bitmap bitmap;
 

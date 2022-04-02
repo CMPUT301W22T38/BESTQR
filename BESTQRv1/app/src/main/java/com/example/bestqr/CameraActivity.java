@@ -42,8 +42,11 @@ import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -55,10 +58,9 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
     private static final int PICK_IMAGE = 1;
     private QRCODE qr;
     private String contents;
-    private FusedLocationProviderClient mFusedLocationClient;
-
+    private boolean toEnter;
     private Profile profile;
-    private int score = 0;
+    private int score;
 
     private static final String TAG = "CameraActivity";
 
@@ -101,15 +103,14 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         leaderboardViewModel = new ViewModelProvider(this).get(LeaderboardViewModel.class);
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         this.db = new Database();
 
-        Profile profile = Database.getUser(androidId);
+        profile = Database.getUser(androidId);
+
 
         profile.addNewQRCode(new QRCODE("123"));
         profile.addNewQRCode(new QRCODE("123421"));
-
 
 
         userViewModel.setDb(this.db);
@@ -179,6 +180,19 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
     }
 
 
+    public void EnterProfileButton(View v) {
+        //initialize intent integrator
+        IntentIntegrator intentIntegrator = new IntentIntegrator(CameraActivity.this);
+        //locked orientation
+        intentIntegrator.setOrientationLocked(true);
+        //Set capture activity
+        intentIntegrator.setCaptureActivity(Capture.class);
+        //Initiate scan
+        intentIntegrator.initiateScan();
+        toEnter = true;
+    }
+
+
     public void openGallery(View v) {
         Intent photoPickerIntent = new Intent();
         photoPickerIntent.setType("image/*");
@@ -213,14 +227,9 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
                     Result result = reader.decode(bitmap);
                     contents = result.getText();
 
-
                     // Create new QR object using contents as argument
                     qr = new QRCODE(contents);
-                    score = qr.getScore();
-                    locationPrompt.newInstance(profile, qr).show(getSupportFragmentManager(), "NEW QRCODE");
-
-//                    db.writeImage(newQR, profile.getandroidId());
-//                    db.QRCodeReceivedFromCameraActivity(newQR, profile.getandroidId());
+                    locationPrompt.newInstance().show(getSupportFragmentManager(), "NEW QRCODE");
 
                     // Display toast showing QR hash
                     //When result content is not null
@@ -244,25 +253,47 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
                 //When result content is not null
                 // Create new QR object
                 contents = intentResult.getContents();
-                qr = new QRCODE(contents);
-                score = qr.getScore();
-                locationPrompt.newInstance(profile, qr).show(getSupportFragmentManager(), "NEW QRCODE");
 
-            } else {
-                //When result content is null
-                //Display toast
-                Toast.makeText(getApplicationContext()
-                        , "sorry, nothing is scanned", Toast.LENGTH_SHORT)
-                        .show();
+
+                if (toEnter == true) {
+                    try {
+                        if (Database.isRegistered(contents)) {
+                            profile = Database.getUser(contents);
+                            userViewModel.setUserProfile(profile);
+                            Toast.makeText(this, "Welcome to the Profile of " + profile.getUserName(), Toast.LENGTH_SHORT).show();
+                            toEnter = false;
+                        } else {
+                            Toast.makeText(this, "Unsuccessful. Invalid Code", Toast.LENGTH_SHORT).show();
+                            toEnter = false;
+                        }
+                    } catch (Exception exception) {
+                        Toast.makeText(this, "Unsuccessful. Invalid Code", Toast.LENGTH_SHORT).show();
+                        toEnter = false;
+                    }
+
+                } else {
+                    if (intentResult.getContents() != null) {
+                        qr = new QRCODE(contents);
+                        userViewModel.setSelectedQrcode(qr);
+                        locationPrompt.newInstance().show(getSupportFragmentManager(), "NEW QRCODE");
+
+                    } else {
+                        //When result content is null
+                        //Display toast
+                        Toast.makeText(getApplicationContext()
+                                , "sorry, nothing is scanned", Toast.LENGTH_SHORT)
+                                .show();
+                    }
+                }
             }
         } else if (requestCode == 2) {
             if (resultCode == Activity.RESULT_OK) {
 
-
             }
         } else {
             Bitmap captureImage = (Bitmap) data.getExtras().get("data");
-            qr.setObjectImage(captureImage);
+
+            qr.setObjectImage(Bitmap.createScaledBitmap(captureImage, 300, 300, false));
         }
     }
 
@@ -289,120 +320,13 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
     }
 
     @Override
-    public void onOkPressed(Profile profile, QRCODE qrcode) {
+    public void onOkPressed() {
 //        db.add_qrcode();
     }
-
-
-
-
 }
 
 
 
-
-//
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//    private void fetchLocation() {
-//        if (ContextCompat.checkSelfPermission(CameraActivity.this,
-//                Manifest.permission.ACCESS_COARSE_LOCATION)
-//                != PackageManager.PERMISSION_GRANTED) {
-//
-//            // Permission is not granted
-//            // Should we show an explanation?
-//            if (ActivityCompat.shouldShowRequestPermissionRationale(CameraActivity.this,
-//                    Manifest.permission.ACCESS_COARSE_LOCATION)) {
-//                // Show an explanation to the user *asynchronously* -- don't block
-//                // this thread waiting for the user's response! After the user
-//                // sees the explanation, try again to request the permission.
-//
-//                new AlertDialog.Builder(this)
-//                        .setTitle("Required Location Permission")
-//                        .setMessage("You have to give this permission to acess this feature")
-//                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialogInterface, int i) {
-//                                ActivityCompat.requestPermissions(CameraActivity.this,
-//                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-//                                        MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
-//                            }
-//                        })
-//                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialogInterface, int i) {
-//                                dialogInterface.dismiss();
-//                            }
-//                        })
-//                        .create()
-//                        .show();
-//
-//
-//            } else {
-//                // No explanation needed; request the permission
-//                ActivityCompat.requestPermissions(CameraActivity.this,
-//                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-//                        MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
-//
-//                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-//                // app-defined int constant. The callback method gets the
-//                // result of the request.
-//            }
-//        } else {
-//            // Permission has already been granted
-//            mFusedLocationClient.getLastLocation()
-//                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-//                        @Override
-//                        public void onSuccess(Location location) {
-//                            Toast.makeText(CameraActivity.this, "3-Latitude: " + qr.getCodeLocation().getLatitude() +"Longitude: " + qr.getCodeLocation().getLongitude() , Toast.LENGTH_SHORT).show();
-//                            // Got last known location. In some rare situations this can be null.
-//                            if (location != null) {
-//                                // Logic to handle location object
-//                                Double latitude = location.getLatitude();
-//                                Double longitude = location.getLongitude();
-////                                Toast.makeText(CameraActivity.this, latitude + "" + longitude, Toast.LENGTH_SHORT).show();
-//                                qr.setCodeLocation(location);
-////                                Toast.makeText(CameraActivity.this, "Latitude: " + qr.getCodeLocation().getLatitude() +"Longitude: " + qr.getCodeLocation().getLongitude() , Toast.LENGTH_SHORT).show();
-//                            }
-//                        }
-//                    });
-//
-//            }
-//
-//
-//    }
-//
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        if (requestCode == MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION) {
-//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                //abc
-//            } else {
-//
-//            }
-//        }
-//    }
-//
-//
-//}
-//
 
 
 

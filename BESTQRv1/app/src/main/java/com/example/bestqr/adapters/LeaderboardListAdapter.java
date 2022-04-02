@@ -21,10 +21,10 @@ import com.example.bestqr.R;
 import com.example.bestqr.ui.leaderboard.LeaderboardScoreBlock;
 import com.example.bestqr.ui.leaderboard.LeaderboardViewModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class LeaderboardListAdapter extends ArrayAdapter<LeaderboardScoreBlock> implements Filterable {
-    // Holds scores for all users
+public class LeaderboardListAdapter extends ArrayAdapter<LeaderboardScoreBlock> implements Filterable, Serializable {
     private ArrayList<LeaderboardScoreBlock> scores;
     // List that changes depending on which usernames match a given search term.
     private ArrayList<LeaderboardScoreBlock> filteredScores;

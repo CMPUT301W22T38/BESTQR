@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 
 public class QRCODE extends BaseQRCode {
-    private Location codeLocation = null;
+    private Location codeLocation;
     private boolean isimported;
     private int score;
     private Bitmap objectImage;

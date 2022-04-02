@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,6 +31,11 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.bestqr.models.Profile;
 import com.example.bestqr.databinding.FragmentQrBinding;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 public class QrFragment extends Fragment {
 
@@ -75,8 +81,22 @@ public class QrFragment extends Fragment {
         qr = userViewModel.getSelectedQrcode();
 
         if (qr != null) {
-            bitmap = qr.getBitmap();
-        }
+            if (qr.getHash().equals(userProfile.getDeviceQrCode().getHash())){
+                MultiFormatWriter writer = new MultiFormatWriter();
+                try {
+                    BitMatrix matrix = writer.encode(userProfile.getAndroidId(), BarcodeFormat.QR_CODE, 350, 350);
+                    BarcodeEncoder encoder = new BarcodeEncoder();
+                    bitmap = encoder.createBitmap(matrix);
+                } catch (WriterException e) {
+                    e.printStackTrace();
+                }
+            }
+            else {
+                bitmap = qr.getBitmap();
+            }
+            }
+
+
 
         image = binding.imageView;
         image.setImageBitmap(bitmap);

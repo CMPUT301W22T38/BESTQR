@@ -1,6 +1,7 @@
 package com.example.bestqr;
 
 import android.graphics.Bitmap;
+import android.provider.SearchRecentSuggestions;
 
 import com.example.bestqr.models.BaseProfile;
 import com.example.bestqr.models.Profile;
@@ -13,6 +14,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
+import java.io.Serializable;
 import java.sql.Ref;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -21,7 +23,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 
-public class Database {
+public class Database{
     public static class ReferenceHolder {
         public static FirebaseDatabase DATABASE = FirebaseDatabase.getInstance();
 
@@ -187,6 +189,24 @@ public class Database {
         return false;
     }
 
+    public static boolean removeQrCode(String androidId, QRCODE qrcode){
+        if (QRCodeAlreadyExist(androidId, qrcode.getHash())) {
+            ReferenceHolder.GLOBAL_USERTABLE.child(androidId).child("history").child(qrcode.getHash()).removeValue();
+
+            ReferenceHolder.GLOBAL_QRCODETABLE.child(qrcode.getHash()).child("users").child(androidId).removeValue();
+            updateAssociatedUserCount(qrcode.getHash());
+//            int count =
+//            ReferenceHolder.GLOBAL_QRCODETABLE.child(qrcode.getHash()).child("count").setValue()
+
+
+            return true;
+        }
+        return false;
+
+    }
+
+
+
     public static boolean QRCodeAlreadyExist(String androidId, String hash) {
         DatabaseReference reference = ReferenceHolder.GLOBAL_USERTABLE.child(androidId).child("history").child(hash);
         DataSnapshot dataSnapshot = DatabaseMethods.getDataSnapshot(reference.get());
@@ -250,7 +270,9 @@ public class Database {
         ArrayList<String> associatedUsers = new ArrayList<>();
 
         for (DataSnapshot data : dataSnapshot.getChildren()) {
-            associatedUsers.add(Database.getUser(data.getKey()).getUserName());
+            DatabaseReference username_reference = ReferenceHolder.GLOBAL_USERTABLE.child(data.getKey()).child("userinfo/username");
+            String username = DatabaseMethods.getDataSnapshot(username_reference.get()).getValue().toString();
+            associatedUsers.add(username);
         }
 
         return associatedUsers;

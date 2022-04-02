@@ -1,10 +1,11 @@
 package com.example.bestqr.models;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class TimeStamp {
+public class TimeStamp implements Serializable {
     private String timestamp;
 
     public TimeStamp () {

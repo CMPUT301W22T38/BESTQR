@@ -5,7 +5,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 import java.io.Serializable;
 
 @IgnoreExtraProperties
-public class BaseProfile implements Serializable {
+public class BaseProfile {
     private String androidId = "";
     private String userName = "";
     private String phoneNumber = "";

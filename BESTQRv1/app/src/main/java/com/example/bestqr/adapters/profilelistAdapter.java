@@ -15,9 +15,10 @@ import androidx.annotation.Nullable;
 
 import com.example.bestqr.R;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class profilelistAdapter extends ArrayAdapter<String> {
+public class profilelistAdapter extends ArrayAdapter<String> implements Serializable {
     ArrayList<Integer> scores;
     ArrayList<Bitmap> Pictures;
     ArrayList<String> timestamps;

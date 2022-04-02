@@ -6,9 +6,10 @@ import android.graphics.Bitmap;
 import com.example.bestqr.Database;
 import com.example.bestqr.QRCodeList;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Profile extends BaseProfile {
+public class Profile extends BaseProfile  {
 
     private QRCODE deviceQrCode;
     private int score = 0;
@@ -161,7 +162,12 @@ public class Profile extends BaseProfile {
     public ArrayList<Bitmap> getQrBitmaps(){
         qrBitmaps = new ArrayList<>();
         for (QRCODE item:scannedCodes) {
-            qrBitmaps.add(item.getBitmap());
+            if (item.getObjectImage() != null) {
+                qrBitmaps.add(item.getObjectImage());
+            }else{
+                qrBitmaps.add(item.getBitmap());
+            }
+
         }
         return qrBitmaps;
     }
@@ -194,10 +200,13 @@ public class Profile extends BaseProfile {
      */
     public void removeCodebyPosition(int position){
         // also remove it from the owner list of qrCodes if it not exist there
-        if(this.scannedCodes == null || position < 0 || position >= this.scannedCodes.size()){
-            //avoid possible problem
-        }else{
-            scannedCodes.remove(position);
+
+        if (Database.removeQrCode(getAndroidId(),this.scannedCodes.get(position))) {
+            if (this.scannedCodes == null || position < 0 || position >= this.scannedCodes.size()) {
+                //avoid possible problem
+            } else {
+                scannedCodes.remove(position);
+            }
         }
 
     }

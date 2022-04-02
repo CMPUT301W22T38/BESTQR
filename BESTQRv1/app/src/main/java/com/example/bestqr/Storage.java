@@ -11,7 +11,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 
-public class Storage {
+public class Storage  {
 
     public static class ReferenceHolder {
         public static FirebaseStorage STORAGE = FirebaseStorage.getInstance();
