@@ -35,6 +35,8 @@ public class Database{
         public static DatabaseReference GLOBAL_HISTORYTABLE = DATABASE.getReference().child("history");
         public static DatabaseReference GLOBAL_QRCODETABLE = DATABASE.getReference().child("qrcode");
 
+        public static DatabaseReference GLOBAL_TEMPORARY = DATABASE.getReference().child("qrlocation");
+
         public static Storage STORAGE;
     }
 
@@ -189,6 +191,11 @@ public class Database{
 
             if (qrcode.getCodeLocation() != null) {
                 ReferenceHolder.GLOBAL_HISTORYTABLE.child(androidId).child(qrcode.getHash()).child("location").setValue(qrcode.getCodeLocation().toMap());
+
+                // temporary
+//                ReferenceHolder.GLOBAL_TEMPORARY.child(qrcode.getCodeLocation().getGeoHash()).child(androidId).child(qrcode.getHash()).setValue("1");
+//                ReferenceHolder.GLOBAL_TEMPORARY.child(androidId).child(qrcode.getHash()).setValue("1");
+
             }
 
             ReferenceHolder.GLOBAL_QRCODETABLE.child(qrcode.getHash()).child("users").child(androidId).setValue(qrcode.getScannedTime());
@@ -210,7 +217,6 @@ public class Database{
             return true;
         }
         return false;
-
     }
 
 
@@ -245,7 +251,6 @@ public class Database{
         }
 
         ReferenceHolder.GLOBAL_USERINFOTABLE.child(androidId).child(field).setValue(newvalue);
-
         return true;
     }
 

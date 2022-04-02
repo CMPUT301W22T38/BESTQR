@@ -111,13 +111,16 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
 
         profile = Database.getUser(androidId);
 
-//        QRCODE a = new QRCODE("123");
-//        a.setCodeLocation(new Location(51.25124,78.251));
-//        QRCODE b = new QRCODE("456");
-//        QRCODE c = new QRCODE("789");
-//        profile.addNewQRCode(a);
-//        profile.addNewQRCode(b);
-//        profile.addNewQRCode(c);
+        QRCODE a = new QRCODE("123");
+        a.setCodeLocation(new Location(51.25124,78.251));
+        QRCODE b = new QRCODE("456");
+        b.setCodeLocation(new Location(51.3465,78.3574));
+        QRCODE c = new QRCODE("789");
+        c.setCodeLocation(new Location(51.3465,78.3574));
+
+        profile.addNewQRCode(a);
+        profile.addNewQRCode(b);
+        profile.addNewQRCode(c);
 
 
         userViewModel.setDb(this.db);
@@ -125,9 +128,9 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
 
         userViewModel.setUserProfile(profile);
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("path/to/geofire");
-        GeoFire geoFire = new GeoFire(FirebaseDatabase.getInstance().getReference("root1"));
-        geoFire.setLocation("root2", new GeoLocation(52.63246, 14.5235));
+//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("path/to/geofire");
+//        GeoFire geoFire = new GeoFire(FirebaseDatabase.getInstance().getReference("root1"));
+//        geoFire.setLocation("root2", new GeoLocation(52.63246, 14.5235));
         // This should be in th login activity
         // get unique device id
 //        @SuppressLint("HardwareIds") String androidId = Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);
