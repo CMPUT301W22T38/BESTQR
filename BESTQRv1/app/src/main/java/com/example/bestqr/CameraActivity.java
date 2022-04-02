@@ -112,46 +112,13 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
 
         profile.addNewQRCode(new QRCODE("123"));
         profile.addNewQRCode(new QRCODE("123421"));
+        profile.addNewQRCode(new QRCODE("890"));
 
 
         userViewModel.setDb(this.db);
 
-//        profile = db.get(androidId);
-//        profile = new Profile(androidId);
-//
-//        profile.addNewQRCode(new QRCODE("YES"));
-//        profile.addNewQRCode(new QRCODE("YESterday"));
-//        profile.addNewQRCode(new QRCODE("no"));
-
-//        run it once
-//        QRCODE qrcode1 = new QRCODE(androidId + "1");
-//        QRCODE qrcode2 = new QRCODE(androidId + "2");
-//        QRCODE qrcode3 = new QRCODE(androidId + "3");
-//        QRCODE qrcode4 = new QRCODE(androidId + "4");
-//        QRCODE qrcode5 = new QRCODE(androidId + "5");
-
-//        profile.addNewQRCode(qrcode1);
-//        profile.addNewQRCode(qrcode2);
-//        profile.addNewQRCode(qrcode3);
-//        profile.addNewQRCode(qrcode4);
-//        profile.addNewQRCode(qrcode5);
-//
-//        db.add_qrcode(profile.getUserName(), qrcode1);
-//        db.add_qrcode(profile.getUserName(), qrcode2);
-//        db.add_qrcode(profile.getUserName(), qrcode3);
-//        db.add_qrcode(profile.getUserName(), qrcode4);
-//        db.add_qrcode(profile.getUserName(), qrcode5);
-
 
         userViewModel.setUserProfile(profile);
-
-
-//        storage.upload(q1, androidid3);
-//        System.out.println(q1.getCode());
-//        System.out.println(q1.getCode().toString());
-//        System.out.println(q1.getCode().getRowBytes());
-
-//        QRCODE q1 = new QRCODE("random54321");
 
         // This should be in th login activity
         // get unique device id
