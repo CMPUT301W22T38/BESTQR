@@ -39,42 +39,42 @@
                 android:id="@+id/toolbar_user_qr"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@null"
                 android:src="@drawable/ic_dashboard_black_24dp"
                 app:layout_constraintDimensionRatio="4:5"
                 app:layout_constraintEnd_toStartOf="@+id/toolbar_user_sort"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <ImageButton
                 android:id="@+id/toolbar_user_sort"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@null"
                 android:src="@android:drawable/ic_menu_sort_by_size"
                 app:layout_constraintDimensionRatio="4:5"
                 app:layout_constraintEnd_toStartOf="@+id/toolbar_user_info"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <ImageButton
                 android:id="@+id/toolbar_user_info"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@null"
                 android:src="@android:drawable/ic_menu_info_details"
                 app:layout_constraintDimensionRatio="4:5"
                 app:layout_constraintEnd_toStartOf="@+id/toolbar_user_delete"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <ImageButton
                 android:id="@+id/toolbar_user_delete"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="8dp"
-                android:background="@null"
                 android:src="@android:drawable/ic_menu_delete"
                 app:layout_constraintDimensionRatio="4:5"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                style="?android:attr/borderlessButtonStyle"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
