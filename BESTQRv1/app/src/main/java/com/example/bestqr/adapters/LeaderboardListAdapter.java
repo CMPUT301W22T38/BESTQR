@@ -53,6 +53,13 @@ public class LeaderboardListAdapter extends ArrayAdapter<LeaderboardScoreBlock> 
         super.notifyDataSetChanged();
     }
 
+
+    /**
+     * Get an item from the currently-shown list, with the correct position regardless
+     * of whether the list is currently filtered, or not.
+     * @param position : integer position of item in filtered/unfiltered list.
+     * @return LeaderboardScoreBlock : item at position
+     */
     @Nullable
     @Override
     public LeaderboardScoreBlock getItem(int position) {
@@ -64,6 +71,10 @@ public class LeaderboardListAdapter extends ArrayAdapter<LeaderboardScoreBlock> 
         return position;
     }
 
+    /**
+     * Returns the number of items in the currently-shown list, accounting for if it is filtered or not.
+     * @return int : Number of items in currently-shown list.
+     */
     @Override
     public int getCount() {
         return filteredScores.size();
