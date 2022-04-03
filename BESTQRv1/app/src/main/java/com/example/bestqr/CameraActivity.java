@@ -121,7 +121,7 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
         profile.addNewQRCode(a);
         profile.addNewQRCode(b);
         profile.addNewQRCode(c);
-
+        Database.getNearBy(new Location(51.13, 78.3574), 0.5);
 
         userViewModel.setDb(this.db);
 

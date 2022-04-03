@@ -11,6 +11,8 @@ import com.example.bestqr.models.QRCODE;
 import com.example.bestqr.models.TimeStamp;
 import com.example.bestqr.ui.leaderboard.LeaderboardScoreBlock;
 import com.example.bestqr.utils.QRmethods;
+import com.firebase.geofire.GeoFireUtils;
+import com.firebase.geofire.util.GeoUtils;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -35,7 +37,7 @@ public class Database{
         public static DatabaseReference GLOBAL_HISTORYTABLE = DATABASE.getReference().child("history");
         public static DatabaseReference GLOBAL_QRCODETABLE = DATABASE.getReference().child("qrcode");
 
-        public static DatabaseReference GLOBAL_TEMPORARY = DATABASE.getReference().child("qrlocation");
+        public static DatabaseReference GLOBAL_QRLOCATION = DATABASE.getReference().child("qrlocation");
 
         public static Storage STORAGE;
     }
@@ -191,11 +193,7 @@ public class Database{
 
             if (qrcode.getCodeLocation() != null) {
                 ReferenceHolder.GLOBAL_HISTORYTABLE.child(androidId).child(qrcode.getHash()).child("location").setValue(qrcode.getCodeLocation().toMap());
-
-                // temporary
-//                ReferenceHolder.GLOBAL_TEMPORARY.child(qrcode.getCodeLocation().getGeoHash()).child(androidId).child(qrcode.getHash()).setValue("1");
-//                ReferenceHolder.GLOBAL_TEMPORARY.child(androidId).child(qrcode.getHash()).setValue("1");
-
+                ReferenceHolder.GLOBAL_QRLOCATION.child(androidId).child(qrcode.getHash()).setValue(qrcode.getCodeLocation().toMap());
             }
 
             ReferenceHolder.GLOBAL_QRCODETABLE.child(qrcode.getHash()).child("users").child(androidId).setValue(qrcode.getScannedTime());
@@ -290,9 +288,6 @@ public class Database{
         return associatedUsers;
     }
 
-
-
-
     public static void deletePlayer(Profile profile){
         if (isRegistered(profile.getAndroidId())){
             ReferenceHolder.GLOBAL_USERINFOTABLE.child(profile.getAndroidId()).removeValue();
@@ -320,8 +315,23 @@ public class Database{
 
         }
 
+    }
 
+    public static void getNearBy(Location location, double radius) {
 
+//        ArrayList<Location> arr = new ArrayList<>();
+
+        DataSnapshot dataSnapshot = DatabaseMethods.getDataSnapshot(ReferenceHolder.GLOBAL_QRLOCATION.get());
+        for (DataSnapshot children: dataSnapshot.getChildren()) {
+            for (DataSnapshot children1 : children.getChildren()) {
+                DataSnapshot coordinates_datasnapshot =
+                        DatabaseMethods.getDataSnapshot(ReferenceHolder.GLOBAL_QRLOCATION.child(children.getKey()).child(children1.getKey()).child("coordinates").get());
+                double latitude = Double.valueOf(coordinates_datasnapshot.child("latitude").getValue().toString());
+                double longitude = Double.valueOf(coordinates_datasnapshot.child("longitude").getValue().toString());
+//                System.out.println(GeoUtils.distance(location.getLatitude(), location.getLatitude(), latitude, longitude));
+//                arr.add(new Location(longitude, latitude));
+            }
+        }
     }
 
 }
