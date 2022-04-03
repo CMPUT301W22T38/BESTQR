@@ -262,7 +262,6 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
                             userViewModel.setOwner(Database.getOwner(owner));
                             userViewModel.setUserProfile(owner);
                         } else {
-                            Toast.makeText(this, "here", Toast.LENGTH_SHORT).show();
                             Toast.makeText(this, "Unsuccessful. Invalid Code", Toast.LENGTH_SHORT).show();
                             toEnter = false;
                             userViewModel.setOwner(null);
@@ -275,6 +274,7 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
                     try{
                         //go to guest-profile fragment
                         String guestId = Database.getAndroidIdByName(contents);
+                        Toast.makeText(this,guestId,Toast.LENGTH_SHORT).show();
                         if (Database.isRegistered(guestId)) {
                             Profile guestProfile = Database.getUser(guestId);
                             userViewModel.setGuestProfile(guestProfile);

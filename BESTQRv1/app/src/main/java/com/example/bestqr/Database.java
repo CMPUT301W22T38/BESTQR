@@ -46,7 +46,8 @@ public class Database{
     ReferenceHolder referenceHolder;
 
     public static String getAndroidIdByName(String username){//need to be reimplemented
-        String androidId = ReferenceHolder.GLOBAL_USERNAMETABLE.child(username).getKey();
+//        String androidId = (ReferenceHolder.GLOBAL_USERNAMETABLE.child(username));
+        String androidId = DatabaseMethods.getDataSnapshot(ReferenceHolder.GLOBAL_USERNAMETABLE.child(username).get()).getValue().toString();
         return androidId;
     }
 
