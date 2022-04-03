@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 
 import com.example.bestqr.Owner;
 import com.example.bestqr.QRCodeList;
+import com.example.bestqr.models.Comment;
+import com.example.bestqr.models.Comments;
 import com.example.bestqr.models.Location;
 import com.example.bestqr.models.Profile;
 import com.example.bestqr.models.QRCODE;
@@ -12,6 +14,7 @@ import com.example.bestqr.ui.leaderboard.LeaderboardScoreBlock;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 
+import java.sql.Ref;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.stream.Collectors;
@@ -316,4 +319,57 @@ public class Database{
         }
     }
 
+    public static void addComment(String androidId, String hash, Comment comment) {
+
+        if (EntryExist.QRCodeAlreadyExist(androidId, hash)) {
+            DataSnapshot comments_datasnapshot =
+                    DatabaseMethods.getDataSnapshot(ReferenceHolder.GLOBAL_HISTORYTABLE.child(androidId).child(hash).child("comments").get());
+
+            int comment_num = (int) comments_datasnapshot.getChildrenCount();
+            comments_datasnapshot.child(String.valueOf(comment_num)).getRef().setValue(comment.toMap());
+        }
+    }
+
+    public static void deleteComment(String androidId, String hash, String contents, String writtenby) {
+        if (EntryExist.QRCodeAlreadyExist(androidId, hash)) {
+            DataSnapshot comments_datasnapshot =
+                    DatabaseMethods.getDataSnapshot(ReferenceHolder.GLOBAL_HISTORYTABLE.child(androidId).child(hash).child("comments").get());
+
+            for (DataSnapshot dataSnapshot : comments_datasnapshot.getChildren()) {
+                String db_contents = dataSnapshot.child("contents").getValue().toString();
+                String db_writtenby = dataSnapshot.child("writtenby").getValue().toString();
+
+                if (db_contents.equals(contents) && db_writtenby.equals(writtenby)) {
+                    comments_datasnapshot.child(dataSnapshot.getKey()).getRef().setValue("deleted");
+
+                    break;
+                }
+            }
+        }
+    }
+
+    public static Comments getAllComments(String androidId, String hash) {
+        Comments comments = null;
+
+        if (EntryExist.QRCodeAlreadyExist(androidId, hash)) {
+            comments = new Comments();
+            DataSnapshot comments_datasnapshot =
+                    DatabaseMethods.getDataSnapshot(ReferenceHolder.GLOBAL_HISTORYTABLE.child(androidId).child(hash).child("comments").get());
+
+            for (DataSnapshot dataSnapshot : comments_datasnapshot.getChildren()) {
+                if (dataSnapshot.getValue().toString().equals("deleted")) {
+                    comments.add(new Comment());
+                }
+                else {
+                    String contents = dataSnapshot.child("contents").getValue().toString();
+                    String writtenby = dataSnapshot.child("writtenby").getValue().toString();
+                    String timeStamp = dataSnapshot.child("createdat").getValue().toString();
+
+                    comments.add(new Comment(contents, writtenby, timeStamp));
+                }
+
+            }
+        }
+        return comments;
+    }
 }

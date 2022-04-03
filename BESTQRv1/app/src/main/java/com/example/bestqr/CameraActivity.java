@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.bestqr.Database.Database;
 import com.example.bestqr.Database.EntryExist;
+import com.example.bestqr.models.Comment;
 import com.example.bestqr.models.Location;
 import com.example.bestqr.models.Profile;
 import com.example.bestqr.models.QRCODE;
@@ -121,8 +122,11 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
         profile.addNewQRCode(c);
         Database.getNearBy(new Location(51.13, 78.3574), 0.5);
 
-
-
+        // comments testing
+//        Comment comment = new Comment("comment example", profile.getAndroidId());
+//        Database.addComment(profile.getAndroidId(), a.getHash(), comment);
+//        Database.deleteComment(profile.getAndroidId(), a.getHash(), comment.getContents(), comment.getAndroidId());
+//        Database.getAllComments(profile.getAndroidId(), a.getHash());
 
         userViewModel.setUserProfile(profile);
 

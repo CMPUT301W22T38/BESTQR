@@ -45,30 +45,11 @@ public class Profile extends BaseProfile  {
         }
     }
 
-    //    /**
-//     * This constructor initializes the information of the user's profile
-//     *
-//     * @param user_name : The username of the user
-//     * @param deviceQrCode: The unique QRCODE for the users profile that can be scanned by another device to log in
-//     * @param phoneNumber : The phone number of user
-//     * @param emailAddress: The email address of the user
-//     */
-//    public Profile(String user_name, QRCODE deviceQrCode, String phoneNumber, String emailAddress) {
-//        this.userName = user_name;
-//        this.deviceQrCode = deviceQrCode;
-//        this.phoneNumber = phoneNumber;
-//        this.emailAddress = emailAddress;
-//        this.scannedCodes = new QRCodeList();
-//    }
-
-    // add constructors as needed
-
     public void setScannedCodes(QRCodeList qrcodes) {
         this.scannedCodes = qrcodes;
     }
 
     public QRCodeList getScannedCodes() {return  this.scannedCodes;}
-
 
 
     /**
