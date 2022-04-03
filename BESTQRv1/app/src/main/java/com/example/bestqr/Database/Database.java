@@ -1,55 +1,31 @@
-package com.example.bestqr;
+package com.example.bestqr.Database;
 
 import android.graphics.Bitmap;
-import android.provider.ContactsContract;
-import android.provider.SearchRecentSuggestions;
 
-import com.example.bestqr.models.BaseProfile;
+import com.example.bestqr.Owner;
+import com.example.bestqr.QRCodeList;
+import com.example.bestqr.Storage;
 import com.example.bestqr.models.Location;
 import com.example.bestqr.models.Profile;
 import com.example.bestqr.models.QRCODE;
 import com.example.bestqr.models.TimeStamp;
 import com.example.bestqr.ui.leaderboard.LeaderboardScoreBlock;
-import com.example.bestqr.utils.QRmethods;
-import com.firebase.geofire.GeoFireUtils;
-import com.firebase.geofire.util.GeoUtils;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 
-import java.io.Serializable;
-import java.sql.Ref;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 
 public class Database{
-    public static class ReferenceHolder {
-        public static FirebaseDatabase DATABASE = FirebaseDatabase.getInstance();
-
-        public static DatabaseReference GLOBAL_REGISTRATIONTABLE = DATABASE.getReference().child("registeredandroidid");
-        public static DatabaseReference GLOBAL_USERINFOTABLE = DATABASE.getReference().child("userinfo");
-        public static DatabaseReference GLOBAL_USERNAMETABLE = DATABASE.getReference().child("username");
-        public static DatabaseReference GLOBAL_HISTORYTABLE = DATABASE.getReference().child("history");
-        public static DatabaseReference GLOBAL_QRCODETABLE = DATABASE.getReference().child("qrcode");
-        public static DatabaseReference GLOBAL_OWNER = DATABASE.getReference().child("Owner");
-
-        public static DatabaseReference GLOBAL_QRLOCATION = DATABASE.getReference().child("qrlocation");
-
-        public static Storage STORAGE;
-    }
-
-    ReferenceHolder referenceHolder;
 
     public static Profile getUser(String androidId) {
         Profile profile = new Profile(androidId);
 
-        if (isRegistered(androidId)) {
-            if (hasLoginQRCode(androidId)) {
+        if (EntryExist.isRegistered(androidId)) {
+            if (EntryExist.hasLoginQRCode(androidId)) {
 
             } else {
                 LoadInfo(profile);
@@ -124,7 +100,7 @@ public class Database{
     public static void LoadHistory(Profile profile) {
         QRCodeList qrCodeList = null;
         String androidId = profile.getAndroidId();
-        if (hasHistory(androidId)) {
+        if (EntryExist.hasHistory(androidId)) {
             qrCodeList = new QRCodeList();
 
             DatabaseReference reference = ReferenceHolder.GLOBAL_HISTORYTABLE.child(androidId);
@@ -149,27 +125,6 @@ public class Database{
             }
             profile.setScannedCodes(qrCodeList);
         }
-    }
-
-    public static boolean hasHistory(String androidId) {
-        DatabaseReference reference = ReferenceHolder.GLOBAL_HISTORYTABLE.child(androidId);
-        DataSnapshot dataSnapshot = DatabaseMethods.getDataSnapshot(reference.get());
-
-        return dataSnapshot.getValue().equals("null") ? false : true;
-    }
-
-    public static boolean isRegistered(String androidId) {
-        DatabaseReference reference = ReferenceHolder.GLOBAL_REGISTRATIONTABLE.child(androidId);
-        DataSnapshot dataSnapshot = DatabaseMethods.getDataSnapshot(reference.get());
-
-        return (dataSnapshot.exists()) ? true : false;
-    }
-
-    public static boolean hasLoginQRCode(String androidId) {
-        DatabaseReference reference = ReferenceHolder.GLOBAL_USERINFOTABLE.child(androidId).child("loginqrcode");
-        DataSnapshot dataSnapshot = DatabaseMethods.getDataSnapshot(reference.get());
-
-        return dataSnapshot.getValue().equals("null") ? false : true;
     }
 
     public static int getTotalUserCount() {
@@ -218,7 +173,7 @@ public class Database{
 
     public static boolean addQRCode(String androidId, QRCODE qrcode) {
         // double checking //
-        if (!QRCodeAlreadyExist(androidId, qrcode.getHash())) {
+        if (!EntryExist.QRCodeAlreadyExist(androidId, qrcode.getHash())) {
             ReferenceHolder.GLOBAL_HISTORYTABLE.child(androidId).child(qrcode.getHash()).child("createdat").setValue(qrcode.getScannedTime());
             ReferenceHolder.GLOBAL_HISTORYTABLE.child(androidId).child(qrcode.getHash()).child("score").setValue(qrcode.getScore());
             ReferenceHolder.GLOBAL_HISTORYTABLE.child(androidId).child(qrcode.getHash()).child("imported").setValue(qrcode.getisImported());
@@ -240,7 +195,7 @@ public class Database{
     }
 
     public static boolean removeQrCode(String androidId, QRCODE qrcode){
-        if (QRCodeAlreadyExist(androidId, qrcode.getHash())) {
+        if (EntryExist.QRCodeAlreadyExist(androidId, qrcode.getHash())) {
             ReferenceHolder.GLOBAL_HISTORYTABLE.child(androidId).child(qrcode.getHash()).removeValue();
 
             ReferenceHolder.GLOBAL_QRCODETABLE.child(qrcode.getHash()).child("users").child(androidId).removeValue();
@@ -249,15 +204,6 @@ public class Database{
             return true;
         }
         return false;
-    }
-
-
-
-    public static boolean QRCodeAlreadyExist(String androidId, String hash) {
-        DatabaseReference reference = ReferenceHolder.GLOBAL_HISTORYTABLE.child(androidId).child(hash);
-        DataSnapshot dataSnapshot = DatabaseMethods.getDataSnapshot(reference.get());
-
-        return (dataSnapshot.exists()) ? true : false;
     }
 
     public static void updateAssociatedUserCount(String hash) {
@@ -324,11 +270,13 @@ public class Database{
 
 
     public static void deletePlayer(Profile profile){
-        if (isRegistered(profile.getAndroidId())){
+        if (EntryExist.isRegistered(profile.getAndroidId())){
             ReferenceHolder.GLOBAL_USERINFOTABLE.child(profile.getAndroidId()).removeValue();
             ReferenceHolder.GLOBAL_USERNAMETABLE.child(profile.getUserName()).removeValue();
             ReferenceHolder.GLOBAL_REGISTRATIONTABLE.child(profile.getAndroidId()).removeValue();
             ReferenceHolder.GLOBAL_HISTORYTABLE.child(profile.getAndroidId()).removeValue();
+            ReferenceHolder.GLOBAL_REGISTRATIONTABLE.child(profile.getAndroidId()).removeValue();
+
             for (QRCODE item: profile.getScannedCodes()) {
                 ReferenceHolder.GLOBAL_QRCODETABLE.child(item.getHash()).child("users").child(profile.getAndroidId()).removeValue();
                 updateAssociatedUserCount(item.getHash());

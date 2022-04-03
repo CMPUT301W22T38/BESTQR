@@ -1,12 +1,10 @@
 package com.example.bestqr;
 
-import android.provider.ContactsContract;
-
-import com.example.bestqr.models.BaseProfile;
+import com.example.bestqr.Database.Database;
+import com.example.bestqr.Database.EntryExist;
 import com.example.bestqr.models.Profile;
 import com.example.bestqr.models.QRCODE;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Owner extends Profile {
@@ -30,7 +28,7 @@ public class Owner extends Profile {
      * @param player - the player to be removed from the game
      */
     public void removePlayer(Profile player){
-       if (Database.isRegistered(player.getAndroidId())){
+       if (EntryExist.isRegistered(player.getAndroidId())){
             Database.deletePlayer(player);
 
        }

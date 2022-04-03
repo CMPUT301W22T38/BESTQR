@@ -2,9 +2,9 @@ package com.example.bestqr;
 
 import androidx.lifecycle.ViewModel;
 
+import com.example.bestqr.Database.Database;
 import com.example.bestqr.models.Profile;
 import com.example.bestqr.models.QRCODE;
-import com.example.bestqr.ui.leaderboard.LeaderboardScoreBlock;
 
 import java.util.Collections;
 import java.util.Comparator;

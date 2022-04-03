@@ -15,13 +15,13 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.bestqr.Database.Database;
+import com.example.bestqr.Database.EntryExist;
 import com.example.bestqr.models.Location;
 import com.example.bestqr.models.Profile;
 import com.example.bestqr.models.QRCODE;
 import com.example.bestqr.ui.leaderboard.LeaderboardViewModel;
 import com.example.bestqr.ui.qr.QrViewModel;
-import com.firebase.geofire.GeoFire;
-import com.firebase.geofire.GeoLocation;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.Nullable;
@@ -33,7 +33,6 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.bestqr.databinding.ActivityMainBinding;
 
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.LuminanceSource;
@@ -44,11 +43,8 @@ import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -239,7 +235,7 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
 
                 if (toEnter == true) {
                     try {
-                        if (Database.isRegistered(contents)) {
+                        if (EntryExist.isRegistered(contents)) {
                             profile = Database.getUser(contents);
                             userViewModel.setUserProfile(profile);
                             Toast.makeText(this, "Welcome to the Profile of " + profile.getUserName(), Toast.LENGTH_SHORT).show();

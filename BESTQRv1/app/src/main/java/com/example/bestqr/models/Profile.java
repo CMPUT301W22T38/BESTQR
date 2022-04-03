@@ -3,10 +3,9 @@ package com.example.bestqr.models;
 
 import android.graphics.Bitmap;
 
-import com.example.bestqr.Database;
+import com.example.bestqr.Database.Database;
 import com.example.bestqr.QRCodeList;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Profile extends BaseProfile  {

@@ -2,33 +2,24 @@ package com.example.bestqr.ui.qr;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.bestqr.Database;
-import com.example.bestqr.models.Profile;
+import com.example.bestqr.Database.Database;
 import com.example.bestqr.R;
 import com.example.bestqr.UserViewModel;
 import com.example.bestqr.databinding.FragmentSameplayerlistBinding;
-import com.example.bestqr.adapters.profilelistAdapter;
 import com.example.bestqr.models.QRCODE;
-import com.example.bestqr.Database;
-import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 

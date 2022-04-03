@@ -20,14 +20,12 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.bestqr.Database;
 import com.example.bestqr.Owner;
 import com.example.bestqr.models.Profile;
 import com.example.bestqr.R;
 import com.example.bestqr.UserViewModel;
 import com.example.bestqr.databinding.FragmentGuestUserBinding;
 import com.example.bestqr.adapters.profilelistAdapter;
-import com.example.bestqr.models.QRCODE;
 
 public class GuestUserFragment extends Fragment {
 

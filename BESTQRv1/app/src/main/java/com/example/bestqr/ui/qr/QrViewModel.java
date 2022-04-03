@@ -3,7 +3,7 @@ package com.example.bestqr.ui.qr;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.bestqr.Database;
+import com.example.bestqr.Database.Database;
 import com.example.bestqr.models.Profile;
 import com.example.bestqr.models.QRCODE;
 

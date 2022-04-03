@@ -1,10 +1,8 @@
 package com.example.bestqr.ui.leaderboard;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.bestqr.Database;
+import com.example.bestqr.Database.Database;
 
 import java.util.ArrayList;
 import java.util.Collections;

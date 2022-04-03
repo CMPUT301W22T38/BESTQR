@@ -1,4 +1,4 @@
-package com.example.bestqr;
+package com.example.bestqr.Database;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
