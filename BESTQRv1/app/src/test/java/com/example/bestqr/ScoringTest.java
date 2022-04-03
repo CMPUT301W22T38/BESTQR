@@ -34,9 +34,7 @@ public class ScoringTest {
         assertEquals(111, score);
         score = QRmethods.calculateScore("0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqr"); // test no repeated digit
         assertEquals(0, score);
-//        score = QRCODE.calculateScore("0000000000000000000000000000000000000000000000000000000000000000"); // test the largest score
-//        assertEquals(2.0e64, score);
-        //add more test for scoring here
+
 
     }
 }
