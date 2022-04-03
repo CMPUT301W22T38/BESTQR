@@ -41,6 +41,9 @@ import com.google.android.gms.tasks.CancellationToken;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+
+import java.util.List;
 
 public class MapsFragment extends Fragment {
 
@@ -48,6 +51,7 @@ public class MapsFragment extends Fragment {
     FusedLocationProviderClient client;
     Context mapContext;
     SupportMapFragment supportMapFragment;
+    List<DocumentSnapshot> nearbyCodeList;
 
     @Nullable
     @Override
@@ -97,6 +101,9 @@ public class MapsFragment extends Fragment {
                             // Initialize lat lng
                             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
+                            nearbyCodeList = new NearbyCodes(latLng).getNearbyCodeList();
+                            plotNearbyCodes();
+
                             // Create marker options
                             MarkerOptions options = new MarkerOptions().position(latLng)
                                     .title("Current location");
@@ -129,5 +136,21 @@ public class MapsFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         mapContext = context;
+    }
+
+    public void plotNearbyCodes() {
+
+        for (DocumentSnapshot doc: nearbyCodeList) {
+
+            LatLng latLng;
+
+            double lat = doc.getDouble("lat");
+            double lng = doc.getDouble("lng");
+
+            // Create marker options
+            MarkerOptions options = new MarkerOptions().position(lat, lng);
+
+        }
+
     }
 }
