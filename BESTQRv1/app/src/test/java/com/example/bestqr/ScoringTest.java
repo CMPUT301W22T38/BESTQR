@@ -9,11 +9,12 @@ import com.example.bestqr.utils.QRmethods;
  */
 public class ScoringTest {
     /**
+     * QRmethods class calculateHash()
      * test content->hash
      */
     @Test
     public void calculateHashTest() {
-        String hash= QRmethods.calculateHash("BFG5DGW54");
+        String hash = QRmethods.calculateHash("BFG5DGW54");
         assertEquals("8227ad036b504e39fe29393ce170908be2b1ea636554488fa86de5d9d6cd2c32", hash);
         hash = QRmethods.calculateHash("bfg5dgw54");//same contents but lower cases
         assertEquals("c7637a1bf1c2db1930d57863fbebaa2a1be3e019d3f127955fdbdb4282d5a3ac", hash);
@@ -26,7 +27,9 @@ public class ScoringTest {
     }
 
     /**
+     * QRmethods class calculateScore()
      * Test hash -> score
+     *
      */
     @Test
     public void calculateScoreTest(){
