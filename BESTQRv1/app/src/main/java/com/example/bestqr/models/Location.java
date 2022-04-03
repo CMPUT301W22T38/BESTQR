@@ -13,7 +13,7 @@ public class Location {
     public Location(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
-        this.geoHash = GeoFireUtils.getGeoHashForLocation(new GeoLocation(longitude, latitude));
+        this.geoHash = GeoFireUtils.getGeoHashForLocation(new GeoLocation(latitude, longitude));
     }
 
     public double getLatitude() {
