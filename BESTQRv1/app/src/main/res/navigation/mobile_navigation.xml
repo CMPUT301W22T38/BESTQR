@@ -15,6 +15,9 @@
         android:name="com.example.bestqr.ui.camera.CameraFragment"
         android:label="Camera"
         tools:layout="@layout/fragment_camera" />
+    <action
+        android:id="@+id/action_navigation_home_to_navigation_guest_user"
+        app:destination="@id/navigation_guest_user" />
     <fragment
         android:id="@+id/navigation_leaderboard"
         android:name="com.example.bestqr.ui.leaderboard.LeaderboardFragment"
@@ -27,9 +30,7 @@
             android:id="@+id/action_navigation_leaderboard_to_navigation_user"
             app:destination="@+id/navigation_user"
             app:popUpTo="@+id/navigation_home"/>
-        <action
-            android:id="@+id/action_navigation_home_to_navigation_guest_user"
-            app:destination="@id/navigation_guest_user" />
+
 
     </fragment>
     <fragment
