@@ -1,4 +1,4 @@
-package com.example.bestqr;
+package com.example.bestqr.Database;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

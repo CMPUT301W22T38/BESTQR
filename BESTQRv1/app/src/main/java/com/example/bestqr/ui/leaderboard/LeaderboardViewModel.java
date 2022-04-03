@@ -42,8 +42,8 @@ public class LeaderboardViewModel extends ViewModel {
      * total number of qr codes scanned
      * total sum of scores of qr codes scanned
      */
-    public void updateScoreBlocks(Database db){
-        this.scoreBlocks = db.get_all_scoring_types();
+    public void updateScoreBlocks(){
+        this.scoreBlocks = Database.get_all_scoring_types();
         this.scoresInitialized = true;
     }
 

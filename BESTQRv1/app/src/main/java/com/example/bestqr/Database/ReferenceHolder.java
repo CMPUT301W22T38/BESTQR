@@ -1,6 +1,5 @@
 package com.example.bestqr.Database;
 
-import com.example.bestqr.Storage;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 

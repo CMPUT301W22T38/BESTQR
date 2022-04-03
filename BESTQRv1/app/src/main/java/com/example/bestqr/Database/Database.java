@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 
 import com.example.bestqr.Owner;
 import com.example.bestqr.QRCodeList;
-import com.example.bestqr.Storage;
 import com.example.bestqr.models.Location;
 import com.example.bestqr.models.Profile;
 import com.example.bestqr.models.QRCODE;
@@ -12,7 +11,6 @@ import com.example.bestqr.models.TimeStamp;
 import com.example.bestqr.ui.leaderboard.LeaderboardScoreBlock;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Collections;

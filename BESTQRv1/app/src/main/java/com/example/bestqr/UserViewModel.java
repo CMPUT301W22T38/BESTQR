@@ -18,15 +18,6 @@ public class UserViewModel extends ViewModel {
     private Owner owner;
     private Profile guest_profile;
     private QRCODE qrcode;
-    private Database db;
-
-    public Database getDb() {
-        return db;
-    }
-
-    public void setDb(Database db) {
-        this.db = db;
-    }
 
     public void sortListAscendingScore() {
         QRCodeList qrcodelist = this.user_profile.getScannedCodes();

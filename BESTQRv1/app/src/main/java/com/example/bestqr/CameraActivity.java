@@ -122,7 +122,6 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
         Database.getNearBy(new Location(51.13, 78.3574), 0.5);
 
 
-        userViewModel.setDb(this.db);
 
 
         userViewModel.setUserProfile(profile);

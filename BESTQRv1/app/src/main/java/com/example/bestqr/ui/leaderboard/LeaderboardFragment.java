@@ -89,7 +89,7 @@ public class LeaderboardFragment extends Fragment {
 //        }
 
         // Fetch all the scores from the database for display
-        leaderboardViewModel.updateScoreBlocks(userViewModel.getDb());
+        leaderboardViewModel.updateScoreBlocks();
         leaderboardViewModel.sortScoresByTotalSum();
 
         myAdapter = new LeaderboardListAdapter(getContext(), R.layout.leaderboardlist_item,
