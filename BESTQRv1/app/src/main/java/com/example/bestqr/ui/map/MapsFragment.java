@@ -41,6 +41,9 @@ import com.google.android.gms.tasks.CancellationToken;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+
+import java.util.List;
 
 public class MapsFragment extends Fragment {
 
@@ -48,6 +51,7 @@ public class MapsFragment extends Fragment {
     FusedLocationProviderClient client;
     Context mapContext;
     SupportMapFragment supportMapFragment;
+    List<DocumentSnapshot> nearbyCodeList;
 
     @Nullable
     @Override
