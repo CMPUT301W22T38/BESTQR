@@ -15,7 +15,7 @@ public class ProfileTest {
     void testAdd() {
         Profile profile = mockProfile();
         assertFalse(profile.getUserName().isEmpty());
-        assertFalse(profile.getDeviceID().isEmpty());
+        assertFalse(profile.getAndroidId().isEmpty());
         assertFalse(profile.getPhoneNumber().isEmpty());
         assertFalse(profile.getEmailAddress().isEmpty());
 
