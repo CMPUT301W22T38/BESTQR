@@ -314,7 +314,6 @@ public class Database{
 //                arr.add(new Location(longitude, latitude));
             }
         }
-
     }
 
 }
