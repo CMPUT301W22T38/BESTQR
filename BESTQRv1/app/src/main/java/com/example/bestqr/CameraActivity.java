@@ -15,12 +15,13 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.bestqr.models.Location;
 import com.example.bestqr.models.Profile;
 import com.example.bestqr.models.QRCODE;
 import com.example.bestqr.ui.leaderboard.LeaderboardViewModel;
 import com.example.bestqr.ui.qr.QrViewModel;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.Nullable;
@@ -32,6 +33,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.bestqr.databinding.ActivityMainBinding;
 
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.LuminanceSource;
@@ -60,6 +62,7 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
     private String contents;
     private boolean toEnter;
     private Profile profile;
+    private Owner owner;
     private int score;
 
     private static final String TAG = "CameraActivity";
@@ -100,7 +103,7 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
 
         // test identification of user ideally info will be taken in the signup activity and stored in firebase
         QRCODE userIdentification = new QRCODE(androidId);
-
+        owner = new Owner();
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         leaderboardViewModel = new ViewModelProvider(this).get(LeaderboardViewModel.class);
 
@@ -108,50 +111,26 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
 
         profile = Database.getUser(androidId);
 
+        QRCODE a = new QRCODE("123");
+        a.setCodeLocation(new Location(51.25124,78.251));
+        QRCODE b = new QRCODE("456");
+        b.setCodeLocation(new Location(51.3465,78.3574));
+        QRCODE c = new QRCODE("789");
+        c.setCodeLocation(new Location(51.3465,78.3574));
 
-        profile.addNewQRCode(new QRCODE("123"));
-        profile.addNewQRCode(new QRCODE("123421"));
+        profile.addNewQRCode(a);
+        profile.addNewQRCode(b);
+        profile.addNewQRCode(c);
 
 
         userViewModel.setDb(this.db);
 
-//        profile = db.get(androidId);
-//        profile = new Profile(androidId);
-//
-//        profile.addNewQRCode(new QRCODE("YES"));
-//        profile.addNewQRCode(new QRCODE("YESterday"));
-//        profile.addNewQRCode(new QRCODE("no"));
-
-//        run it once
-//        QRCODE qrcode1 = new QRCODE(androidId + "1");
-//        QRCODE qrcode2 = new QRCODE(androidId + "2");
-//        QRCODE qrcode3 = new QRCODE(androidId + "3");
-//        QRCODE qrcode4 = new QRCODE(androidId + "4");
-//        QRCODE qrcode5 = new QRCODE(androidId + "5");
-
-//        profile.addNewQRCode(qrcode1);
-//        profile.addNewQRCode(qrcode2);
-//        profile.addNewQRCode(qrcode3);
-//        profile.addNewQRCode(qrcode4);
-//        profile.addNewQRCode(qrcode5);
-//
-//        db.add_qrcode(profile.getUserName(), qrcode1);
-//        db.add_qrcode(profile.getUserName(), qrcode2);
-//        db.add_qrcode(profile.getUserName(), qrcode3);
-//        db.add_qrcode(profile.getUserName(), qrcode4);
-//        db.add_qrcode(profile.getUserName(), qrcode5);
-
 
         userViewModel.setUserProfile(profile);
 
-
-//        storage.upload(q1, androidid3);
-//        System.out.println(q1.getCode());
-//        System.out.println(q1.getCode().toString());
-//        System.out.println(q1.getCode().getRowBytes());
-
-//        QRCODE q1 = new QRCODE("random54321");
-
+//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("path/to/geofire");
+//        GeoFire geoFire = new GeoFire(FirebaseDatabase.getInstance().getReference("root1"));
+//        geoFire.setLocation("root2", new GeoLocation(52.63246, 14.5235));
         // This should be in th login activity
         // get unique device id
 //        @SuppressLint("HardwareIds") String androidId = Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);

@@ -131,7 +131,7 @@ public class locationPrompt extends DialogFragment{
                         }
                         if (storeLocation.isChecked()){
                             getCurrentLocation();
-                            qrcode.setCodeLocation(qrLocation);
+                            qrcode.setCodeLocation(new com.example.bestqr.models.Location(qrLocation.getLatitude(), qrLocation.getLongitude()));
                             Toast.makeText(getContext(), "Latitude: " + String.format("%.2f", qrcode.getCodeLocation().getLatitude()) + "\nLongitude: " + String.format("%.2f", qrcode.getCodeLocation().getLongitude()), Toast.LENGTH_LONG).show();
                         }
 

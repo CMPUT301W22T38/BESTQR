@@ -1,7 +1,6 @@
 package com.example.bestqr.models;
 
 import android.graphics.Bitmap;
-import android.location.Location;
 
 import com.example.bestqr.models.TimeStamp;
 import com.example.bestqr.utils.QRmethods;
@@ -28,6 +27,7 @@ public class QRCODE extends BaseQRCode {
     String geoHash;
 
     public QRCODE() {
+        this.codeLocation = null;
         this.comments = new ArrayList<>();
     }
     /**
