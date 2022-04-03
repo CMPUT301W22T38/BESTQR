@@ -36,6 +36,7 @@ public class Database{
         public static DatabaseReference GLOBAL_USERNAMETABLE = DATABASE.getReference().child("username");
         public static DatabaseReference GLOBAL_HISTORYTABLE = DATABASE.getReference().child("history");
         public static DatabaseReference GLOBAL_QRCODETABLE = DATABASE.getReference().child("qrcode");
+        public static DatabaseReference GLOBAL_OWNER = DATABASE.getReference().child("Owner");
 
         public static DatabaseReference GLOBAL_QRLOCATION = DATABASE.getReference().child("qrlocation");
 
@@ -58,6 +59,39 @@ public class Database{
             Register(profile);
         }
         return profile;
+    }
+
+    public static void registerOwner(Owner owner){
+        owner.setUserName("Owner");
+        owner.setAndroidId("This is Owner Id");
+        QRCODE ownerQr = new QRCODE(owner.getAndroidId());
+        String ownerHash = ownerQr.getHash();
+        owner.setAndroidId(ownerHash);
+        owner.setPhoneNumber("null");
+        owner.setEmailAddress("null");
+
+        ReferenceHolder.GLOBAL_OWNER.child(ownerHash).child("username").setValue(owner.getUserName());
+        ReferenceHolder.GLOBAL_OWNER.child(ownerHash).child("phoneNumber").setValue(owner.getPhoneNumber());
+        ReferenceHolder.GLOBAL_OWNER.child(ownerHash).child("emailAddress").setValue(owner.getEmailAddress());
+        ReferenceHolder.GLOBAL_OWNER.child(ownerHash).child("id").setValue(ownerHash);
+    }
+
+    public static boolean isOwner(String androidId) {
+        DatabaseReference reference = ReferenceHolder.GLOBAL_OWNER.child(androidId);
+        DataSnapshot dataSnapshot = DatabaseMethods.getDataSnapshot(reference.get());
+
+        return (dataSnapshot.exists()) ? true : false;
+    }
+
+    public static Owner getOwner(Owner owner){
+        owner.setUserName(DatabaseMethods.getDataSnapshot(ReferenceHolder.GLOBAL_OWNER.child(owner.getAndroidId()).child("username").get()).getValue().toString());
+        owner.setPhoneNumber(DatabaseMethods.getDataSnapshot(ReferenceHolder.GLOBAL_OWNER.child(owner.getAndroidId()).child("phoneNumber").get()).getValue().toString());
+        owner.setEmailAddress(DatabaseMethods.getDataSnapshot(ReferenceHolder.GLOBAL_OWNER.child(owner.getAndroidId()).child("emailAddress").get()).getValue().toString());
+      return owner;
+    }
+
+    public static String getOwnerId(){
+        return ReferenceHolder.GLOBAL_OWNER.getKey();
     }
 
     public static void Register(Profile profile) {
@@ -288,6 +322,7 @@ public class Database{
         return associatedUsers;
     }
 
+
     public static void deletePlayer(Profile profile){
         if (isRegistered(profile.getAndroidId())){
             ReferenceHolder.GLOBAL_USERINFOTABLE.child(profile.getAndroidId()).removeValue();
@@ -317,6 +352,7 @@ public class Database{
 
     }
 
+
     public static void getNearBy(Location location, double radius) {
 
 //        ArrayList<Location> arr = new ArrayList<>();
@@ -332,6 +368,7 @@ public class Database{
 //                arr.add(new Location(longitude, latitude));
             }
         }
+
     }
 
 }

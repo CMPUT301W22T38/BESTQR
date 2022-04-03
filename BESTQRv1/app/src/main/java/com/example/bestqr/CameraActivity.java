@@ -104,10 +104,12 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
         // test identification of user ideally info will be taken in the signup activity and stored in firebase
         QRCODE userIdentification = new QRCODE(androidId);
         owner = new Owner();
+        Database.registerOwner(owner);
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         leaderboardViewModel = new ViewModelProvider(this).get(LeaderboardViewModel.class);
 
         this.db = new Database();
+
 
         profile = Database.getUser(androidId);
 
@@ -122,6 +124,7 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
         profile.addNewQRCode(b);
         profile.addNewQRCode(c);
         Database.getNearBy(new Location(51.13, 78.3574), 0.5);
+
 
         userViewModel.setDb(this.db);
 
@@ -240,13 +243,20 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
                             profile = Database.getUser(contents);
                             userViewModel.setUserProfile(profile);
                             Toast.makeText(this, "Welcome to the Profile of " + profile.getUserName(), Toast.LENGTH_SHORT).show();
+                            userViewModel.setOwner(null);
                             toEnter = false;
+                        } else if (Database.isOwner(contents)) {
+                            owner.setAndroidId(contents);
+                            userViewModel.setOwner(Database.getOwner(owner));
+                            userViewModel.setUserProfile(owner);
                         } else {
+                            Toast.makeText(this, "here", Toast.LENGTH_SHORT).show();
                             Toast.makeText(this, "Unsuccessful. Invalid Code", Toast.LENGTH_SHORT).show();
                             toEnter = false;
-                        }
+                            userViewModel.setOwner(null);
+
+                    }
                     } catch (Exception exception) {
-                        Toast.makeText(this, "Unsuccessful. Invalid Code", Toast.LENGTH_SHORT).show();
                         toEnter = false;
                     }
 

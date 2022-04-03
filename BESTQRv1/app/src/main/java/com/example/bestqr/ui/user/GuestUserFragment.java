@@ -20,16 +20,21 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.bestqr.Database;
+import com.example.bestqr.Owner;
 import com.example.bestqr.models.Profile;
 import com.example.bestqr.R;
 import com.example.bestqr.UserViewModel;
 import com.example.bestqr.databinding.FragmentGuestUserBinding;
 import com.example.bestqr.adapters.profilelistAdapter;
+import com.example.bestqr.models.QRCODE;
 
 public class GuestUserFragment extends Fragment {
 
-    //    private Profile profile;
+    private Owner owner;
     private UserViewModel userViewModel;
+    private profilelistAdapter myAdapter;
+    private Button deleteButton;
     private GuestUserViewModel guestUserViewModel;
     private FragmentGuestUserBinding binding;
 
@@ -57,11 +62,12 @@ public class GuestUserFragment extends Fragment {
         View root = binding.getRoot();
 
         Profile guestProfile = guestUserViewModel.getUserProfile();
+        owner = userViewModel.getOwner();
 
         binding.toolbarGuestUserProfile.setText(guestProfile.getUserName());
 
         ListView qrCodes = binding.guestUserQrlist;
-        profilelistAdapter myAdapter = new profilelistAdapter(getActivity(), guestProfile.getQrScores(), guestProfile.getQrTimestamps(), guestProfile.getQrBitmaps());
+        myAdapter = new profilelistAdapter(getActivity(), guestProfile.getQrScores(), guestProfile.getQrTimestamps(), guestProfile.getQrBitmaps());
         qrCodes.setAdapter(myAdapter);
 
         qrCodes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -107,24 +113,30 @@ public class GuestUserFragment extends Fragment {
             }
         });
 
-
-        Button delete_button = binding.toolbarGuestUserOwnerDelete;
+        deleteButton = binding.toolbarGuestUserOwnerDelete;
+//        deleteButton.setVisibility(View.VISIBLE);
+        if (owner != null){
+            deleteButton.setVisibility(View.VISIBLE);
+        }
         // TODO: only show delete button if current user is an "owner"
         // delete_button.setVisibility(View.VISIBLE);
         // Delete button for other users is otherwise set to be invisible and unclickable.
-        delete_button.setVisibility(View.GONE);
 
-        delete_button.setOnClickListener(new View.OnClickListener() {
+        deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //TODO: remove user from the database, update app's user list
-
+                owner.removePlayer(guestProfile);
                 userViewModel.setGuestProfile(null);
+
+
                 // Navigate back to parent fragment
                 NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
                 navController.navigateUp();
             }
         });
+
+
 
 
 //        ImageButton delete_button = binding.toolbarUserDelete;
@@ -187,6 +199,7 @@ public class GuestUserFragment extends Fragment {
      */
     @Override
     public void onDestroyView() {
+        deleteButton.setVisibility(View.INVISIBLE);
         super.onDestroyView();
         binding = null;
     }

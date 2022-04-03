@@ -2,16 +2,20 @@ package com.example.bestqr;
 
 import android.provider.ContactsContract;
 
+import com.example.bestqr.models.BaseProfile;
 import com.example.bestqr.models.Profile;
 import com.example.bestqr.models.QRCODE;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Owner {
+public class Owner extends Profile {
     public ArrayList<Profile> allPlayers;
     public ArrayList<QRCODE> allStoredQrCodes;
 
+    public Owner(){
+        super(Database.getOwnerId());
+    }
 
     /**
      * This method removes a QRCODE of the owners choice

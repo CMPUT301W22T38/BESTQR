@@ -15,6 +15,7 @@ import java.util.Comparator;
 public class UserViewModel extends ViewModel {
 
     private Profile user_profile;
+    private Owner owner;
     private Profile guest_profile;
     private QRCODE qrcode;
     private Database db;
@@ -75,4 +76,12 @@ public class UserViewModel extends ViewModel {
         return qrcode;
     }
 
+
+    public void setOwner(Owner owner){
+        this.owner = owner;
+    }
+
+    public Owner getOwner(){
+        return owner;
+    }
 }

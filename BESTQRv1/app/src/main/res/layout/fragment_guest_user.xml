@@ -10,14 +10,14 @@
         android:id="@+id/toolbar_guest_user"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:theme="?attr/actionBarTheme"
         android:background="?attr/colorPrimary"
-
+        android:theme="?attr/actionBarTheme"
         app:contentInsetLeft="0dp"
         app:contentInsetStart="0dp"
-        app:contentInsetStartWithNavigation="0dp">
+
+        app:contentInsetStartWithNavigation="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -40,28 +40,30 @@
                 android:layout_height="match_parent"
                 android:gravity="center|center_vertical"
                 android:includeFontPadding="false"
-                android:visibility="gone"
                 android:paddingLeft="0dp"
                 android:paddingTop="6dp"
                 android:paddingRight="0dp"
-                android:text="[Owner]\nDelete\nUser"
+                android:text="Delete\nUser"
                 android:textColor="?android:attr/textColorSecondary"
                 android:textSize="8dp"
                 android:textStyle="bold"
+                android:visibility="gone"
                 app:layout_constraintDimensionRatio="4:5"
                 app:layout_constraintEnd_toStartOf="@+id/toolbar_guest_user_sort"
                 app:layout_constraintTop_toTopOf="parent" />
 
+
+
             <ImageButton
                 android:id="@+id/toolbar_guest_user_sort"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:src="@android:drawable/ic_menu_sort_by_size"
                 android:layout_marginEnd="8dp"
+                android:src="@android:drawable/ic_menu_sort_by_size"
                 app:layout_constraintDimensionRatio="4:5"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                style="?android:attr/borderlessButtonStyle"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

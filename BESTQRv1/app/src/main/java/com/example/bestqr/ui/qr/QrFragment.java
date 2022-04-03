@@ -3,6 +3,7 @@ package com.example.bestqr.ui.qr;
 
 import android.graphics.Bitmap;
 
+import com.example.bestqr.Owner;
 import com.example.bestqr.models.QRCODE;
 import com.example.bestqr.R;
 import com.example.bestqr.UserViewModel;
@@ -42,6 +43,7 @@ public class QrFragment extends Fragment {
     private QrViewModel qrViewModel;
     private UserViewModel userViewModel;
     private QRCODE qr;
+    private Owner owner;
     private FragmentQrBinding binding;
     private Profile userProfile;
     private ImageView image;
@@ -78,6 +80,7 @@ public class QrFragment extends Fragment {
         View root = binding.getRoot();
 
         userProfile = userViewModel.getUserProfile();
+        owner = userViewModel.getOwner();
         qr = userViewModel.getSelectedQrcode();
 
         if (qr != null) {
@@ -95,7 +98,6 @@ public class QrFragment extends Fragment {
                 bitmap = qr.getBitmap();
             }
             }
-
 
 
         image = binding.imageView;
@@ -136,8 +138,13 @@ public class QrFragment extends Fragment {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                userProfile.removeCodebyPosition(userProfile.getScannedCodes().indexOf(qr));
-                userViewModel.setSelectedQrcode(null);
+                if (owner !=  null){
+                    owner.removeQrCode(qr);
+                }
+                else {
+                    userProfile.removeCodebyPosition(userProfile.getScannedCodes().indexOf(qr));
+                    userViewModel.setSelectedQrcode(null);
+                }
                 NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
                 navController.navigate(R.id.action_navigation_to_user);
             }
