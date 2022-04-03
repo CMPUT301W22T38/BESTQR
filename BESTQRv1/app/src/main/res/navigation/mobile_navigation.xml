@@ -21,14 +21,16 @@
         android:label=""
         tools:layout="@layout/fragment_leaderboard">
         <action
-
-
             android:id="@+id/action_navigation_leaderboard_to_navigation_guest_user"
             app:destination="@id/navigation_guest_user" />
         <action
             android:id="@+id/action_navigation_leaderboard_to_navigation_user"
             app:destination="@+id/navigation_user"
             app:popUpTo="@+id/navigation_home"/>
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_guest_user"
+            app:destination="@id/navigation_guest_user" />
+
     </fragment>
     <fragment
         android:id="@+id/navigation_user"

@@ -36,6 +36,16 @@
 
 
             <ImageButton
+                android:id="@+id/toolbar_seeProfile"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:src="?android:attr/actionModeFindDrawable"
+                app:layout_constraintDimensionRatio="4:5"
+                app:layout_constraintEnd_toStartOf="@+id/toolbar_user_qr"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
                 android:id="@+id/toolbar_user_qr"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -76,6 +86,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 style="?android:attr/borderlessButtonStyle"/>
 
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -86,8 +97,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar_user"
-        android:paddingBottom="?attr/actionBarSize">
-    </ListView>
+        android:paddingBottom="?attr/actionBarSize"></ListView>
 
 
 </RelativeLayout>

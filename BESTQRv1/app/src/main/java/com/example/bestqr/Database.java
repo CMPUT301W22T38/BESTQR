@@ -45,6 +45,11 @@ public class Database{
 
     ReferenceHolder referenceHolder;
 
+    public static String getAndroidIdByName(String username){//need to be reimplemented
+        String androidId = ReferenceHolder.GLOBAL_USERNAMETABLE.child(username).getKey();
+        return androidId;
+    }
+
     public static Profile getUser(String androidId) {
         Profile profile = new Profile(androidId);
 

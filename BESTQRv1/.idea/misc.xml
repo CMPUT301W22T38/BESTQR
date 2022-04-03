@@ -39,13 +39,18 @@
         <entry key="..\:/Users/Evan/Desktop/CMPUT301/BESTQR/BESTQRv1/app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.155" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.155" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1752786220871327" />
-        <entry key="app/src/main/res/layout/fragment_camera.xml" value="0.1752786220871327" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.3138024868332265" />
+        <entry key="app/src/main/res/layout/fragment_camera.xml" value="0.30668640136718756" />
+        <entry key="app/src/main/res/layout/fragment_guest_user.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_leaderboard.xml" value="0.1752786220871327" />
+        <entry key="app/src/main/res/layout/fragment_location.xml" value="0.16261398176291794" />
+        <entry key="app/src/main/res/layout/fragment_maps.xml" value="0.16802536231884058" />
         <entry key="app/src/main/res/layout/fragment_qr.xml" value="0.25815217391304346" />
-        <entry key="app/src/main/res/layout/fragment_user.xml" value="0.25815217391304346" />
+        <entry key="app/src/main/res/layout/fragment_sameplayerlist.xml" value="0.16261398176291794" />
+        <entry key="app/src/main/res/layout/fragment_user.xml" value="0.48269037538575954" />
         <entry key="app/src/main/res/layout/fragment_user_info.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_userqr.xml" value="0.25815217391304346" />
+        <entry key="app/src/main/res/layout/profilelist_item.xml" value="0.16261398176291794" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.17552083333333332" />
         <entry key="app/src/main/res/menu/leaderboard_sort_menu.xml" value="0.1734375" />
         <entry key="app/src/main/res/menu/user_sort_menu.xml" value="0.17552083333333332" />

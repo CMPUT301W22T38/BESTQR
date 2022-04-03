@@ -95,10 +95,18 @@ public class UserFragment extends Fragment {
                 userViewModel.setSelectedQrcode(userProfile.getDeviceQrCode());
                 NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
                 navController.navigate(R.id.action_navigation_from_user_to_qr);
-
             }
         });
 
+        ImageButton seeProfile_button = binding.toolbarSeeProfile;
+        seeProfile_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                userViewModel.setSelectedQrcode(userProfile.getUserNameQrCode());
+                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
+                navController.navigate(R.id.action_navigation_from_user_to_qr);
+            }
+        });
         // onClick Listener for the Sort button on the toolbar
         // when pressed, this button displays a PopupMenu containing 3 different sorting methods
         ImageButton sort_button = binding.toolbarUserSort;

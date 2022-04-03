@@ -93,6 +93,15 @@ public class QrFragment extends Fragment {
                 } catch (WriterException e) {
                     e.printStackTrace();
                 }
+            }else if (qr.getHash().equals(userProfile.getUserNameQrCode().getHash())){
+                MultiFormatWriter writer = new MultiFormatWriter();
+                try {
+                    BitMatrix matrix = writer.encode(userProfile.getUserName(), BarcodeFormat.QR_CODE, 350, 350);
+                    BarcodeEncoder encoder = new BarcodeEncoder();
+                    bitmap = encoder.createBitmap(matrix);
+                } catch (WriterException e) {
+                    e.printStackTrace();
+                }
             }
             else {
                 bitmap = qr.getBitmap();

@@ -209,6 +209,9 @@ public class Profile extends BaseProfile  {
     public QRCODE getDeviceQrCode(){
         return new QRCODE(getAndroidId());
     }
+    public QRCODE getUserNameQrCode(){
+        return new QRCODE(getUserName());
+    }
 
 }
 

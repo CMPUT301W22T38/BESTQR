@@ -61,6 +61,7 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
     private QRCODE qr;
     private String contents;
     private boolean toEnter;
+    private boolean seeProfile;
     private Profile profile;
     private Owner owner;
     private int score;
@@ -174,6 +175,17 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
         toEnter = true;
     }
 
+    public void SeeProfileButton(View v) {
+        //initialize intent integrator
+        IntentIntegrator intentIntegrator = new IntentIntegrator(CameraActivity.this);
+        //locked orientation
+        intentIntegrator.setOrientationLocked(true);
+        //Set capture activity
+        intentIntegrator.setCaptureActivity(Capture.class);
+        //Initiate scan
+        intentIntegrator.initiateScan();
+        seeProfile = true;
+    }
 
     public void openGallery(View v) {
         Intent photoPickerIntent = new Intent();
@@ -255,11 +267,29 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
                             toEnter = false;
                             userViewModel.setOwner(null);
 
-                    }
+                        }
                     } catch (Exception exception) {
                         toEnter = false;
                     }
+                } else if (seeProfile == true){
+                    try{
+                        //go to guest-profile fragment
+                        if (Database.isRegistered(contents)) {
+                            String guestId = Database.getAndroidIdByName(contents);
+                            Profile guestProfile = Database.getUser(guestId);
+                            userViewModel.setGuestProfile(guestProfile);
+                            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
+                            navController.navigate(R.id.action_navigation_home_to_navigation_guest_user);
+                            seeProfile = false;
 
+                        }else {
+                            Toast.makeText(this, "here", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "Unsuccessful. Invalid Code", Toast.LENGTH_SHORT).show();
+                            seeProfile = false;
+                        }
+                    } catch (Exception exception) {
+                        seeProfile = false;
+                    }
                 } else {
                     if (intentResult.getContents() != null) {
                         qr = new QRCODE(contents);
