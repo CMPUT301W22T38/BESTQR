@@ -274,8 +274,8 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
                 } else if (seeProfile == true){
                     try{
                         //go to guest-profile fragment
-                        if (Database.isRegistered(contents)) {
-                            String guestId = Database.getAndroidIdByName(contents);
+                        String guestId = Database.getAndroidIdByName(contents);
+                        if (Database.isRegistered(guestId)) {
                             Profile guestProfile = Database.getUser(guestId);
                             userViewModel.setGuestProfile(guestProfile);
                             NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
