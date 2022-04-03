@@ -2,6 +2,7 @@ package com.example.bestqr.models;
 
 import android.graphics.Bitmap;
 
+import com.example.bestqr.Database.Database;
 import com.example.bestqr.models.TimeStamp;
 import com.example.bestqr.utils.QRmethods;
 import com.firebase.geofire.GeoFireUtils;
@@ -22,13 +23,13 @@ public class QRCODE extends BaseQRCode {
     private boolean isimported;
     private int score;
     private Bitmap objectImage;
-    private ArrayList<String> comments;
+    private Comments comments = new Comments();
     private TimeStamp timestamp;
-    String geoHash;
+    private String geoHash;
 
     public QRCODE() {
         this.codeLocation = null;
-        this.comments = new ArrayList<>();
+//        this.comments = new ArrayList<>();
     }
     /**
      * This constructor is for the QRCODE where location is stored
@@ -40,7 +41,7 @@ public class QRCODE extends BaseQRCode {
         this.codeLocation = codeLocation;
         this.score = QRmethods.calculateScore(this.getHash());
         this.timestamp = new TimeStamp();
-        this.comments = new ArrayList<>();
+//        this.comments = new ArrayList<>();
         this.geoHash = GeoFireUtils.getGeoHashForLocation(new GeoLocation(codeLocation.getLatitude(), codeLocation.getLongitude()));
     }
 
@@ -48,7 +49,7 @@ public class QRCODE extends BaseQRCode {
         super(hash, bitmap);
 //        this.score = QRmethods.calculateScore(this.getHash());
         this.timestamp = new TimeStamp();
-        this.comments = new ArrayList<>();
+//        this.comments = new ArrayList<>();
     }
 
 
@@ -60,7 +61,7 @@ public class QRCODE extends BaseQRCode {
         super(contents);
         this.score = QRmethods.calculateScore(this.getHash());
         this.timestamp = new TimeStamp();
-        this.comments = new ArrayList<>();
+//        this.comments = new ArrayList<>();
     }
 
 
@@ -118,13 +119,17 @@ public class QRCODE extends BaseQRCode {
     }
 
 
-    public void addComments(String comment){
+    public void addComments(Comment comment){
         comments.add(comment);
     }
 
 
-    public ArrayList<String> getComments() {
+    public Comments getComments() {
         return comments;
+    }
+
+    public void setComments(Comments comments) {
+        this.comments = comments;
     }
 
     // for testing

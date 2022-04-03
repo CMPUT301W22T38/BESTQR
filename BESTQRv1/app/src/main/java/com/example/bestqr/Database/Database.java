@@ -113,6 +113,7 @@ public class Database{
                 QRCODE qrcode = new QRCODE(key, bitmap);
                 qrcode.setTimestamp(dataSnapshot.child("createdat").getValue().toString());
                 qrcode.setScore(Integer.valueOf(dataSnapshot.child("score").getValue().toString()));
+                qrcode.setComments(getAllComments(profile.getAndroidId(),qrcode.getHash()));
 
                 DataSnapshot locationsnapshot = dataSnapshot.child("location");
 

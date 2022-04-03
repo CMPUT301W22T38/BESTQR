@@ -27,6 +27,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.bestqr.Database.Database;
+import com.example.bestqr.models.Comment;
 import com.example.bestqr.models.Profile;
 import com.example.bestqr.models.QRCODE;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -136,9 +138,14 @@ public class locationPrompt extends DialogFragment{
                         }
 
                         if (TextUtils.isEmpty(comments.getText().toString()) == false){
-                            qrcode.addComments(comments.getText().toString());
+                            profile.addNewQRCode(qrcode);
+                            Comment newComment = new Comment(comments.getText().toString(), profile.getAndroidId());
+                            qrcode.addComments(newComment);
+                            Database.addComment(profile.getAndroidId(),qrcode.getHash(),newComment);
                         }
-                        profile.addNewQRCode(qrcode);
+                        else {
+                            profile.addNewQRCode(qrcode);
+                        }
                     }
                 }).create();
 

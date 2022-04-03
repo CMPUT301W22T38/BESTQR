@@ -3,7 +3,10 @@ package com.example.bestqr.ui.qr;
 
 import android.graphics.Bitmap;
 
+import com.example.bestqr.Database.Database;
 import com.example.bestqr.Owner;
+import com.example.bestqr.models.Comment;
+import com.example.bestqr.models.Comments;
 import com.example.bestqr.models.QRCODE;
 import com.example.bestqr.R;
 import com.example.bestqr.UserViewModel;
@@ -109,7 +112,11 @@ public class QrFragment extends Fragment {
         deleteButton = binding.toolbarUserDelete;
 
         sameplayers = binding.samePlayers;
-        qrComments = String.join("\n",qr.getComments());
+        qrComments = "";
+        for (Comment comment: qr.getComments()){
+            qrComments += comment.getContents() + "\n";
+        }
+//        qrComments = String.join("\n",qr.getComments().toString());
         allComments.setText(qrComments);
 
         commentButton.setOnClickListener(new View.OnClickListener() {
@@ -124,12 +131,14 @@ public class QrFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (TextUtils.isEmpty(addComments.getText().toString()) == false){
-                   qr.addComments(addComments.getText().toString());
+                    Comment newComment = new Comment(addComments.getText().toString(), userProfile.getAndroidId());
+                    qr.addComments(newComment);
+                    qrComments += "\n" + newComment.getContents();
+                    Database.addComment(userProfile.getAndroidId(), qr.getHash(), newComment);
                 }
                 addComments.setText("");
                 addComments.setVisibility(View.INVISIBLE);
                 addButton.setVisibility(View.INVISIBLE);
-                qrComments = String.join("\n",qr.getComments());
                 allComments.setText(qrComments);
 
             }
