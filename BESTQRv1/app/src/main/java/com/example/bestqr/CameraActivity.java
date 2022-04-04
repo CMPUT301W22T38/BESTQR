@@ -54,7 +54,7 @@ import java.util.Set;
 public class CameraActivity extends AppCompatActivity implements locationPrompt.OnFragmentInteractionListener {
 
     // Define the pic id and pic_image id
-    private static final int PIC_ID = 123;
+    private static final int SCAN_IMAGE = 49374;
     private static final int PICK_IMAGE = 1;
     private QRCODE qr;
     private String contents;
@@ -244,14 +244,14 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
                 Toast.makeText(CameraActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
 
             }
-        } else if (requestCode == 49374) {
+        } else if (requestCode == SCAN_IMAGE) {
             //Check condition
             if (intentResult.getContents() != null) {
                 //When result content is not null
                 // Create new QR object
                 contents = intentResult.getContents();
 
-
+                // handle switching profiles
                 if (toEnter == true) {
                     try {
                         if (EntryExist.isRegistered(contents)) {
@@ -275,6 +275,7 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
                         toEnter = false;
                     }
 
+                // handle viewing profile
                 } else if (seeProfile == true) {
                     try {
                         //go to guest-profile fragment
@@ -346,7 +347,7 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
 
     @Override
     public void onOkPressed() {
-//        db.add_qrcode();
+        userViewModel.setSelectedQrcode(null);
     }
 }
 

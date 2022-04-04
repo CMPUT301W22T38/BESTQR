@@ -11,7 +11,7 @@ public class BaseQRCode{
     private Bitmap bitmap;
 
     public BaseQRCode() {
-        //
+
     }
 
     public BaseQRCode(String contents) {
@@ -24,19 +24,35 @@ public class BaseQRCode{
         this.bitmap = bitmap;
     }
 
+    /**
+     * gets the hash of the qrCode
+     * @return - the hash of the qrCode
+     */
     public String getHash() {
         return hash;
     }
 
+    /**
+     * sets the hash of the qrCode
+     * @param hash - the hash that is getting applied
+     */
     public void setHash(String hash) {
         this.hash = hash;
         this.bitmap = QRmethods.calculateBitmap(this.getHash());
     }
 
+    /**
+     * gets the bitmap of the qrCode
+     * @return the bitmap of the qrCode
+     */
     public Bitmap getBitmap() {
         return bitmap;
     }
 
+    /**
+     * sets the bitmap of the qrcode
+     * @param bitmap- the bitmap that is being applied
+     */
     public void setBitmap(Bitmap bitmap) {
         this.bitmap = bitmap;
     }

@@ -124,9 +124,9 @@ public class QrFragment extends Fragment {
         for (Comment comment: qr.getComments()){
             qrComments += comment.getContents() + "\n";
         }
-//        qrComments = String.join("\n",qr.getComments().toString());
         allComments.setText(qrComments);
 
+        // handle comment button getting clicked
         commentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -135,6 +135,7 @@ public class QrFragment extends Fragment {
             }
         });
 
+        // add a comment to the qrcode
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -152,6 +153,7 @@ public class QrFragment extends Fragment {
             }
         });
 
+        // delete the qrcode
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -167,6 +169,7 @@ public class QrFragment extends Fragment {
             }
         });
 
+        // get the username of players who have scanned this code
         sameplayers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

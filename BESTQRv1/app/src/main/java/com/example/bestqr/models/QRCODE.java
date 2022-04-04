@@ -31,7 +31,6 @@ public class QRCODE extends BaseQRCode {
 
     public QRCODE() {
         this.codeLocation = null;
-//        this.comments = new ArrayList<>();
     }
     /**
      * This constructor is for the QRCODE where location is stored
@@ -43,15 +42,12 @@ public class QRCODE extends BaseQRCode {
         this.codeLocation = codeLocation;
         this.score = QRmethods.calculateScore(this.getHash());
         this.timestamp = new TimeStamp();
-//        this.comments = new ArrayList<>();
         this.geoHash = GeoFireUtils.getGeoHashForLocation(new GeoLocation(codeLocation.getLatitude(), codeLocation.getLongitude()));
     }
 
     public QRCODE(String hash, Bitmap bitmap) {
         super(hash, bitmap);
-//        this.score = QRmethods.calculateScore(this.getHash());
         this.timestamp = new TimeStamp();
-//        this.comments = new ArrayList<>();
     }
 
 
@@ -66,32 +62,58 @@ public class QRCODE extends BaseQRCode {
 //        this.comments = new ArrayList<>();
     }
 
+    /**
+     * sets the score of the qrcode
+     * @param score the scor to be applied
+     */
 
     public void setScore(int score) {
         this.score = score;
     }
 
+    /**
+     * sets the timestamp of the qrcode
+     * @param timestamp - the timestamp Object to be applied
+     */
     public void setTimestamp(TimeStamp timestamp) {
         this.timestamp = timestamp;
     }
-
+    /**
+     * sets the timestamp of the qrcode
+     * @param timestamp - the String timestamp Object to be applied
+     */
     public void setTimestamp(String timestamp) {
         this.timestamp.setTimeStamp(timestamp);
     }
 
+    /**
+     * Sets isImported to be a value
+     * @param imported - the value to set is imported
+     */
     public void setisImported(boolean imported) {
         this.isimported = imported;
     }
-
+    /**
+     * Gets isimported to be a value
+     * @return - the value that is set to isImported
+     */
     public boolean getisImported() {
         return this.isimported;
     }
 
 
+    /**
+     * Gets the bitmap of the picture of the qrcode's location or the object it was scanned from
+     * @return - The bitmap of the picture of the qrcode's location or the object it was scanned from
+     */
     public Bitmap getObjectImage() {
         return objectImage;
     }
 
+    /**
+     * Sets the bitmap of the picture of the qrcode's location or the object it was scanned from
+     * @param  - The bitmap of the picture of the qrcode's location or the object it was scanned from
+     */
     public void setObjectImage(Bitmap objectImage) {
         this.objectImage = objectImage;
     }
@@ -113,29 +135,42 @@ public class QRCODE extends BaseQRCode {
      * @return the location of the QRCODE
      */
     public Location getCodeLocation(){
-//        Location location = new Location("dummyprovider");
-//        location.setLatitude(89.909090);
-//        location.setLongitude(89.909090);
-//        return location;
+
         return codeLocation;
     }
 
 
+    /**
+     * Adds a comment to the qrcode
+     * @param comment - the comment object to be added
+     */
     public void addComments(Comment comment){
         comments.add(comment);
     }
 
-
+    /**
+     * gets the comments of the qrcode
+     * @return - the comments object of the qrCode
+     */
     public Comments getComments() {
         return comments;
     }
 
+    /**
+     * Bulk insert comments into the qrcode
+     * @param comments - the comments object to be inserted
+     */
     public void setComments(Comments comments) {
         this.comments = comments;
     }
 
-    // for testing
+
+    /**
+     * sets the location of th qrcode
+     * @param location - the location of the qrcode to be applied
+     */
     public void setCodeLocation(Location location) {
+        // for testing
         this.codeLocation = location;
     }
 
