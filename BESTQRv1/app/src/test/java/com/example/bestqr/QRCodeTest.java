@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.example.bestqr.models.Comment;
 import com.example.bestqr.models.Comments;
+import com.example.bestqr.models.Location;
 import com.example.bestqr.models.QRCODE;
 import com.example.bestqr.models.TimeStamp;
 
@@ -12,9 +13,6 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class QRCodeTest {
-
-    private Date dateObj = new Date();
-    SimpleDateFormat DateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public TimeStamp mockTimeStamp(){
         return new TimeStamp();
@@ -27,14 +25,26 @@ public class QRCodeTest {
                 DateFormat.format(new Date()) + " GMT +00:00");
     }
 
+    public QRCODE mockQRCODE(){
+        Location location = new Location(51.33465, 78.3574);
+        return new QRCODE(location, "BFG5DGW54");
+    }
+
     @Test
+    /**
+     * Test Comment Class and TimeStamp Class
+     */
     void testComment(){
         TimeStamp timeStamp = mockTimeStamp();
         Comment comment = mockComment();
-
         assertEquals("This is a comment", comment.getContents());
         assertEquals("368b2f968478511b", comment.getAndroidId());
         assertEquals(timeStamp.getTimeStamp(), comment.getTimeStamp());
+    }
+
+    @Test
+    void testQRCODE(){
+        QRCODE qrcode = mockQRCODE();
     }
 
 
