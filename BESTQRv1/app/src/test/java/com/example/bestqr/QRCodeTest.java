@@ -1,4 +1,6 @@
 package com.example.bestqr;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,15 +39,18 @@ public class QRCodeTest {
     void testComment(){
         TimeStamp timeStamp = mockTimeStamp();
         Comment comment = mockComment();
+        // can get comments
         assertEquals("This is a comment", comment.getContents());
+        // can get android id
         assertEquals("368b2f968478511b", comment.getAndroidId());
+        // can get time stamp
         assertEquals(timeStamp.getTimeStamp(), comment.getTimeStamp());
     }
 
-    @Test
-    void testQRCODE(){
-        QRCODE qrcode = mockQRCODE();
-    }
-
-
+//    @Test
+//    void testQRCODEComment(){
+//        QRCODE qrcode = mockQRCODE();
+//        Comment comment = mockComment();
+//        qrcode.addComments(comment);
+//    }
 }

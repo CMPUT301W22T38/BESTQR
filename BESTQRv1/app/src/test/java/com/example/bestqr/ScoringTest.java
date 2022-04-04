@@ -1,4 +1,5 @@
 package com.example.bestqr;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,6 +14,7 @@ public class ScoringTest {
      * test content->hash
      */
     @Test
+    @DisplayName("content -> hash")
     public void calculateHashTest() {
         String hash = QRmethods.calculateHash("BFG5DGW54");
         assertEquals("8227ad036b504e39fe29393ce170908be2b1ea636554488fa86de5d9d6cd2c32", hash);
@@ -32,6 +34,7 @@ public class ScoringTest {
      *
      */
     @Test
+    @DisplayName("hash -> score")
     public void calculateScoreTest(){
         long score = QRmethods.calculateScore("696ce4dbd7bb57cbfe58b64f530f428b74999cb37e2ee60980490cd9552de3a6");
         assertEquals(111, score);
