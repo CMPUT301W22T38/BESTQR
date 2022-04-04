@@ -23,7 +23,7 @@ public class QRCodeTest {
     public Comment mockComment(){
         SimpleDateFormat DateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         DateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-        return new Comment("This is a comment","368b2f968478511b",
+        return new Comment("This is a comment","c16acc52aa485b817f8c5c631fc0d031d19148717f732eba1a7a5970ec6331a1",
                 DateFormat.format(new Date()) + " GMT +00:00");
     }
 
@@ -42,7 +42,7 @@ public class QRCodeTest {
         // can get comments
         assertEquals("This is a comment", comment.getContents());
         // can get android id
-        assertEquals("368b2f968478511b", comment.getAndroidId());
+        assertEquals("c16acc52aa485b817f8c5c631fc0d031d19148717f732eba1a7a5970ec6331a1", comment.getAndroidId());
         // can get time stamp
         assertEquals(timeStamp.getTimeStamp(), comment.getTimeStamp());
     }
