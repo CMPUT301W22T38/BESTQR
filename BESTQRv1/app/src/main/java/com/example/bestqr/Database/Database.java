@@ -62,24 +62,28 @@ public class Database{
     public static QRCodeList getAllCodes(){
         QRCODE newQr;
         QRCodeList qrCodes = new QRCodeList();
+        String newLocations;
         DatabaseReference reference = ReferenceHolder.GLOBAL_QRCODETABLE;
         for (DataSnapshot dataSnapshot : DatabaseMethods.getDataSnapshot(reference.get()).getChildren()) {
             DatabaseReference newReference = ReferenceHolder.GLOBAL_QRCODETABLE.child(dataSnapshot.getKey()).child("location");
             DataSnapshot newDataSnapshot = DatabaseMethods.getDataSnapshot(reference.get());
             int score = Integer.valueOf(dataSnapshot.child("score").getValue().toString());
             if (newDataSnapshot.exists()){
-                String allLocations = dataSnapshot.child("location").getValue().toString();
-                String[] location = allLocations.split(",");
+                Object allLocations = dataSnapshot.child("location").getValue();
+                if(allLocations != null) {
+                    newLocations = allLocations.toString();
+                    String[] location = newLocations.split(",");
 
-                for (String qrLocation: location) {
-                    newQr = new QRCODE();
-                    newQr.setScore(score);
-                    if (qrLocation != "") {
-                        String[] latLng = qrLocation.split(";");
-                        Location scannedLocation = new Location(Double.valueOf(latLng[0]), Double.valueOf(latLng[1]));
-                        newQr.setCodeLocation(scannedLocation);
+                    for (String qrLocation : location) {
+                        newQr = new QRCODE();
                         newQr.setScore(score);
-                        qrCodes.add(newQr);
+                        if (qrLocation != "") {
+                            String[] latLng = qrLocation.split(";");
+                            Location scannedLocation = new Location(Double.valueOf(latLng[0]), Double.valueOf(latLng[1]));
+                            newQr.setCodeLocation(scannedLocation);
+                            newQr.setScore(score);
+                            qrCodes.add(newQr);
+                        }
                     }
                 }
             }
@@ -318,8 +322,14 @@ public class Database{
             ReferenceHolder.GLOBAL_QRCODETABLE.child(qrcode.getHash()).child("users").child(androidId).removeValue();
             updateAssociatedUserCount(qrcode.getHash());
 
+            DatabaseReference reference = ReferenceHolder.GLOBAL_QRCODETABLE.child(qrcode.getHash()).child("users");
+            DataSnapshot dataSnapshot = DatabaseMethods.getDataSnapshot(reference.get());
+            if (dataSnapshot.exists() == false) {
+                ReferenceHolder.GLOBAL_QRCODETABLE.child(qrcode.getHash()).removeValue();
+            }
             return true;
         }
+
         return false;
     }
 
@@ -330,7 +340,6 @@ public class Database{
     public static void updateAssociatedUserCount(String hash) {
         DatabaseReference reference = ReferenceHolder.GLOBAL_QRCODETABLE.child(hash).child("users");
         DataSnapshot dataSnapshot = DatabaseMethods.getDataSnapshot(reference.get());
-
         ReferenceHolder.GLOBAL_QRCODETABLE.child(hash).child("count").setValue(dataSnapshot.getChildrenCount());
 //        reference.setValue(Integer.valueOf(dataSnapshot.getValue().toString()) + 1);
     }
