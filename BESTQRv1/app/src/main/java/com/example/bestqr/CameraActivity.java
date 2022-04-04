@@ -250,6 +250,11 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
 
                 Toast.makeText(CameraActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
 
+                // If user does not select image
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+
+                Toast.makeText(CameraActivity.this, "Image not selected or something went wrong", Toast.LENGTH_LONG).show();
             }
         } else if (requestCode == SCAN_IMAGE) {
             //Check condition
