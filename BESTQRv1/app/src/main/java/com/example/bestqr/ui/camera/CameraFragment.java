@@ -27,6 +27,12 @@ public class CameraFragment extends Fragment {
     private CameraViewModel cameraViewModel;
     private FragmentCameraBinding binding;
 
+    /** Inflates fragment and returns view
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         cameraViewModel =
@@ -38,6 +44,10 @@ public class CameraFragment extends Fragment {
         return root;
     }
 
+    /** Sets up navigation bar upon view being created
+     * @param view
+     * @param savedInstanceState
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -49,6 +59,9 @@ public class CameraFragment extends Fragment {
         NavigationUI.setupWithNavController(binding.toolbarCamera, navController, appBarConfiguration);
     }
 
+    /**
+     * Sets binding to null upon view being destroyed
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();

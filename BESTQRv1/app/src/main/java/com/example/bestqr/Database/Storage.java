@@ -18,11 +18,20 @@ public class Storage  {
         public static StorageReference STORAGE_REFERENCE = STORAGE.getReference();
     }
 
+    /**
+     * @param qrcode
+     * @param androidid
+     */
     public static void upload(QRCODE qrcode, String androidid) {
         byte[] data = get_bytes(qrcode, androidid);
         upload_bytes(data, androidid, qrcode.getHash());
     }
 
+    /**
+     * @param bytes
+     * @param androidid
+     * @param hash
+     */
     public static void upload_bytes(byte[] bytes, String androidid, String hash) {
         StorageReference folder_ref = ReferenceHolder.STORAGE_REFERENCE.child(androidid);
         StorageReference file_ref = folder_ref.child(hash + ".jpg");
@@ -31,6 +40,11 @@ public class Storage  {
         while (!task.isComplete() && !task.isSuccessful()) {}
     }
 
+    /**
+     * @param qrcode
+     * @param androidid
+     * @return
+     */
     public static byte[] get_bytes(QRCODE qrcode, String androidid) {
         Bitmap bitmap = qrcode.getBitmap();
         String hash = qrcode.getHash();
@@ -43,6 +57,11 @@ public class Storage  {
         return data;
     }
 
+    /**
+     * @param androidid
+     * @param hash
+     * @return
+     */
     public static Bitmap download(String androidid, String hash) {
         String filename = hash + ".jpg";
         StorageReference file_ref = ReferenceHolder.STORAGE_REFERENCE.child(androidid).child(filename);
