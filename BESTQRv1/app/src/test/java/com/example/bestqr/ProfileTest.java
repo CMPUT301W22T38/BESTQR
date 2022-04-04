@@ -60,4 +60,22 @@ public class ProfileTest {
         assertEquals(emailAddress, profile.getEmailAddress());
     }
 
+    @Test
+    void testProfile(){
+
+        BaseProfile BaseProfile = mockFilledBaseProfile();
+        Profile profile = mockProfile();
+        profile.setAndroidId(androidId);
+        profile.setEmailAddress(emailAddress);
+        profile.setPhoneNumber(phoneNumber);
+        profile.setUserName(userName);
+        //profile.setScannedCodes(qrcode);
+        profile.ChangeEmailAddress("changedEmail.ualberta.ca");
+        profile.ChangePhoneNumber("987654321");
+        profile.ChangeUserName("ChangedUserName");
+        assertEquals("changedemail.ualberta.ca", profile.getEmailAddress());
+        assertEquals("987654321", profile.getPhoneNumber());
+        assertEquals("ChangedUserName", profile.getUserName());
+
+    }
 }
