@@ -63,6 +63,9 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
     private Profile profile;
     private Owner owner;
     private int score;
+    static {
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+    }
 
     private static final String TAG = "CameraActivity";
 
@@ -83,11 +86,13 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
     private QrViewModel QrViewModel;
     private Database db;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //FirebaseApp.initializeApp(this);
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         com.example.bestqr.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -149,8 +154,10 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
 //
 //        QrViewModel = new ViewModelProvider(this).get(QrViewModel.class);
 //        QrViewModel.setUserProfile(userProfile);
+
 //
     }
+
 
     public void scanButton(View v) {
         //initialize intent integrator
