@@ -65,6 +65,13 @@ public class MapsFragment extends Fragment {
     EditText searchLat;
     EditText searchLng;
 
+    /**
+     * Inflates view and returns it
+     * @param inflater
+     * @param container
+     * @return view
+     *
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -101,25 +108,30 @@ public class MapsFragment extends Fragment {
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
         }
 
+        // Click listener for geoSearchButton
         geoSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 try {
+                    // Attempts to convert edittext fields to double values
                     double lat = Double.parseDouble(searchLat.getText().toString());
                     double lng = Double.parseDouble(searchLng.getText().toString());
 
+                    // Create LatLng object using values
                     LatLng searchLatLng = new LatLng(lat, lng);
 
                     // Create marker options
                     MarkerOptions options = new MarkerOptions().position(searchLatLng)
                             .title("Searched location");
 
+                    // Go to location
                     qrMap.animateCamera(CameraUpdateFactory.newLatLngZoom(searchLatLng, 10));
 
                     // Add marker on map
                     qrMap.addMarker(options);
 
+                    // Plots markers nearby to searched location
                     plotNearbyCodes(searchLatLng, 5000);
 
 
@@ -133,6 +145,11 @@ public class MapsFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Gets the current user location
+     * @return void
+     *
+     */
     private void getCurrentLocation() {
         // Initialize task location
         @SuppressLint("MissingPermission") Task<Location> task = client.getCurrentLocation(102, null);
@@ -161,6 +178,7 @@ public class MapsFragment extends Fragment {
                             googleMap.addMarker(options);
 
 
+                            // When map is loaded, plot nearby codes
                             googleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
                                 @Override
                                 public void onMapLoaded() {
@@ -178,6 +196,10 @@ public class MapsFragment extends Fragment {
 
     }
 
+    /**
+     * Calls getCurrentLocation after ensuring user has proper permissions
+     * @returns void
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == 44) {
@@ -189,12 +211,27 @@ public class MapsFragment extends Fragment {
         }
     }
 
+    /**
+     * Attaches context
+     * @param context
+     * @return void
+     *
+     */
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         mapContext = context;
     }
 
+    /**
+     * Plots nearby codes in database on map
+     * @param center
+     *      (LatLng) location to plot codes around
+     * @param maxDistance
+     *      (double) radius in metres around center to search
+     * @return void
+     *
+     */
     public void plotNearbyCodes(LatLng center, double maxDistance) {
 
         for (QRCODE qrcode: allQRCodes) {
