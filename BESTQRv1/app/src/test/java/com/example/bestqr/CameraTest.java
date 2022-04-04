@@ -3,5 +3,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CameraTest {
-    // write camera test here
+
+    @Test
+    void myFirstTest(){
+        assertEquals(2, 1+1);
+    }
 }

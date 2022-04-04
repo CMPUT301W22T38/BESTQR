@@ -112,13 +112,9 @@ public class GuestUserFragment extends Fragment {
         });
 
         deleteButton = binding.toolbarGuestUserOwnerDelete;
-//        deleteButton.setVisibility(View.VISIBLE);
         if (owner != null){
             deleteButton.setVisibility(View.VISIBLE);
         }
-        // TODO: only show delete button if current user is an "owner"
-        // delete_button.setVisibility(View.VISIBLE);
-        // Delete button for other users is otherwise set to be invisible and unclickable.
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override

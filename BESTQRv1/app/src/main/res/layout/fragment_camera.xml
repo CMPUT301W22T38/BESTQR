@@ -78,5 +78,20 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="519dp" />
+    <Button
+        android:id="@+id/SeeProfileButton"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="135dp"
+        android:layout_marginBottom="285dp"
+        android:onClick="SeeProfileButton"
+        android:text="SEE PROFILE"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="519dp" />
 
 </RelativeLayout>

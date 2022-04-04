@@ -34,6 +34,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.bestqr.databinding.ActivityMainBinding;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.LuminanceSource;
@@ -53,11 +54,12 @@ import java.util.Set;
 public class CameraActivity extends AppCompatActivity implements locationPrompt.OnFragmentInteractionListener {
 
     // Define the pic id and pic_image id
-    private static final int PIC_ID = 123;
+    private static final int SCAN_IMAGE = 49374;
     private static final int PICK_IMAGE = 1;
     private QRCODE qr;
     private String contents;
     private boolean toEnter;
+    private boolean seeProfile;
     private Profile profile;
     private Owner owner;
     private int score;
@@ -84,6 +86,7 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //FirebaseApp.initializeApp(this);
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         com.example.bestqr.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -174,6 +177,18 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
     }
 
 
+    public void SeeProfileButton(View v) {
+        //initialize intent integrator
+        IntentIntegrator intentIntegrator = new IntentIntegrator(CameraActivity.this);
+        //locked orientation
+        intentIntegrator.setOrientationLocked(true);
+        //Set capture activity
+        intentIntegrator.setCaptureActivity(Capture.class);
+        //Initiate scan
+        intentIntegrator.initiateScan();
+        seeProfile = true;
+    }
+
     public void openGallery(View v) {
         Intent photoPickerIntent = new Intent();
         photoPickerIntent.setType("image/*");
@@ -210,6 +225,7 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
 
                     // Create new QR object using contents as argument
                     qr = new QRCODE(contents);
+                    userViewModel.setSelectedQrcode(qr);
                     locationPrompt.newInstance().show(getSupportFragmentManager(), "NEW QRCODE");
 
                     // Display toast showing QR hash
@@ -228,14 +244,14 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
                 Toast.makeText(CameraActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
 
             }
-        } else if (requestCode == 49374) {
+        } else if (requestCode == SCAN_IMAGE) {
             //Check condition
             if (intentResult.getContents() != null) {
                 //When result content is not null
                 // Create new QR object
                 contents = intentResult.getContents();
 
-
+                // handle switching profiles
                 if (toEnter == true) {
                     try {
                         if (EntryExist.isRegistered(contents)) {
@@ -249,7 +265,7 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
                             userViewModel.setOwner(Database.getOwner(owner));
                             userViewModel.setUserProfile(owner);
                         } else {
-                            Toast.makeText(this, "here", Toast.LENGTH_SHORT).show();
+                            
                             Toast.makeText(this, "Unsuccessful. Invalid Code", Toast.LENGTH_SHORT).show();
                             toEnter = false;
                             userViewModel.setOwner(null);
@@ -259,7 +275,29 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
                         toEnter = false;
                     }
 
-                } else {
+                // handle viewing profile
+                } else if (seeProfile == true) {
+                    try {
+                        //go to guest-profile fragment
+                        if (Database.userNameExist(contents)) {
+                            String guestId = Database.getAndroidIdByName(contents);
+                            Profile guestProfile = Database.getUser(guestId);
+                            userViewModel.setGuestProfile(guestProfile);
+                            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
+                            navController.navigate(R.id.action_navigation_home_to_navigation_guest_user);
+                            seeProfile = false;
+
+                        } else {
+                            Toast.makeText(this, "here", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "Unsuccessful. Invalid Code", Toast.LENGTH_SHORT).show();
+                            seeProfile = false;
+                        }
+                    } catch (Exception exception) {
+                        seeProfile = false;
+                    }
+
+
+                }else {
                     if (intentResult.getContents() != null) {
                         qr = new QRCODE(contents);
                         userViewModel.setSelectedQrcode(qr);
@@ -309,7 +347,7 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
 
     @Override
     public void onOkPressed() {
-//        db.add_qrcode();
+        userViewModel.setSelectedQrcode(null);
     }
 }
 

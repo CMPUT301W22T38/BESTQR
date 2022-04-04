@@ -27,18 +27,34 @@ public class Comment {
         this.timeStamp = timeStamp;
     }
 
+    /**
+     * gets the content of the comment
+     * @return - The string representation of the comment
+     */
     public String getContents() {
         return contents;
     }
 
+    /**
+     * gets the android id of the user who added the comment
+     * @return - the android id of the user who added the comment
+     */
     public String getAndroidId() {
         return androidId;
     }
 
+    /**
+     * The time when the comment was created
+     * @return -  the time when the comment  was added
+     */
     public String getTimeStamp() {
         return timeStamp;
     }
 
+    /**
+     * converts the comment to a hashmap that will be stored in database
+     * @return - the hashMap object that contains the info of the user
+     */
     public HashMap toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("contents", this.contents);
