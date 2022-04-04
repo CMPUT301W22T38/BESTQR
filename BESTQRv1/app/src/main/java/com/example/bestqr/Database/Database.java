@@ -46,15 +46,30 @@ public class Database{
         return androidId;
     }
     public static QRCodeList getAllCodes(){
+        QRCODE newQr;
         QRCodeList qrCodes = new QRCodeList();
-        DatabaseReference reference = ReferenceHolder.GLOBAL_HISTORYTABLE;
+        DatabaseReference reference = ReferenceHolder.GLOBAL_QRCODETABLE;
         for (DataSnapshot dataSnapshot : DatabaseMethods.getDataSnapshot(reference.get()).getChildren()) {
-            String androidId = dataSnapshot.getKey();
-            Profile profile = getUser(androidId);
+            DatabaseReference newReference = ReferenceHolder.GLOBAL_QRCODETABLE.child(dataSnapshot.getKey()).child("location");
+            DataSnapshot newDataSnapshot = DatabaseMethods.getDataSnapshot(reference.get());
+            int score = Integer.valueOf(dataSnapshot.child("score").getValue().toString());
+            if (newDataSnapshot.exists()){
+                String allLocations = dataSnapshot.child("location").getValue().toString();
+                String[] location = allLocations.split(",");
 
-            for (QRCODE item: profile.getScannedCodes()){
-                qrCodes.add(item);
+                for (String qrLocation: location) {
+                    newQr = new QRCODE();
+                    newQr.setScore(score);
+                    if (qrLocation != "") {
+                        String[] latLng = qrLocation.split(";");
+                        Location scannedLocation = new Location(Double.valueOf(latLng[0]), Double.valueOf(latLng[1]));
+                        newQr.setCodeLocation(scannedLocation);
+                        newQr.setScore(score);
+                        qrCodes.add(newQr);
+                    }
+                }
             }
+
         }
         return qrCodes;
 
@@ -202,12 +217,23 @@ public class Database{
             ReferenceHolder.GLOBAL_HISTORYTABLE.child(androidId).child(qrcode.getHash()).child("createdat").setValue(qrcode.getScannedTime());
             ReferenceHolder.GLOBAL_HISTORYTABLE.child(androidId).child(qrcode.getHash()).child("score").setValue(qrcode.getScore());
             ReferenceHolder.GLOBAL_HISTORYTABLE.child(androidId).child(qrcode.getHash()).child("imported").setValue(qrcode.getisImported());
-
+            ReferenceHolder.GLOBAL_QRCODETABLE.child(qrcode.getHash()).child("score").setValue(qrcode.getScore());
             ReferenceHolder.GLOBAL_HISTORYTABLE.child(androidId).child(qrcode.getHash()).child("location").setValue("null");
 
             if (qrcode.getCodeLocation() != null) {
                 ReferenceHolder.GLOBAL_HISTORYTABLE.child(androidId).child(qrcode.getHash()).child("location").setValue(qrcode.getCodeLocation().toMap());
                 ReferenceHolder.GLOBAL_QRLOCATION.child(androidId).child(qrcode.getHash()).setValue(qrcode.getCodeLocation().toMap());
+                DatabaseReference reference = ReferenceHolder.GLOBAL_QRCODETABLE.child(qrcode.getHash()).child("location");
+                DataSnapshot dataSnapshot = DatabaseMethods.getDataSnapshot(reference.get());
+                String location = "";
+                if (dataSnapshot.exists()){
+                    location += DatabaseMethods.getDataSnapshot(reference.get()).getValue().toString();
+                    ReferenceHolder.GLOBAL_QRCODETABLE.child(qrcode.getHash()).child("location").setValue(location + qrcode.getCodeLocation().getLatitude() + ";" + qrcode.getCodeLocation().getLongitude()+",");
+                }
+                else{
+                    ReferenceHolder.GLOBAL_QRCODETABLE.child(qrcode.getHash()).child("location").setValue(qrcode.getCodeLocation().getLatitude() + ";" + qrcode.getCodeLocation().getLongitude()+",");
+                }
+
             }
 
             ReferenceHolder.GLOBAL_QRCODETABLE.child(qrcode.getHash()).child("users").child(androidId).setValue(qrcode.getScannedTime());
