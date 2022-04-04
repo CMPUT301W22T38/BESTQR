@@ -225,6 +225,7 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
 
                     // Create new QR object using contents as argument
                     qr = new QRCODE(contents);
+                    userViewModel.setSelectedQrcode(qr);
                     locationPrompt.newInstance().show(getSupportFragmentManager(), "NEW QRCODE");
 
                     // Display toast showing QR hash
