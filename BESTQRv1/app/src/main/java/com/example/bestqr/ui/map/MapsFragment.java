@@ -23,7 +23,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.bestqr.Database.Database;
+import com.example.bestqr.QRCodeList;
 import com.example.bestqr.R;
+import com.example.bestqr.models.QRCODE;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -42,6 +45,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.maps.android.SphericalUtil;
 
 import java.util.List;
 
@@ -51,7 +55,7 @@ public class MapsFragment extends Fragment {
     FusedLocationProviderClient client;
     Context mapContext;
     SupportMapFragment supportMapFragment;
-    List<DocumentSnapshot> nearbyCodeList;
+    LatLng userLatLng;
 
     @Nullable
     @Override
@@ -99,13 +103,15 @@ public class MapsFragment extends Fragment {
                         @Override
                         public void onMapReady(@NonNull GoogleMap googleMap) {
                             // Initialize lat lng
-                            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                            userLatLng = new LatLng(location.getLatitude(), location.getLongitude());
 
                             // Create marker options
-                            MarkerOptions options = new MarkerOptions().position(latLng)
+                            MarkerOptions options = new MarkerOptions().position(userLatLng)
                                     .title("Current location");
 
-                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+                            plotNearbyCodes(googleMap);
+
+                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 10));
 
                             // Add marker on map
                             googleMap.addMarker(options);
@@ -133,5 +139,22 @@ public class MapsFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         mapContext = context;
+    }
+
+    public void plotNearbyCodes(GoogleMap googleMap) {
+
+        double maxDistance = 2500;
+
+        QRCodeList allQRCodes = Database.getAllCodes();
+
+        for (QRCODE qrcode: allQRCodes) {
+
+            if (qrcode.getCodeLatLng() != null) {
+                googleMap.addMarker(new MarkerOptions()
+                        .position(qrcode.getCodeLatLng())
+                        .title("Score: " + qrcode.getScore()));
+            }
+        }
+
     }
 }

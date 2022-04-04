@@ -7,6 +7,7 @@ import com.example.bestqr.models.TimeStamp;
 import com.example.bestqr.utils.QRmethods;
 import com.firebase.geofire.GeoFireUtils;
 import com.firebase.geofire.GeoLocation;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
@@ -26,6 +27,7 @@ public class QRCODE extends BaseQRCode {
     private Comments comments = new Comments();
     private TimeStamp timestamp;
     private String geoHash;
+    private LatLng latLng;
 
     public QRCODE() {
         this.codeLocation = null;
@@ -43,6 +45,7 @@ public class QRCODE extends BaseQRCode {
         this.timestamp = new TimeStamp();
 //        this.comments = new ArrayList<>();
         this.geoHash = GeoFireUtils.getGeoHashForLocation(new GeoLocation(codeLocation.getLatitude(), codeLocation.getLongitude()));
+        this.latLng = new LatLng(codeLocation.getLatitude(), codeLocation.getLongitude());
     }
 
     public QRCODE(String hash, Bitmap bitmap) {
@@ -137,5 +140,7 @@ public class QRCODE extends BaseQRCode {
         this.codeLocation = location;
     }
 
-
+    public LatLng getCodeLatLng() {
+        return latLng;
+    }
 }

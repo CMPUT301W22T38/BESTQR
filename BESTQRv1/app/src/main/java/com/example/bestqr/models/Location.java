@@ -2,6 +2,7 @@ package com.example.bestqr.models;
 
 import com.firebase.geofire.GeoFireUtils;
 import com.firebase.geofire.GeoLocation;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.HashMap;
 
@@ -39,4 +40,6 @@ public class Location {
 
         return result;
     }
+
+
 }
