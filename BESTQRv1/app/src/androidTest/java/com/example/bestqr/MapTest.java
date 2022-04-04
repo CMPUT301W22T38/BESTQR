@@ -31,6 +31,9 @@ public class MapTest {
     }
 
     @Test
+    /**
+     * This will test the map search function.
+     */
     public void checkMap(){
         solo.assertCurrentActivity("WrongActivity", CameraActivity.class);
         solo.clickOnImage(0);
@@ -54,8 +57,6 @@ public class MapTest {
         // search the position (Tokyo station)
         solo.clickOnButton("Search");
         solo.sleep(5000);
-
-
 
     }
 }

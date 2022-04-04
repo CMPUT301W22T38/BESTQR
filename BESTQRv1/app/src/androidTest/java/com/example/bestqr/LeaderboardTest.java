@@ -36,6 +36,7 @@ public class LeaderboardTest {
         solo.assertCurrentActivity("Wrong activity", CameraActivity.class);
         solo.clickOnActionBarItem(R.id.navigation_leaderboard);
         CameraActivity cameraActivity = (CameraActivity) solo.getCurrentActivity();
-        solo.waitForFragmentByTag("Leaderboard", 2000);
+        solo.clickOnImage(2);
+        solo.searchText("Name");
     }
 }
