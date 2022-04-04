@@ -1,5 +1,7 @@
 package com.example.bestqr;
 
+import static org.junit.Assert.assertTrue;
+
 import android.app.Activity;
 import android.widget.EditText;
 
@@ -31,7 +33,7 @@ public class UserboardTest {
     }
 
     @Test
-    public void UserboardTest(){
+    public void checkUserInfo(){
         solo.assertCurrentActivity("WrongActivity", CameraActivity.class);
         solo.clickOnActionBarItem(R.id.navigation_user);
         CameraActivity cameraActivity = (CameraActivity) solo.getCurrentActivity();
@@ -40,8 +42,8 @@ public class UserboardTest {
         solo.clickOnImageButton(3); // click userinfo
         //delete default user info
         solo.clearEditText((EditText) solo.getView(R.id.user_info_username));
-        solo.clearEditText((EditText) solo.getView(R.id.user_info_username));
-        solo.clearEditText((EditText) solo.getView(R.id.user_info_username));
+        solo.clearEditText((EditText) solo.getView(R.id.user_info_email));
+        solo.clearEditText((EditText) solo.getView(R.id.user_info_phone_number));
         solo.sleep(2000);
         //enter user info
         solo.enterText((EditText) solo.getView(R.id.user_info_username), "Name");
@@ -49,7 +51,9 @@ public class UserboardTest {
         solo.enterText((EditText) solo.getView(R.id.user_info_phone_number), "123456789");
         solo.sleep(2000);
 
-
+        assertTrue(solo.waitForText("Name", 1, 2000));
+        assertTrue(solo.waitForText("email", 1, 2000));
+        assertTrue(solo.waitForText("123456789", 1, 2000));
     }
 
 }
