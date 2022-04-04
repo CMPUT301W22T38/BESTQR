@@ -67,24 +67,15 @@
 
             <ImageButton
                 android:id="@+id/toolbar_user_info"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_marginEnd="3dp"
                 android:src="@android:drawable/ic_menu_info_details"
                 app:layout_constraintDimensionRatio="4:5"
-                app:layout_constraintEnd_toStartOf="@+id/toolbar_user_delete"
-                app:layout_constraintTop_toTopOf="parent"
-                style="?android:attr/borderlessButtonStyle"/>
-
-            <ImageButton
-                android:id="@+id/toolbar_user_delete"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="8dp"
-                android:src="@android:drawable/ic_menu_delete"
-                app:layout_constraintDimensionRatio="4:5"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                style="?android:attr/borderlessButtonStyle"/>
+                app:layout_constraintTop_toTopOf="parent" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

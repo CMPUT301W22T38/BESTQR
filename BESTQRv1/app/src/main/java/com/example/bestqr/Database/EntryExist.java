@@ -26,7 +26,10 @@ public class EntryExist {
         DatabaseReference reference = ReferenceHolder.GLOBAL_HISTORYTABLE.child(androidId);
         DataSnapshot dataSnapshot = DatabaseMethods.getDataSnapshot(reference.get());
 
-        return !dataSnapshot.getValue().equals("null");
+        if (dataSnapshot.exists()) {
+            return !dataSnapshot.getValue().equals("null");
+        }
+        return false;
     }
 
     /**

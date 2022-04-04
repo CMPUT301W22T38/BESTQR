@@ -70,7 +70,6 @@ public class UserFragment extends Fragment {
 
         Profile userProfile = userViewModel.getUserProfile();
         binding.toolbarUserProfile.setText(userProfile.getUserName());
-//        binding.toolbarUserProfile.setText(profileViewModel.getProfileMutableLiveData().getValue().getUserName());
 
         ListView qrCodes = binding.qrlist;
         profilelistAdapter myAdapter = new profilelistAdapter(requireContext() , userProfile.getQrScores(), userProfile.getQrTimestamps(), userProfile.getQrBitmaps());
@@ -149,20 +148,6 @@ public class UserFragment extends Fragment {
             public void onClick(View view){
                 NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
                 navController.navigate(R.id.action_navigation_user_to_navigation_user_info);
-            }
-        });
-
-        // onClick Listener for the Delete Button on the toolbar
-        // when pressed, the current user will be deleted, ideally after showing a confirmation dialog.
-        ImageButton delete_button = binding.toolbarUserDelete;
-        delete_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO: Delete current user from Database, and navigate to some "create new user" page.
-
-                userViewModel.setUserProfile(null);
-                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
-                // navController.navigate(TODO: CREATE NEW USER PAGE, NAVIGATE TO IT HERE);
             }
         });
 

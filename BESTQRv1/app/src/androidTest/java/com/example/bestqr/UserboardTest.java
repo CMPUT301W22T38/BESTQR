@@ -46,18 +46,15 @@ public class UserboardTest {
 
         //delete default user info
         solo.clearEditText((EditText) solo.getView(R.id.user_info_username));
-        solo.clearEditText((EditText) solo.getView(R.id.user_info_email));
         solo.clearEditText((EditText) solo.getView(R.id.user_info_phone_number));
         solo.sleep(2000);
 
         //enter user info
         solo.enterText((EditText) solo.getView(R.id.user_info_username), "Name");
-        solo.enterText((EditText) solo.getView(R.id.user_info_email), "email");
         solo.enterText((EditText) solo.getView(R.id.user_info_phone_number), "123456789");
         solo.sleep(2000);
 
         assertTrue(solo.waitForText("Name", 1, 2000));
-        assertTrue(solo.waitForText("email", 1, 2000));
         assertTrue(solo.waitForText("123456789", 1, 2000));
 
         // Check that the name on the leaderboard has changed.

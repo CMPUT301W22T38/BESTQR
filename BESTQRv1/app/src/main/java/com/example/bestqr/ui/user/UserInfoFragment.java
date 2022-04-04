@@ -68,7 +68,6 @@ public class UserInfoFragment extends DialogFragment {
         // TODO: Integrate firebase
         userProfile = userViewModel.getUserProfile();
         binding.userInfoUsername.setText(userProfile.getUserName());
-        binding.userInfoEmail.setText(userProfile.getEmailAddress());
         binding.userInfoPhoneNumber.setText(userProfile.getPhoneNumber());
     }
 
@@ -78,12 +77,10 @@ public class UserInfoFragment extends DialogFragment {
     @Override
     public void onDestroyView() {
         String name = binding.userInfoUsername.getText().toString();
-        String email = binding.userInfoEmail.getText().toString();
         String phone = binding.userInfoPhoneNumber.getText().toString();
 
 
         userViewModel.getUserProfile().ChangeUserName(name);
-        userViewModel.getUserProfile().ChangeEmailAddress(email);
         userViewModel.getUserProfile().ChangePhoneNumber(phone);
 
 
