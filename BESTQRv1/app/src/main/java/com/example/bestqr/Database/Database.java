@@ -38,6 +38,22 @@ public class Database{
         return profile;
     }
 
+    public static QRCodeList getAllCodes(){
+        QRCodeList qrCodes = new QRCodeList();
+        DatabaseReference reference = ReferenceHolder.GLOBAL_HISTORYTABLE;
+        for (DataSnapshot dataSnapshot : DatabaseMethods.getDataSnapshot(reference.get()).getChildren()) {
+            String androidId = dataSnapshot.getKey();
+            Profile profile = getUser(androidId);
+
+            for (QRCODE item: profile.getScannedCodes()){
+                qrCodes.add(item);
+            }
+        }
+        return qrCodes;
+
+    }
+
+
     public static void registerOwner(Owner owner){
         owner.setUserName("Owner");
         owner.setAndroidId("This is Owner Id");
