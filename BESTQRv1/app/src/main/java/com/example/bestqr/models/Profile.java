@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 
 import com.example.bestqr.Database.Database;
 import com.example.bestqr.QRCodeList;
+import com.google.firebase.FirebaseApp;
 
 import java.util.ArrayList;
 
@@ -40,6 +41,7 @@ public class Profile extends BaseProfile  {
     }
 
     public void ChangeEmailAddress(String emailAddress) {
+        //FirebaseApp.initializeApp(FirebaseApp.getInstance().getApplicationContext());
         if (Database.ChangeUserInfo("emailaddress", this.getAndroidId(), this.getEmailAddress(), emailAddress)) {
             super.setEmailAddress(emailAddress);
         }

@@ -1,4 +1,6 @@
 package com.example.bestqr;
+import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,11 +21,13 @@ import java.util.concurrent.TimeUnit;
 public class ProfileTest {
 
     public String androidId = "eadf4636a1b8c634";
-    public String userName = "yusuke";
+    public String userName = "name";
     public String phoneNumber = "0123456789";
     public String emailAddress = "email@ualberta.ca";
 
+
     private BaseProfile mockFilledBaseProfile(){
+        FirebaseApp.initializeApp(FirebaseApp.getInstance().getApplicationContext());
         return new BaseProfile(androidId, userName, phoneNumber, emailAddress);
     }
     private BaseProfile mockEmptyBaseProfile3(){
@@ -32,7 +36,6 @@ public class ProfileTest {
     private Profile mockProfile(){
         return new Profile("");
     }
-
 
 
     @Test
@@ -60,22 +63,21 @@ public class ProfileTest {
         assertEquals(emailAddress, profile.getEmailAddress());
     }
 
+
     @Test
     void testChangeProfile(){
 
-        BaseProfile BaseProfile = mockFilledBaseProfile();
+
         Profile profile = mockProfile();
         profile.setAndroidId(androidId);
         profile.setEmailAddress(emailAddress);
         profile.setPhoneNumber(phoneNumber);
         profile.setUserName(userName);
-        //profile.setScannedCodes(qrcode);
-//        profile.ChangeEmailAddress("changedEmail.ualberta.ca");
-//        profile.ChangePhoneNumber("987654321");
-//        profile.ChangeUserName("ChangedUserName");
-//        assertEquals("changedemail.ualberta.ca", profile.getEmailAddress());
-//        assertEquals("987654321", profile.getPhoneNumber());
-//        assertEquals("ChangedUserName", profile.getUserName());
-
+        profile.ChangeEmailAddress("changedEmail.ualberta.ca");
+        profile.ChangePhoneNumber("987654321");
+        profile.ChangeUserName("ChangedUserName");
+        assertEquals("changedemail@ualberta.ca", profile.getEmailAddress());
+        assertEquals("987654321", profile.getPhoneNumber());
+        assertEquals("ChangedUserName", profile.getUserName());
     }
 }

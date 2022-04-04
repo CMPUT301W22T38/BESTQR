@@ -240,6 +240,7 @@ public class Database{
     }
 
     public static boolean ChangeUserInfo(String field, String androidId, String oldvalue, String newvalue) {
+        //FirebaseApp.initializeApp(FirebaseApp.getInstance().getApplicationContext());
         DatabaseReference reference = ReferenceHolder.GLOBAL_USERNAMETABLE.child(newvalue);
         if (newvalue == null || newvalue.equals("")) {
             return false;
