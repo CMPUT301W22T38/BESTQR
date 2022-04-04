@@ -117,45 +117,8 @@ public class CameraActivity extends AppCompatActivity implements locationPrompt.
 
 
         profile = Database.getUser(androidId);
-
-        QRCODE a = new QRCODE("123");
-        a.setCodeLocation(new Location(51.25124,78.251));
-        QRCODE b = new QRCODE("456");
-        b.setCodeLocation(new Location(51.3465,78.3574));
-        QRCODE c = new QRCODE("789");
-        c.setCodeLocation(new Location(51.3465,78.3574));
-
-        profile.addNewQRCode(a);
-        profile.addNewQRCode(b);
-        profile.addNewQRCode(c);
-        Database.getNearBy(new Location(51.13, 78.3574), 0.5);
-
-        // comments testing
-//        Comment comment = new Comment("comment example", profile.getAndroidId());
-//        Database.addComment(profile.getAndroidId(), a.getHash(), comment);
-//        Database.deleteComment(profile.getAndroidId(), a.getHash(), comment.getContents(), comment.getAndroidId());
-//        Database.getAllComments(profile.getAndroidId(), a.getHash());
-
         userViewModel.setUserProfile(profile);
 
-//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("path/to/geofire");
-//        GeoFire geoFire = new GeoFire(FirebaseDatabase.getInstance().getReference("root1"));
-//        geoFire.setLocation("root2", new GeoLocation(52.63246, 14.5235));
-        // This should be in th login activity
-        // get unique device id
-//        @SuppressLint("HardwareIds") String androidId = Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);
-        // test identification of user ideally info will be taken in the signup activity and stored in firebase
-//        QRCODE userIdentification = new QRCODE(androidId);
-//        //ToDo Store profiles in firebase
-//        // TEMP: Test user profile, to showcase functionality of fragments showing user info.
-//        userProfile = new Profile("Test User",userIdentification,"1231231231","email@address.com");
-//        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-//        userViewModel.setUserProfile(userProfile);
-//
-//        QrViewModel = new ViewModelProvider(this).get(QrViewModel.class);
-//        QrViewModel.setUserProfile(userProfile);
-
-//
     }
 
 
