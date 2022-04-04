@@ -33,6 +33,9 @@ public class UserboardTest {
     }
 
     @Test
+    /**
+     * This will tests the personal information changes.
+     */
     public void checkUserInfo(){
         solo.assertCurrentActivity("WrongActivity", CameraActivity.class);
         solo.clickOnActionBarItem(R.id.navigation_user);
@@ -40,11 +43,13 @@ public class UserboardTest {
         solo.waitForFragmentByTag("User", 2000);
         solo.clickOnImage(3);// click user Tab
         solo.clickOnImageButton(3); // click userinfo
+
         //delete default user info
         solo.clearEditText((EditText) solo.getView(R.id.user_info_username));
         solo.clearEditText((EditText) solo.getView(R.id.user_info_email));
         solo.clearEditText((EditText) solo.getView(R.id.user_info_phone_number));
         solo.sleep(2000);
+
         //enter user info
         solo.enterText((EditText) solo.getView(R.id.user_info_username), "Name");
         solo.enterText((EditText) solo.getView(R.id.user_info_email), "email");
@@ -54,6 +59,10 @@ public class UserboardTest {
         assertTrue(solo.waitForText("Name", 1, 2000));
         assertTrue(solo.waitForText("email", 1, 2000));
         assertTrue(solo.waitForText("123456789", 1, 2000));
+
+        // Check that the name on the leaderboard has changed.
+        solo.clickOnImage(2); // go to leaderboard
+        assertTrue(solo.searchText("Name"));
     }
 
 }
