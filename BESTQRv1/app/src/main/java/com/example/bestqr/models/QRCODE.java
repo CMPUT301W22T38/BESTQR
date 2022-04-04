@@ -45,7 +45,6 @@ public class QRCODE extends BaseQRCode {
         this.timestamp = new TimeStamp();
 //        this.comments = new ArrayList<>();
         this.geoHash = GeoFireUtils.getGeoHashForLocation(new GeoLocation(codeLocation.getLatitude(), codeLocation.getLongitude()));
-        this.latLng = new LatLng(codeLocation.getLatitude(), codeLocation.getLongitude());
     }
 
     public QRCODE(String hash, Bitmap bitmap) {
@@ -140,7 +139,4 @@ public class QRCODE extends BaseQRCode {
         this.codeLocation = location;
     }
 
-    public LatLng getCodeLatLng() {
-        return latLng;
-    }
 }

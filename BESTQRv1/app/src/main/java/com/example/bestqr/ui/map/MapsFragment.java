@@ -37,6 +37,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -56,6 +57,7 @@ public class MapsFragment extends Fragment {
     Context mapContext;
     SupportMapFragment supportMapFragment;
     LatLng userLatLng;
+    QRCodeList allQRCodes = Database.getAllCodes();
 
     @Nullable
     @Override
@@ -102,6 +104,7 @@ public class MapsFragment extends Fragment {
                     supportMapFragment.getMapAsync(new OnMapReadyCallback() {
                         @Override
                         public void onMapReady(@NonNull GoogleMap googleMap) {
+
                             // Initialize lat lng
                             userLatLng = new LatLng(location.getLatitude(), location.getLongitude());
 
@@ -109,12 +112,20 @@ public class MapsFragment extends Fragment {
                             MarkerOptions options = new MarkerOptions().position(userLatLng)
                                     .title("Current location");
 
-                            plotNearbyCodes(googleMap);
-
                             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 10));
 
                             // Add marker on map
                             googleMap.addMarker(options);
+
+
+                            googleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+                                @Override
+                                public void onMapLoaded() {
+
+                                    plotNearbyCodes(googleMap, 5000);
+
+                                }
+                            });
 
                         }
                     });
@@ -141,20 +152,22 @@ public class MapsFragment extends Fragment {
         mapContext = context;
     }
 
-    public void plotNearbyCodes(GoogleMap googleMap) {
-
-        double maxDistance = 2500;
-
-        QRCodeList allQRCodes = Database.getAllCodes();
+    public void plotNearbyCodes(GoogleMap googleMap, double maxDistance) {
 
         for (QRCODE qrcode: allQRCodes) {
 
-            if (qrcode.getCodeLatLng() != null) {
-                googleMap.addMarker(new MarkerOptions()
-                        .position(qrcode.getCodeLatLng())
-                        .title("Score: " + qrcode.getScore()));
+            if (qrcode.getCodeLocation() != null) {
+
+                LatLng qrLatLng = new LatLng(qrcode.getCodeLocation().getLatitude(), qrcode.getCodeLocation().getLongitude());
+
+                if (SphericalUtil.computeDistanceBetween(userLatLng, qrLatLng) < maxDistance) {
+
+                    googleMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(qrcode.getCodeLocation().getLatitude(), qrcode.getCodeLocation().getLongitude()))
+                            .title("Score: " + qrcode.getScore()));
+                }
+
             }
         }
-
     }
 }
