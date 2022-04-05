@@ -8,6 +8,7 @@ import com.example.bestqr.QRCodeList;
 import com.google.firebase.FirebaseApp;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Profile extends BaseProfile  {
 
@@ -65,6 +66,10 @@ public class Profile extends BaseProfile  {
      */
     public void setScannedCodes(QRCodeList qrcodes) {
         this.scannedCodes = qrcodes;
+        this.score = 0;
+        for (QRCODE code: scannedCodes){
+            this.score += code.getScore();
+        }
     }
 
     /**
